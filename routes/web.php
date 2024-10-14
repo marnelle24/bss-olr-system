@@ -16,8 +16,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+// testing only
+// Route::get('/create-permission', function () {
     
+//     $user = App\models\User::find(2);
+//     $user->assignRole('user');
+//     $user->givePermissionTo('programme-create');
+//     $user->givePermissionTo('programme-read');
+//     $user->givePermissionTo('programme-update');
+//     $user->givePermissionTo('programme-delete');
+
+//     Spatie\Permission\Models\Permission::create(['name' => 'dashboard-read']);
+//     Spatie\Permission\Models\Role::create(['name' => 'organizer']); // create role
+
+// });
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+
+        // testing only
+        // Route::get('/create-roles', function () {
+        //     $user = App\models\User::find(auth()->user()->id);
+        //     $user->assignRole('administrator');
+        // });
     
     // 2024 updated routes
 
@@ -26,36 +46,57 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         # <domain>.com/admin/dashboard
         Route::get('/dashboard', function() {
-            return view('dashboard');
+            if(auth()->user()->can('dashboard-read'))
+                return view('dashboard');
+
+            return abort(404);
+
         })->name('admin.dashboard');
         
         # <domain>.com/admin/category
         Route::get('/category', function() {
-            return view('admin.category');
+            if(auth()->user()->can('category-read'))
+                return view('admin.category');
+        
+            return abort(404);
+
         })->name('admin.category');
 
         // PARTNERS ROUTES
         # <domain>.com/admin/partners
         Route::get('/partners', function() {
-            return view('admin.partners.index');
+            if(auth()->user()->can('partner-read'))
+                return view('admin.partners.index');
+            
+            return abort(404);
+
         })->name('admin.partners.list');
 
-
         Route::get('/partners/{partner_slug}', function($partnerSlug) {
-            return view('admin.partners.single', [
-                'slug' => $partnerSlug
-            ]);
+            if(auth()->user()->can('partner-update'))
+                return view('admin.partners.single', [ 'slug' => $partnerSlug ]);
+
+            return abort(404);
+
         })->name('admin.partner.single');
 
         Route::get('/partner/new', function() {
-            return view('admin.partners.new');
+            if(auth()->user()->can('partner-create'))
+                return view('admin.partners.new');
+
+            return abort(404);
+
         })->name('admin.partner.new');
 
         // END OF PARTNERS ROUTES
 
         # <domain>.com/admin/programmes
         Route::get('/programmes', function() {
-            return view('admin.programme');
+            if(auth()->user()->can('programme-read'))
+                return view('admin.programme');
+            
+            return abort(404);
+
         })->name('admin.programme');
 
 
@@ -71,22 +112,31 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         # <domain>.com/admin/users
         Route::get('/users', function() {
-            return view('admin.users.index');
+            if(auth()->user()->can('user-read'))
+                return view('admin.users.index');
+            
+            return abort(404);
+
         })->name('admin.users.lists');
         
         # <domain>.com/admin/user/new
         Route::get('/user/new', function() {
-            return view('admin.users.new');
+            if(auth()->user()->can('user-create'))
+                return view('admin.users.new');
+        
+            return abort(404);
+
         })->name('admin.users.new');
 
 
         # <domain>.com/admin/users/<user_id>
         Route::get('/users/{user_id}', function( $user_id ) {
-            return view('admin.users.edit', [
-                'user_id' => $user_id
-            ]);
-        })->name('admin.users.edit');
+            if(auth()->user()->can('user-update'))
+                return view('admin.users.edit', [ 'user_id' => $user_id ]);
         
+            return abort(404);
+
+        })->name('admin.users.edit');
 
     });
     
