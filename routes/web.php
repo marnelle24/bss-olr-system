@@ -109,6 +109,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             
         })->name('admin.programme-item');
 
+        Route::get('/programmes/events/{programCode}', function($programCode) {
+            return view('admin.programme.events-profile', ['programCode' => $programCode ]);
+        })->name('admin.event-profile');
+
 
         # <domain>.com/admin/users
         Route::get('/users', function() {
