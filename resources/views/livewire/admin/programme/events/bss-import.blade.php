@@ -1,13 +1,16 @@
 <div>
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
         @foreach ( $bss_events as $event)
-            <a href="{{ route('admin.event-profile', substr($event['programCode'], 0, -1)) }}" class="cursor-pointer relative bg-white dark:bg-slate-700 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-sm shadow hover:-translate-y-0.5 duration-500">
+            <a href="{{ route('admin.event-profile', substr($event['programCode'], 0, -1)) }}" class="relative cursor-pointer bg-white dark:bg-slate-700 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-sm shadow hover:-translate-y-0.5 duration-500">
                 @php
                     $thumbUrl = $event['thumb'];
                     if (!str_starts_with($thumbUrl, 'https://www.biblesociety.sg')) {
                         $thumbUrl = 'https://www.biblesociety.sg' . $thumbUrl;
                     }
                 @endphp
+                @if (isset($event['wp_post_id']))
+                    <span class="absolute top-1 right-1 text-[10px] font-weight-lighter uppercase text-green-400 dark:text-green-300 drop-shadow-none dark:bg-green-200/30 bg-green-700/60 px-2 py-1 rounded-sm border dark:border-green-400 border-green-400">Imported</span>
+                @endif
                 <img src="{{ $thumbUrl }}" alt="{{ strip_tags($event['title']) }}" class="w-full h-48 object-cover">
                 <h1 class="text-lg font-bold text-slate-700 dark:text-white capitalize p-5 drop-shadow">
                     {{ strip_tags($event['title']) }}
