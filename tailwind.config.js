@@ -15,6 +15,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                nunito: ['Nunito Sans'],
             },
             colors: {
                 current: 'currentColor',
@@ -52,6 +53,9 @@ export default {
                 success: '#219653',
                 danger: '#D34053',
                 warning: '#FFA70B',
+                'orange-1': '#EB6725',
+                'orange-2': '#F4A40B',
+                'kaki': '#F3ECD4',
             },
             fontSize: {
                 'title-xxl': ['44px', '55px'],

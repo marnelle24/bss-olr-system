@@ -12,19 +12,24 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body>
-        <div class="font-sans text-gray-900 antialiased bg-gradient-to-r from-zinc-800/50 via-slate-300 to-zinc-900/50">
+    <body class="antialiased bg-gradient-to-r from-zinc-300/50 to-zinc-400/40">
+        
+        @include('partials.navigation')
+        <main>
             {{ $slot }}
-        </div>
+        </main>
 
         @livewireScripts
-        
     </body>
     
 </html>

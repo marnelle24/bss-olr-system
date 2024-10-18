@@ -18,7 +18,6 @@
 //     Spatie\Permission\Models\Role::create(['name' => 'organizer']); // create role
 
 // });
-
 Route::prefix('admin')->group(function () {
 
     // testing only
