@@ -83,5 +83,5 @@
         @endforeach
     </div>
     <br />
-    @dump($bss_events[12])
+    {{-- @dump($bss_events[12]) --}}
 </div>

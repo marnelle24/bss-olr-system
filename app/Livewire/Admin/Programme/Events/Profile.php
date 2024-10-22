@@ -21,7 +21,7 @@ class Profile extends Component
         if ($response->successful()) {
             $this->bss_event = $response->json();
         } else {
-            $this->bss_events = [];
+            $this->bss_event = [];
         }
 
     }

@@ -10,12 +10,20 @@
 
         <!-- Desktop Navigation -->
         <div class="hidden md:flex space-x-4">
-            <a href="{{ route('login') }}" class="px-5 py-2 bg-orange-2/80 text-white text-xs drop-shadow-sm rounded-full shadow-md hover:text-neutral-200 hover:bg-orange-2 hover:shadow-lg hover:-translate-y-0.5 transition duration-300 ease-in-out">
-                Login
-            </a>
-            <a href="{{ route('register') }}" class="px-5 py-2 bg-orange-1/80 text-white text-xs drop-shadow-sm rounded-full shadow-md hover:text-neutral-200 hover:bg-orange-1 hover:shadow-lg hover:-translate-y-0.5 transition duration-300 ease-in-out">
-                Sign Up
-            </a>
+            @auth()
+                <a href="{{ route('admin.dashboard') }}" class="px-5 py-2 bg-orange-1/80 text-white text-xs drop-shadow-sm rounded-full shadow-md hover:text-neutral-200 hover:bg-orange-1 hover:shadow-lg hover:-translate-y-0.5 transition duration-300 ease-in-out">
+                    Dashboard
+                </a>
+            
+            @endauth
+            @guest()
+                <a href="{{ route('login') }}" class="px-5 py-2 bg-orange-2/80 text-white text-xs drop-shadow-sm rounded-full shadow-md hover:text-neutral-200 hover:bg-orange-2 hover:shadow-lg hover:-translate-y-0.5 transition duration-300 ease-in-out">
+                    Login
+                </a>
+                <a href="{{ route('register') }}" class="px-5 py-2 bg-orange-1/80 text-white text-xs drop-shadow-sm rounded-full shadow-md hover:text-neutral-200 hover:bg-orange-1 hover:shadow-lg hover:-translate-y-0.5 transition duration-300 ease-in-out">
+                    Sign Up
+                </a>
+            @endguest
         </div>
     </div>
 
@@ -28,18 +36,20 @@
                 </svg>
                 <span class="text-xs mt-1 group-hover:text-slate-200 group-hover:-translate-y-0.5 duration-300">Home</span>
             </a>
-            <a href="{{ route('login') }}" class="flex flex-col items-center text-white group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="group-hover:-translate-y-0.5 duration-300 group-hover:stroke-slate-300 stroke-white h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                </svg>
-                <span class="text-xs mt-1 group-hover:text-slate-200 group-hover:-translate-y-0.5 duration-300">Login</span>
-            </a>
-            <a href="{{ route('register') }}" class="flex flex-col items-center text-white group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="group-hover:-translate-y-0.5 duration-300 group-hover:stroke-slate-300 stroke-white h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
-                <span class="text-xs mt-1 group-hover:text-slate-200 group-hover:-translate-y-0.5 duration-300">Sign Up</span>
-            </a>
+            @guest
+                <a href="{{ route('login') }}" class="flex flex-col items-center text-white group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="group-hover:-translate-y-0.5 duration-300 group-hover:stroke-slate-300 stroke-white h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                    <span class="text-xs mt-1 group-hover:text-slate-200 group-hover:-translate-y-0.5 duration-300">Login</span>
+                </a>
+                <a href="{{ route('register') }}" class="flex flex-col items-center text-white group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="group-hover:-translate-y-0.5 duration-300 group-hover:stroke-slate-300 stroke-white h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                    <span class="text-xs mt-1 group-hover:text-slate-200 group-hover:-translate-y-0.5 duration-300">Sign Up</span>
+                </a>
+            @endguest
         </div>
     </div>
 </nav>

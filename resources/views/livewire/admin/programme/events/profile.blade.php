@@ -68,7 +68,7 @@
                         Edit in BSS Plugin
                     </a>
                 @endhasrole
-                <a href="{{ route('admin.event-profile', substr($bss_event['programCode'], 0, -1)) }}" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-700 duration-300 text-white py-3 px-4 rounded">
+                <a href="{{ route('event-profile.public', substr($bss_event['programCode'], 0, -1)) }}" target="_blank" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-700 duration-300 text-white py-3 px-4 rounded">
                     Go to Landing Page
                 </a>
                 <a href="{{ route('admin.event-profile', substr($bss_event['programCode'], 0, -1)) }}" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-indigo-700 hover:bg-indigo-600 dark:hover:bg-indigo-600 duration-300 text-white py-3 px-4 rounded">

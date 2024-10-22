@@ -19,12 +19,20 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <style>
+            html {
+                scroll-behavior: smooth;
+            }
+        </style>
+
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="antialiased bg-gradient-to-r from-zinc-300/50 to-zinc-400/40">
+    <body class="antialiased bg-white">
         
-        @include('partials.navigation')
+        @if (!request()->routeIs('login') && !request()->routeIs('register'))
+            @include('partials.navigation')
+        @endif
         <main>
             {{ $slot }}
         </main>
