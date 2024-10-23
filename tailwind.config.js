@@ -293,6 +293,13 @@ export default {
                 'spin-2': 'spin 2s linear infinite',
                 'spin-3': 'spin 3s linear infinite',
             },
+            backgroundPosition: {
+                'pos-0': '0% 0%',
+                'pos-100': '100% 100%',
+            },
+            backgroundSize: {
+                'size-200': '200% 200%',
+            },
         },
     },
 

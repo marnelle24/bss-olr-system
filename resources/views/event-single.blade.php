@@ -10,21 +10,70 @@
 
                 <div>
                     <div class="flex items-center justify-between mt-2">
-                        <a href="#" class="px-6 py-2 bg-orange-2 text-white text-lg font-bold rounded-xl shadow hover:bg-orange-600 hover:shadow-lg transition duration-300 ease-in-out">
+                        <a href="#" 
+                            class="
+                            bg-gradient-to-tl 
+                            from-orange-1 
+                            via-orange-300 
+                            to-orange-1 
+                            bg-size-200 
+                            bg-pos-0 
+                            hover:bg-pos-100
+                            hover:-translate-y-1
+                            text-white
+                            drop-shadow
+                            px-6 
+                            py-2 
+                            text-lg 
+                            font-bold 
+                            rounded-xl 
+                            shadow 
+                            hover:shadow-lg 
+                            transition-all 
+                            duration-300">
                             Register Now
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        
         <div class="mt-12 flex lg:flex-row flex-col lg:gap-0 gap-8 max-w-6xl mx-auto">
             <h3 class="text-2xl font-nunito font-extrabold my-4">About Event</h3>
         </div>
         <div class="flex lg:flex-row flex-col lg:gap-0 gap-10 lg:space-x-10 space-x-0 max-w-6xl mx-auto">
             <div class="w-full lg:w-2/3">
-                <div class="text-md text-gray-500">
+                <div class="text-lg text-gray-500">
                     {!! $bss_event['description'] !!}
+                </div>
+
+                @php
+                    $speakers = [3];
+                @endphp
+                <br />
+                <h3 class="text-2xl font-nunito font-extrabold p-4 shadow-md border border-zinc-400/20 bg-zinc-200">
+                    @if(count($speakers) > 1) Keynote Speakers @else Keynote Speaker @endif
+                </h3>
+                <div class="mt-8 flex flex-wrap gap-6 justify-center xl:mx-0 mx-auto">
+                    @foreach ($speakers as $speaker)
+                        <div class="p-4 flex lg:flex-row flex-col lg:justify-start items-center justify-center gap-5">
+                            <img src="https://picsum.photos/id/23{{$speaker}}/300/300" alt="Speaker" class="rounded-full w-48 h-48 lg:w-32 lg:h-32 object-cover">
+                            <div class="flex flex-col gap-2 lg:items-start text-center lg:text-left">
+                                <h4 class="font-bold text-2xl font-nunito">Sarah Johnson {{$speaker}}</h4>
+                                <p class="font-semibold italic">Family Counselor</p>
+                                <p class="text-gray-600 text-md">
+                                    Sarah is a renowned family counselor with over 15 years of experience helping families strengthen their bonds and overcome challenges.
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="mt-8 border-t-2 border-zinc-400/20 pt-8">
+                    <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1 italic">Categories:</p>
+                    <div class="flex gap-1">
+                        <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">Family</p>
+                        <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">Children</p>
+                        <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">Faith</p>
+                    </div>
                 </div>
             </div>
             <div class="w-full flex flex-col gap-6 lg:w-1/3">
@@ -79,6 +128,21 @@
                         </div>
                     </div>
                     <div>
+                        <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1">For inquiries, contact:</p>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                            <p class="font-extrabold font-nunito text-sm py-1">{{ $bss_event['email'] }}</p>
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                            </svg>
+                            <p class="font-extrabold font-nunito text-sm py-1">{{ '63-871-234' }}</p>
+                        </div>
+                    </div>
+                    <div>
                         <p class="font-thin text-sm text-neutral-700 drop-shadow mb-3">Share Event</p>
                         <div class="flex space-x-5">
                             <a href="#" class="text-gray-600 hover:text-blue-600 hover:-translate-y-0.5 duration-300" aria-label="Facebook">
@@ -104,39 +168,83 @@
     </div>
     <div class="border-t-2 border-slate-400/20 pt-8 bg-zinc-300/40 pb-20">
         <div class="max-w-6xl mx-auto lg:px-0 px-4">
-            <div class="mb-14">
+            <h3 class="text-center lg:text-4xl text-3xl text-meta-4/80 font-nunito font-extrabold mt-8 mb-3">Conference Rate Packages</h3>
+            <p class="text-center lg:text-2xl text-xl text-meta-4/80 font-nunito mb-10">
+                Pick the webinar plan that's right for you. 
+                Provide an opportunity for attendees to learn from experts in a convenient and cost-effective way.
+            </p>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Basic Package -->
+                <div class="bg-white flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
+                    <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4">Individual Package</h3>
+                    <p class="text-meta-4 font-thin mb-4">Perfect for individuals</p>
+                    <p class="text-4xl font-extrabold font-nunito mb-6">SG$99</p>
+                    <ul class="mb-6 flex-grow">
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Conference access
+                        </li>
+                    </ul>
+                    <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300 mt-auto">Select Plan</button>
+                </div>
 
-                <h3 class="text-2xl font-nunito font-extrabold my-4">Speakers</h3>
-                <div class="flex lg:flex-row flex-col gap-4">
-                    <div class="lg:w-1/2 w-full">
-                        @php
-                            $speakers = [3];
-                        @endphp
-        
-                        <div class="flex flex-wrap gap-6 justify-center xl:mx-0 mx-auto">
-                            @foreach ($speakers as $speaker)
-                                <div class="p-4 flex lg:flex-row flex-col lg:justify-start items-center justify-center gap-5">
-                                    <img src="https://picsum.photos/id/23{{$speaker}}/300/300" alt="Speaker" class="rounded-full w-48 h-48 lg:w-32 lg:h-32 object-cover">
-                                    <div class="flex flex-col gap-2 lg:items-start text-center lg:text-left">
-                                        <h4 class="font-bold text-2xl font-nunito">Sarah Johnson {{$speaker}}</h4>
-                                        <p class="font-semibold italic">Family Counselor</p>
-                                        <p class="text-gray-600 text-md">
-                                            Sarah is a renowned family counselor with over 15 years of experience helping families strengthen their bonds and overcome challenges.
-                                        </p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="lg:w-1/2 w-full bg-red-500 p-10">
-                    </div>
+                <!-- Group Package -->
+                <div class="bg-white flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
+                    <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4">Group Package</h3>
+                    <p class="text-meta-4 font-thin mb-4">Great for small groups</p>
+                    <p class="text-4xl font-extrabold font-nunito mb-6">SG$199</p>
+                    <ul class="mb-6">
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Conference access
+                        </li>
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            4 +1 group registration
+                        </li>
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            20% Discount from Individual Package
+                        </li>
+                    </ul>
+                    <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300 mt-auto">Select Plan</button>
+                </div>
+
+                <!-- Premium Package -->
+                <div class="bg-white flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
+                    <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4">Premium Package</h3>
+                    <p class="text-meta-4 font-thin mb-4">Best for organizations</p>
+                    <p class="text-4xl font-extrabold font-nunito mb-6">SG$299</p>
+                    <ul class="mb-6">
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            VIP conference access
+                        </li>
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Comprehensive materials
+                        </li>
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Exclusive workshops
+                        </li>
+                        <li class="flex items-center mb-2">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            1-on-1 consultation
+                        </li>
+                    </ul>
+                    <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300 mt-auto">Select Plan</button>
                 </div>
             </div>
-            
-            <div class="mb-8" id="">
-                <h3 class="text-2xl font-nunito font-extrabold my-4">Register Now</h3>
-            </div>
+        </div>
 
+        <div class="pt-16 pb-8 max-w-5xl mx-auto lg:px-0 px-4">
+            <h3 class="text-center text-4xl text-meta-4/80 font-nunito font-extrabold my-8">Start your registration now!</h3>
+            <p class="text-center text-2xl text-meta-4/80 font-nunito my-8">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+            </p>
             <div class="border border-slate-400/20 bg-white lg:p-12 p-6 rounded-lg shadow-lg">
                 <form action="" method="POST" class="space-y-6">
                     <div class="flex lg:flex-row flex-col gap-6">
@@ -190,10 +298,53 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-4 flex flex-col gap-2">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="privacy_policy" class="form-checkbox h-5 w-5 text-slate-600" required>
+                            <span class="ml-2 text-sm text-gray-700">I accept the <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a></span>
+                        </label>
+                        <label class="inline-flex items-start">
+                            <input type="checkbox" name="privacy_policy" class="form-checkbox h-5 w-5 text-slate-600" required>
+                            <span class="ml-2 text-sm text-gray-700">
+                                By providing your contact details, you consent to our collection, use and disclosure of your personal data as described in our privacy policy on our website. We do strive to limit the amount of personal data we collect to that which is sufficient to support the intended purpose of the collection
+                            </span>
+                        </label>
+                    </div>
                     <br />
-                    <div class="flex gap-4">
-                        <button type="submit" class="hover:bg-slate-600 duration-300 hover:-translate-y-0.5 shadow border border-none hover:border-dark inline-flex items-center px-6 py-4 bg-slate-700 rounded-none font-semibold text-sm text-white hover:text-dark uppercase tracking-widest disabled:opacity-25 transition">Register Now</button>
-                        <button type="reset" class="duration-300 hover:-translate-y-0.5 shadow inline-flex items-center px-6 py-4 border border-dark bg-transparent rounded-none font-semibold text-sm text-dark uppercase tracking-widest hover:text-slate-600 hover:bg-slate-100 transition">Reset</button>
+                    <div class="flex gap-4 justify-center">
+                        <button type="submit" 
+                            class="lg:w-1/2 
+                            w-full
+                            flex 
+                            justify-center 
+                            text-zinc-300 
+                            drop-shadow
+                            bg-gradient-to-l 
+                            from-zinc-600 
+                            via-zinc-500 
+                            to-zinc-600 
+                            bg-size-200 
+                            bg-pos-0 
+                            hover:bg-pos-100
+                            border-meta-3
+                            duration-500 
+                            shadow-md
+                            hover:-translate-y-0.5 
+                            hover:bg-slate-600 
+                            hover:border-slate-600 
+                            hover:text-white 
+                            items-center 
+                            px-6 
+                            py-4 
+                            font-semibold 
+                            text-lg 
+                            uppercase 
+                            tracking-widest 
+                            transition-all"
+                        >
+                            Register Now
+                        </button>
                     </div>
                 </form>
             </div>
