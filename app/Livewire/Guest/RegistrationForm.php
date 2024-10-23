@@ -4,10 +4,12 @@ namespace App\Livewire\Guest;
 
 use Livewire\Component;
 
-class ProcessCustomRegistrationFields extends Component
+class RegistrationForm extends Component
 {
-    public $extraFields = [];
+    // form settings including the custom settings of each field
+    public $formSettings;
 
+    //  Convert custom input fields to HTML
     public function inputField($textFieldDetails)
     {
         $fieldName = preg_replace('/[^a-zA-Z0-9]/', '', $textFieldDetails['label']);
@@ -24,6 +26,7 @@ class ProcessCustomRegistrationFields extends Component
         return $output;
     }
 
+    //  Convert custom select fields to HTML
     public function selectOptionField($textFieldDetails)
     {
         $fieldName = preg_replace('/[^a-zA-Z0-9]/', '', $textFieldDetails['label']);
@@ -46,6 +49,6 @@ class ProcessCustomRegistrationFields extends Component
 
     public function render()
     {
-        return view('livewire.guest.process-custom-registration-fields');
+        return view('livewire.guest.registration-form');
     }
 }
