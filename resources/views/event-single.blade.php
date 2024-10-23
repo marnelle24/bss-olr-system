@@ -281,7 +281,7 @@
                         </div>
                     </div>
     
-                    <div class="mt-4">
+                    <div class="pt-4">
                         <p class="font-semibold border-b-2 border-slate-400/20 text-lg mt-2 mb-4">Address</p>
                         <div class="flex lg:flex-row flex-col gap-6">
                             <div class="w-full">
@@ -298,6 +298,11 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- Extra Fields -> If any --}}
+                    @if(!empty($bss_event['extraFields']))
+                        @livewire('guest.process-custom-registration-fields', ['extraFields' => $bss_event['extraFields']])
+                    @endif
 
                     <div class="mt-4 flex flex-col gap-2">
                         <label class="inline-flex items-center">

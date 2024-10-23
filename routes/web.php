@@ -61,9 +61,12 @@ Route::get('/event/{programCode}', function ($programCode) {
             "isGroup": "0",
             "imported": "1"
     }';
+
     
     $bss_event = json_decode($response, true);
-
+    $bss_event['settings'] = json_decode($bss_event['settings'], true);
+    $bss_event['extraFields'] = $bss_event['settings']['extraInfo'];
+    
     // if ($response->successful()) 
     //     $bss_event = $response->json();
     // else
