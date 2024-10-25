@@ -18,6 +18,7 @@ class RegForm extends Form
     public $address;
     public $city;
     public $postalCode;
+    public $customFieldValues;
 
     public $customFields = [];
     public $requiredFields = [];
@@ -41,13 +42,13 @@ class RegForm extends Form
 
     public function store()
     {
+        dd($this->all());
         // Validate the form data
         $this->validate();
 
         dump($this->requiredFields);
 
         // Store the form data
-        dd($this->all());
     }
 
 

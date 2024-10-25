@@ -40,7 +40,9 @@ class RegistrationForm extends Component
         $this->form->setRequiredFields($this->requiredFields);
         
         $this->form->setHiddenFields($this->hiddenFields);
-        
+
+        $this->form->customFieldValues = $this->convertExtraFieldsToJSON($this->extraFieldsValues);
+
         $this->form->store();
 
         // Prepare the form data
@@ -58,8 +60,10 @@ class RegistrationForm extends Component
         // $this->form->store();
     }
 
-    public function convertExtraFieldsToJSON()
+    public function convertExtraFieldsToJSON($extraFields)
     {
+
+        return json_encode($extraFields);
 
         // Convert the extra fields to JSON
         

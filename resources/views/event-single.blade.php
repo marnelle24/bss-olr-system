@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="mt-12 flex lg:flex-row flex-col lg:gap-0 gap-8 max-w-6xl mx-auto">
-            <h3 class="text-2xl font-nunito font-extrabold my-4">About Event</h3>
+            <h3 class="text-3xl font-nunito font-extrabold my-4">About Event</h3>
         </div>
         <div class="flex lg:flex-row flex-col lg:gap-0 gap-10 lg:space-x-10 space-x-0 max-w-6xl mx-auto">
             <div class="w-full lg:w-2/3">
@@ -238,7 +238,7 @@
             </div>
         </div>
 
-        <div id="registration-form" class="pt-16 pb-8 max-w-5xl mx-auto lg:px-0 px-4">
+        <div class="pt-16 pb-8 max-w-5xl mx-auto lg:px-0 px-4">
             <h3 class="text-center text-4xl text-meta-4/80 font-nunito font-extrabold my-8">Start your registration now!</h3>
             <p class="text-center text-2xl text-meta-4/80 font-nunito my-8">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
