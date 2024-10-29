@@ -8,6 +8,7 @@ use App\Livewire\Forms\RegForm;
 class RegistrationForm extends Component
 {
     public RegForm $form;
+    public $eventDetails; // props
 
     // form settings including the custom settings of each field
     public $formSettings;
@@ -16,8 +17,12 @@ class RegistrationForm extends Component
     public $hiddenFields = [];
     public $extraFieldsValues = [];
 
+    public $promoCode = null;
+    public $discount = 0;
+
     public function mount()
     {
+        $this->formSettings = $this->eventDetails['settings'];
         $this->isInternational = isset($this->formSettings['internationalEvents']) && $this->formSettings['internationalEvents'] ? true : false;
         $this->requiredFields = [ 
             'nirc',
@@ -36,37 +41,48 @@ class RegistrationForm extends Component
 
     public function submit()
     {
-        // Set the required fields in the RegForm object
+        // Set the required fields in the RegForm object for validation
         $this->form->setRequiredFields($this->requiredFields);
         
+        // set the hidden fields based on user define settings
         $this->form->setHiddenFields($this->hiddenFields);
 
+        // convert the extrafields into JSON String ready to save in DB
         $this->form->customFieldValues = $this->convertExtraFieldsToJSON($this->extraFieldsValues);
 
+        // get the promo code inpuuted if any
+        $this->form->appliedPromoCode = $this->promoCode;
+
+        // get the equivalent amount value of the promo code
+        $this->form->discountValue = $this->discount;
+
+        // get the net amount - final amount for checkout
+        $this->form->netAmount = $this->eventDetails['price'] - $this->discount;
+
+        // store the registration and data in the DB and procced to payment portal (hitpay)
         $this->form->store();
+    }
 
-        // Prepare the form data
-        // $formData = $this->form->all();
+    public function validatePromoCode()
+    {
+        $testdata = array(
+            'pr1' => 100,
+            'pr2' => 200,
+            'pr3' => 10,
+            'pr4' => 50,
+        );
 
-        // If there are custom fields, add them to the form data
-        // if (!empty($this->formSettings['extraInfo'])) {
-        //     foreach ($this->formSettings['extraInfo'] as $field) {
-        //         $fieldName = preg_replace('/[^a-zA-Z0-9]/', '', $field['label']);
-        //         $formData[$fieldName] = $this->form->customFields[$fieldName] ?? null;
-        //     }
-        // }
-
-        // Pass the prepared form data to the store method
-        // $this->form->store();
+        foreach ($testdata as $key => $value) 
+        {
+            if($this->promoCode === $key)
+                $this->discount = $value;
+        }
     }
 
     public function convertExtraFieldsToJSON($extraFields)
     {
-
-        return json_encode($extraFields);
-
         // Convert the extra fields to JSON
-        
+        return json_encode($extraFields);
     }
 
     //  Apply only when there are extraInfo JSON in the $formSettings - Convert custom input fields to HTML
@@ -122,7 +138,7 @@ class RegistrationForm extends Component
                 $output .= '<label class="capitalize mb-2.5 block font-medium text-black">Contact Number</label>';
                 $output .= '<div class="flex gap-1">';
                     $output .= '<select wire:model.blur="form.countryCode" class="w-1/4 rounded-l-none border-r-0 border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none">';
-                        $output .= '<option value="+65" data-flag="🇸🇬">🇸🇬 +65</option>';
+                        $output .= '<option value="+65" data-flag="🇸🇬" selected>🇸🇬 +65</option>';
                         $output .= '<option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>';
                         $output .= '<option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>';
                         $output .= '<option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>';

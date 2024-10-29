@@ -238,7 +238,7 @@
             </div>
         </div>
 
-        <div class="pt-16 pb-8 max-w-5xl mx-auto lg:px-0 px-4">
+        <div id="registration-form" class="pt-16 pb-8 max-w-5xl mx-auto lg:px-0 px-4">
             <h3 class="text-center text-4xl text-meta-4/80 font-nunito font-extrabold my-8">Start your registration now!</h3>
             <p class="text-center text-2xl text-meta-4/80 font-nunito my-8">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
@@ -247,7 +247,7 @@
             </p>
             <div class="border border-slate-400/20 bg-white lg:p-12 p-6 rounded-lg shadow-lg">
                 {{-- Registration Form --}}
-                @livewire('guest.registration-form', ['formSettings' => $bss_event['settings']])
+                @livewire('guest.registration-form', ['eventDetails' => $bss_event])
             </div>
         </div>
     </div>

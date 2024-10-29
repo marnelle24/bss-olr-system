@@ -18,6 +18,9 @@ class RegForm extends Form
     public $address;
     public $city;
     public $postalCode;
+    public $appliedPromoCode = null;
+    public $discountValue = 0;
+    public $netAmount = 0;
     public $customFieldValues;
 
     public $customFields = [];
@@ -42,10 +45,10 @@ class RegForm extends Form
 
     public function store()
     {
-        dd($this->all());
         // Validate the form data
         $this->validate();
-
+        
+        dd($this->all());
         dump($this->requiredFields);
 
         // Store the form data
