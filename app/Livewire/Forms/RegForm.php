@@ -53,7 +53,7 @@ class RegForm extends Form
         $validatedData['user_id'] = Auth::check() ? auth()->user()->id : NULL;
     
         $reg = [
-            'regCode'            => $event_details['programCode'].'003',
+            'regCode'            => $event_details['programCode'].$validatedData['nric'], //nric is temp only
             'programCode'        => $event_details['programCode'],
             'user_id'            => $validatedData['user_id'],
             'nric'               => $validatedData['nric'],
@@ -73,11 +73,18 @@ class RegForm extends Form
         ];
 
         // Store the form data
-        $registrant = Registrant::create( $reg );
+        $registrant = Registrant::create($reg);
 
         // After storing registration to the DB, call the Payment Service with HitPay API to process the payment
+        if($registrant)
+        {
+            // go to payment page of hitpay
+            return redirect()->route('registration.create-payment', ['registrant' => $reg]);
+        }
+        // handle error registration
+        return back()->withErrors(['msg' => 'Registration Failed. Contact Administrator.']);
 
-        dd($registrant);
+
 
     }
 

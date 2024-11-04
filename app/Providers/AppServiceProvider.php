@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\PaymentService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Bind PaymentService into the service container
+        $this->app->singleton(PaymentService::class, function ($app) {
+            return new PaymentService();
+        });
     }
 
     /**

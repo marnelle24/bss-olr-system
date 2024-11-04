@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    
+    'hitpay' => [
+        'api_key' => env('HITPAY_API_KEY'),
+        'api_url' => env('HITPAY_API_URL'),
+    ],
 
 ];

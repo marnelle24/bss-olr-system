@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/create-payment-requests', [PaymentController::class, 'createPayment'])->name('registration.create-payment');
 
 Route::get('/event/{programCode}', function ($programCode) {
     $bss_event = [];
@@ -91,12 +94,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // code below to be deleted/updated
     //=========================================
 
-    Route::get('/admin/settings/speakers', function() {
-        return view('/admin/speakers');
-    })->name('settings.admin.speakers');
+    // Route::get('/admin/settings/speakers', function() {
+    //     return view('/admin/speakers');
+    // })->name('settings.admin.speakers');
 
-    Route::get('/admin/settings/promos', function() {
-        return view('/admin/promos');
-    })->name('settings.admin.promos');
+    // Route::get('/admin/settings/promos', function() {
+    //     return view('/admin/promos');
+    // })->name('settings.admin.promos');
 
 });
