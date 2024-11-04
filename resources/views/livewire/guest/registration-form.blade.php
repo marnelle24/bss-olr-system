@@ -5,11 +5,11 @@
             <form wire:submit="submit" class="space-y-6">
                 <div class="space-y-6">
                     <div class="flex lg:flex-row flex-col gap-6">
-                        @if(!in_array('nirc', $this->hiddenFields))
+                        @if(!in_array('nric', $this->hiddenFields))
                             <div class="lg:w-1/2 w-full">
-                                <label class="mb-2.5 block font-medium text-black">NIRC # </label>
-                                <input wire:model.blur="form.nirc" type="text" placeholder="Last 4-digit" class="w-full rounded-none border border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default" />
-                                @error('form.nirc')
+                                <label class="mb-2.5 block font-medium text-black">NRIC # </label>
+                                <input wire:model.blur="form.nric" type="text" placeholder="Last 4-digit" maxlength="4" class="w-full rounded-none border border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default" />
+                                @error('form.nric')
                                     <em class="text-danger text-xs">{{ $message }}</em>
                                 @enderror
                             </div>
@@ -19,7 +19,7 @@
                             <div class="lg:w-1/2 w-full">
                                 <label class="mb-2.5 block font-medium text-black">Title</label>
                                 <select wire:model.blur="form.title" id="title" class="w-full rounded-none border border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default">
-                                    <option value="Mr" selected>Mr</option>
+                                    <option value="Mr">Mr</option>
                                     <option value="Ms">Ms</option>
                                     <option value="Mrs">Mrs</option>
                                 </select>
@@ -208,7 +208,10 @@
                     </label>
                 </div>
                 <br />
-                <div class="flex gap-4 justify-center mt-5">
+                @if($errors->count() > 0)
+                    <p class="text-center text-xs italic text-red-600">{{'Oops! something\'s missing. Kindly review the registration form.'}}</p>
+                @endif
+                <div class="flex gap-4 justify-center">
                     <button type="reset" class="whitespace-nowrap text-center text-zinc-100 drop-shadow bg-gradient-to-l from-zinc-600 via-zinc-500 to-zinc-600 bg-size-200 bg-pos-0 hover:bg-pos-100 border-meta-3 duration-500 shadow-md hover:-translate-y-0.5 hover:bg-slate-600 hover:border-slate-600 hover:text-zinc-200 items-center px-6 py-4 font-semibold text-lg uppercase tracking-widest transition-all">
                         Reset
                     </button>

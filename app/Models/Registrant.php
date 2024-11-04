@@ -25,6 +25,7 @@ class Registrant extends Model
         'extraFields',
         'paymentStatus',
         'paymentGateway',
+        'price',
         'paymentReferenceNo',
         'regStatus',
         'emailStatus',

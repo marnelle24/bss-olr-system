@@ -4,6 +4,7 @@ namespace App\Livewire\Guest;
 
 use Livewire\Component;
 use App\Livewire\Forms\RegForm;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationForm extends Component
 {
@@ -36,6 +37,15 @@ class RegistrationForm extends Component
             'postalCode'
         ];
         $this->hiddenFields = [];
+
+        // populate the starter registration fields when there is Auth detected
+        // Otherwise, set the default fields to null
+        if(Auth::check())
+        {
+            $this->form->firstName = auth()->user()->firstname;
+            $this->form->lastName = auth()->user()->lastname;
+        }
+
     }
 
 
@@ -48,7 +58,7 @@ class RegistrationForm extends Component
         $this->form->setHiddenFields($this->hiddenFields);
 
         // convert the extrafields into JSON String ready to save in DB
-        $this->form->customFieldValues = $this->convertExtraFieldsToJSON($this->extraFieldsValues);
+        $this->form->customFieldJsonValues = $this->convertExtraFieldsToJSON($this->extraFieldsValues);
 
         // get the promo code inpuuted if any
         $this->form->appliedPromoCode = $this->promoCode;
@@ -60,7 +70,8 @@ class RegistrationForm extends Component
         $this->form->netAmount = $this->eventDetails['price'] - $this->discount;
 
         // store the registration and data in the DB and procced to payment portal (hitpay)
-        $this->form->store();
+        // Program code of the event as the parameter
+        $this->form->store( $this->eventDetails);
     }
 
     public function validatePromoCode()

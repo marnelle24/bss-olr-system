@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Attributes\Validate;
 use Livewire\Form;
+use App\Models\Registrant;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
 
 class RegForm extends Form
 {
-    
-    public $nirc;
-    public $title;
+    public $nric;
+    public $title = 'Mr';
     public $firstName;
     public $lastName;
     public $email;
@@ -21,7 +22,7 @@ class RegForm extends Form
     public $appliedPromoCode = null;
     public $discountValue = 0;
     public $netAmount = 0;
-    public $customFieldValues;
+    public $customFieldJsonValues;
 
     public $customFields = [];
     public $requiredFields = [];
@@ -43,15 +44,41 @@ class RegForm extends Form
         $this->hiddenFields = $hiddenFields;
     }
 
-    public function store()
+    public function store( $event_details )
     {
         // Validate the form data
-        $this->validate();
+        $validatedData = $this->validate();
         
-        dd($this->all());
-        dump($this->requiredFields);
+        // assign user to this registration
+        $validatedData['user_id'] = Auth::check() ? auth()->user()->id : NULL;
+    
+        $reg = [
+            'regCode'            => $event_details['programCode'].'003',
+            'programCode'        => $event_details['programCode'],
+            'user_id'            => $validatedData['user_id'],
+            'nric'               => $validatedData['nric'],
+            'title'              => $validatedData['title'],
+            'firstName'          => $validatedData['firstName'],
+            'lastName'           => $validatedData['lastName'],
+            'address'            => $validatedData['address'],
+            'city'               => $validatedData['city'],
+            'postalCode'         => $validatedData['postalCode'],
+            'email'              => $validatedData['email'],
+            'contactNumber'      => $this->countryCode .' '. $validatedData['contactNumber'],
+            'extraFields'        => $this->customFieldJsonValues,
+            'paymentStatus'      => 'pending',
+            'paymentGateway'     => NULL,
+            'price'              => $this->netAmount,
+            'paymentReferenceNo' => 'abc4349324fgbc21314',
+        ];
 
         // Store the form data
+        $registrant = Registrant::create( $reg );
+
+        // After storing registration to the DB, call the Payment Service with HitPay API to process the payment
+
+        dd($registrant);
+
     }
 
 
@@ -59,7 +86,7 @@ class RegForm extends Form
     protected function rules()
     {
         $rules = [
-            'nirc'          => in_array('nirc', $this->hiddenFields) ? '' : (in_array('nirc', $this->requiredFields) ? 'required' : ''),
+            'nric'          => in_array('nric', $this->hiddenFields) ? '' : (in_array('nric', $this->requiredFields) ? 'required' : ''),
             'title'         => in_array('title', $this->hiddenFields) ? '' : (in_array('title', $this->requiredFields) ? 'required' : ''),
             'firstName'     => in_array('firstName', $this->hiddenFields) ? '' : (in_array('firstName', $this->requiredFields) ? 'required|min:3|max:255|string' : 'min:3|max:255|string'),
             'lastName'      => in_array('lastName', $this->hiddenFields) ? '' : (in_array('lastName', $this->requiredFields) ? 'required|min:3|max:255|string' : 'min:3|max:255|string'),
@@ -88,7 +115,7 @@ class RegForm extends Form
     protected function messages()
     {
         $messages = [
-            'nirc.required' => 'NIRC is required.',
+            'nric.required' => 'NRIC is required.',
             'title.required' => 'Title is required.',
             'firstName.required' => 'First name is required.',
             'firstName.min'      => 'First name must be at least 3 characters.',

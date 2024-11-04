@@ -26,7 +26,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('contactNumber')->nullable();
             $table->text('extraFields')->nullable();
-            $table->boolean('paymentStatus')->default(0);
+            $table->string('paymentStatus')->nullable();
+            $table->decimal('price', 8, 2)->default(0);
             $table->string('paymentGateway')->nullable(); // paynow|card
             $table->string('paymentReferenceNo')->nullable();
             $table->string('regStatus')->nullable();
