@@ -87,4 +87,13 @@ Route::prefix('admin')->group(function () {
         if(auth()->user()->can('user-update')) return view('admin.users.edit', [ 'user_id' => $user_id ]);
         return abort(404);
     })->name('admin.users.edit');
+
+
+    # <domain>.com/admin/registrants
+    Route::get('/registrants', function() {
+        // if(auth()->user()->can('category-read')) 
+        return view('admin.registrants.index');
+        // return abort(404);
+    })->name('admin.registrants.list');
+
 });
