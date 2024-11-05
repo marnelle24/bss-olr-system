@@ -26,7 +26,7 @@ class RegistrationForm extends Component
         $this->formSettings = $this->eventDetails['settings'];
         $this->isInternational = isset($this->formSettings['internationalEvents']) && $this->formSettings['internationalEvents'] ? true : false;
         $this->requiredFields = [ 
-            'nirc',
+            'nric',
             'title',
             'firstName',
             'lastName',
@@ -70,7 +70,6 @@ class RegistrationForm extends Component
         $this->form->netAmount = $this->eventDetails['price'] - $this->discount;
 
         // store the registration and data in the DB and procced to payment portal (hitpay)
-        // Program code of the event as the parameter
         $this->form->store( $this->eventDetails);
     }
 

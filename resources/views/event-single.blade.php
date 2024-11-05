@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="lg:mt-5 mt-0 max-w-6xl mx-auto lg:px-0 px-4 lg:py-10 py-3">
+    <div class="lg:mt-5 max-w-6xl mx-auto lg:px-0 px-4 lg:py-10 py-3">
         <div class="rounded-xl flex lg:flex-row flex-col shadow">
             <img src="{{ $bss_event['thumb'] }}" alt="{{ strip_tags($bss_event['title']) }}" class="lg:rounded-tl-xl rounded-tl-none lg:rounded-bl-xl rounded-bl-none w-full xl:h-[350px] h-[300px] object-cover object-center">
             <div class="lg:rounded-tr-xl rounded-tr-none lg:rounded-br-xl rounded-br-none p-4 w-full lg:w-1/2 flex justify-start flex-col gap-2 bg-gradient-to-r from-zinc-100 to-zinc-200">

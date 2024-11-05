@@ -17,11 +17,17 @@ use App\Http\Controllers\PaymentController;
 // public routes
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
+// Route to create the Payment Request in HitPay API
 Route::get('/create-payment-requests', [PaymentController::class, 'createPayment'])->name('registration.create-payment');
 
+// Route to callback to handle the after full payment transaction process.
+Route::get('/success-payment/{programCode}', [PaymentController::class, 'successPayment'])->name('registration.success-payment');
+
+
 Route::get('/event/{programCode}', function ($programCode) {
+
     $bss_event = [];
     // $response = Http::get('https://www.biblesociety.sg/wp-json/bss/v1/bss-events?programCode=' . $programCode.'_');
     

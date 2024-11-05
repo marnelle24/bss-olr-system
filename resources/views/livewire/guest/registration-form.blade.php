@@ -211,12 +211,13 @@
                 @if($errors->count() > 0)
                     <p class="text-center text-xs italic text-red-600">{{'Oops! something\'s missing. Kindly review the registration form.'}}</p>
                 @endif
-                <div class="flex gap-4 justify-center">
+                <div class="flex lg:flex-row flex-col gap-4 justify-center">
                     <button type="reset" class="whitespace-nowrap text-center text-zinc-100 drop-shadow bg-gradient-to-l from-zinc-600 via-zinc-500 to-zinc-600 bg-size-200 bg-pos-0 hover:bg-pos-100 border-meta-3 duration-500 shadow-md hover:-translate-y-0.5 hover:bg-slate-600 hover:border-slate-600 hover:text-zinc-200 items-center px-6 py-4 font-semibold text-lg uppercase tracking-widest transition-all">
                         Reset
                     </button>
-                    <button type="submit" class="whitespace-nowrap text-center text-zinc-100 drop-shadow bg-gradient-to-l from-meta-5 via-meta-3/70 to-meta-3 bg-size-200 bg-pos-0 hover:bg-pos-100 border-meta-3 duration-500 shadow-md hover:-translate-y-0.5 hover:bg-slate-600 hover:border-slate-600 hover:text-zinc-200 items-center px-6 py-4 font-semibold text-lg uppercase tracking-widest transition-all">
-                        Proceed To Checkout
+                    <button wire:loading.attr="disabled" type="submit" class="whitespace-nowrap text-center text-zinc-100 drop-shadow bg-gradient-to-l from-meta-5 via-meta-3/70 to-meta-3 bg-size-200 bg-pos-0 hover:bg-pos-100 border-meta-3 duration-500 shadow-md hover:-translate-y-0.5 hover:bg-slate-600 hover:border-slate-600 hover:text-zinc-200 items-center px-6 py-4 font-semibold text-lg uppercase tracking-widest transition-all">
+                        <span wire:loading.remove>Proceed To Checkout</span>
+                        <span wire:loading>Processing...</span>
                     </button>
                 </div>
             </form>

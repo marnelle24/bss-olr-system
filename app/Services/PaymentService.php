@@ -55,4 +55,32 @@ class PaymentService
             return null;
         }    
     }
+
+    public function paymentDetails( String $payment_request_id)
+    {
+        try 
+        {
+            $response = $this->client->get($this->apiUrl.'/payment-requests'.'/'.$payment_request_id, [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                    'accept' => 'application/json',
+                    'content-type' => 'application/json',
+                    'X-BUSINESS-API-KEY' => $this->apiKey,
+                ]
+            ]);
+
+            $responseBody = json_decode($response->getBody(), true);
+
+            if ($response->getStatusCode() === 200) 
+                return $responseBody;
+
+            return null;
+        } 
+        catch (\Exception $e) 
+        {
+            Log::error('Retrieving the Payment Request Details Failed: ' . $e->getMessage());
+            return null;
+        }    
+
+    }
 }

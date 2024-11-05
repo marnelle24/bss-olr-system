@@ -69,7 +69,7 @@ class RegForm extends Form
             'paymentStatus'      => 'pending',
             'paymentGateway'     => NULL,
             'price'              => $this->netAmount,
-            'paymentReferenceNo' => 'abc4349324fgbc21314',
+            'paymentReferenceNo' => NULL,
         ];
 
         // Store the form data
