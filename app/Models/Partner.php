@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\ProgramItem;
+use App\Models\Program_event;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -52,5 +53,15 @@ class Partner extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'partner_user', 'user_id', 'partner_id');
+    }
+
+    /**
+     * Get all of the program_events for the Partner
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(Program_event::class);
     }
 }

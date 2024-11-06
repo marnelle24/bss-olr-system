@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Program_event;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Registrant extends Model
 {
@@ -31,4 +34,35 @@ class Registrant extends Model
         'emailStatus',
         'soft_delete',
     ];
+
+    /**
+     * Get the user that owns the Registrant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get all of the events for the Registrant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Program_event::class, 'programCode', 'programCode');
+    }
+
+    // Add global scope to get only record that are not soft deleted
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('notDeleted', function (Builder $builder) {
+            $builder->where('soft_delete', false);
+        });
+    }
+
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RegForm extends Form
 {
+    public $programmeType;
     public $nric;
     public $title = 'Mr';
     public $firstName;
@@ -55,6 +56,7 @@ class RegForm extends Form
         $reg = [
             'regCode'            => $event_details['programCode'].$validatedData['nric'], //nric is temp only
             'programCode'        => $event_details['programCode'],
+            'type'               => $this->programmeType,
             'user_id'            => $validatedData['user_id'],
             'nric'               => $validatedData['nric'],
             'title'              => $validatedData['title'],

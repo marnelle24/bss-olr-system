@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('regCode')->unique();
             $table->string('programCode');
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('nric')->nullable();
             $table->string('title')->nullable();

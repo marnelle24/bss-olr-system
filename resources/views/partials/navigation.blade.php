@@ -1,12 +1,4 @@
-<nav 
-    {{-- x-data="{ scrolled: false }"  --}}
-    {{-- x-init="window.addEventListener('scroll', () => { 
-        scrolled = window.scrollY > 50 
-    })" --}}
-    {{-- :class="{ 'fixed top-0 w-full bg-white shadow-lg transition-all duration-400': scrolled }" --}}
-    class="z-999 px-4 p-6 w-full bg-white transition-all duration-400 ease-in-out"
-    {{-- :class="{ 'py-6': scrolled, 'py-6': !scrolled }" --}}
->
+<nav class="z-999 px-4 p-6 w-full bg-white transition-all duration-400 ease-in-out">
     <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
         <!-- Logo -->
         <div class="mt-4 first-line:mb-4 md:mb-0">

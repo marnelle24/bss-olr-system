@@ -23,6 +23,7 @@ class RegistrationForm extends Component
 
     public function mount()
     {
+        $this->form->programmeType = request()->segment(1);
         $this->formSettings = $this->eventDetails['settings'];
         $this->isInternational = isset($this->formSettings['internationalEvents']) && $this->formSettings['internationalEvents'] ? true : false;
         $this->requiredFields = [ 
@@ -44,6 +45,7 @@ class RegistrationForm extends Component
         {
             $this->form->firstName = auth()->user()->firstname;
             $this->form->lastName = auth()->user()->lastname;
+            $this->form->email = auth()->user()->email;
         }
 
     }

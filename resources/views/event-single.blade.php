@@ -248,6 +248,7 @@
             <div class="border border-slate-400/20 bg-white lg:p-12 p-6 rounded-lg shadow-lg">
                 {{-- Registration Form --}}
                 @livewire('guest.registration-form', ['eventDetails' => $bss_event])
+                @dump($bss_event)
             </div>
         </div>
     </div>
