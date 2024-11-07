@@ -15,9 +15,14 @@ class All extends Component
     {
         $registrants = Registrant::latest()
             ->with('event', function($q){
-                $q->select('programCode', 'title', 'type');
+                $q->select('programCode', 'title', 'type', 'partner_id')
+                    ->with('partner', function($q) {
+                        $q->select('id', 'name');
+                    });
             })
-            ->paginate(20);
+            ->paginate(10);
+
+        // dd($registrants[0]->event->partner->name);
         
         return view('livewire.admin.registrant.all', [
             'registrants' => $registrants
