@@ -36,7 +36,7 @@
                     <div class="flex gap-2 w-full">
                         <x-button type="reset" wire:click="resetForm" class="bg-transparent dark:border-slate-100/60 dark:text-slate-100 text-neutral-600 hover:text-neutral-100 border-slate-600 hover:bg-zinc-500 duration-300 hover:-translate-y-0.5 rounded-none whitespace-nowrap py-3.5 flex justify-center focus:outline-none dark:focus:outline-none focus:ring-0 dark:focus:ring-0">Reset</x-button>
                         <x-button type="button" wire:click="performSearch" class="bg-zinc-500 hover:bg-zinc-600 text-slate-100 hover:text-neutral-300 duration-300 hover:-translate-y-0.5 rounded-none whitespace-nowrap py-3.5 flex justify-center focus:outline-none dark:focus:outline-none focus:ring-0 dark:focus:ring-0">Filters</x-button>
-                        <x-button type="button" class="bg-yellow-500 dark:bg-yellow-600 dark:hover:bg-yellow-500 hover:bg-yellow-400 duration-300 hover:-translate-y-0.5 text-neutral-100 dark:text-yellow-800 rounded-none whitespace-nowrap py-3.5">Exports</x-button>
+                        <x-button type="button" class="bg-yellow-500 dark:bg-yellow-600 dark:hover:bg-yellow-500 hover:bg-yellow-400 duration-300 hover:-translate-y-0.5 text-neutral-100 rounded-none whitespace-nowrap py-3.5">Exports</x-button>
                     </div>
                 </div>
             </div>

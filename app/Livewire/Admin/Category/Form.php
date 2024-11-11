@@ -13,38 +13,42 @@ class Form extends Component
         'slug' => '',
     ];
 
+    public $id;
+    public $name;
+    public $slug;
+
     protected $listeners = [
         'getSelectedCategory' => 'loadSelectedCategory'
     ];
 
     public function loadSelectedCategory($value)
     {
-        $this->form['id'] = $value['id'];
-        $this->form['name'] = $value['name'];
-        $this->form['slug'] = $value['slug'];
+        $this->id = $value['id'];
+        $this->name = 'testecds';
+        $this->slug = $value['slug'];
     }
 
     public function save()
     {
         $this->validate(
             [
-                'form.name' => 'required|min:4',
-                'form.slug' => 'nullable',
+                'name' => 'required|min:4',
+                'slug' => 'nullable',
             ],
             [
-                'form.name.required' => 'Name must not empty.',
-                'form.name.min' => 'Name is too short',
+                'name.required' => 'Name must not empty.',
+                'name.min' => 'Name is too short',
             ]
         );
 
         // Data to be updated or created
         Category::updateOrCreate(
             [ 
-                'id' => $this->form['id'] 
+                'id' => $this->id
             ], 
             [
-                'name' => $this->form['name'],
-                'slug' => isset($this->form['slug']) ? $this->form['slug'] : null
+                'name' => $this->name,
+                'slug' => isset($this->slug) ? $this->slug : null
             ]
         );
 
@@ -55,7 +59,9 @@ class Form extends Component
 
     public function resetForm()
     {
-        $this->reset();
+        $this->id = '';
+        $this->name = '';
+        $this->slug = '';
         $this->resetValidation();
     }
 
