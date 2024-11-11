@@ -53,6 +53,9 @@ class All extends Component
         // Initial query in the Registrant model
         $query = Registrant::query();
 
+        // If type is not define in the filter input, set `event` as default
+        $this->typeQuery = $this->typeQuery ?? 'event';
+
         //if the keyword is not empty during the perform search, 
         //query in the main column for similar value from the keyword
         if($this->keyword)
@@ -64,6 +67,9 @@ class All extends Component
                 $q->where('firstName', 'LIKE', '%' . $kw . '%')
                     ->orWhere('lastName', 'LIKE', '%' . $kw . '%')
                     ->orWhere('email', 'LIKE', '%' . $kw . '%')
+                    ->orWhereHas($this->typeQuery, function($q) use ($kw) {
+                        $q->where('title', 'LIKE', '%' . $kw . '%');
+                    })
                     ->orWhere('programCode', 'LIKE', '%' . $kw . '%');
             });
         }

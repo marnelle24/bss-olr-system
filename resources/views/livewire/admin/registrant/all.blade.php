@@ -2,7 +2,7 @@
     {{-- <div class="flex gap-2 mb-4"> --}}
     <p class="mb-1 text-md font-bold text-slate-800 dark:text-slate-300">Search and Filter</p>
     <div class="mb-4 p-4 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form>
+        <form wire:submit="performSearch">
             <div class="flex xl:flex-row flex-col gap-2">
                 <div class="xl:w-1/4 lg:w-1/4 w-full flex flex-wrap gap-2">
                     <p class="text-sm text-slate-800 dark:text-slate-300">Enter Keyword</p>
@@ -14,7 +14,8 @@
                         <option value="">Choose..</option>
                         @if ( count($allprogram) )
                             @foreach ($allprogram as $key => $program)
-                                <option wire:key='{{$key}}' value="{{$key}}" {{$key!=='event' ? 'disabled' : ''}} >{{$program}}</option>
+                                <option wire:key='{{$key}}' value="{{$key}}">{{$program}}</option>
+                                {{-- <option wire:key='{{$key}}' value="{{$key}}" {{$key!=='event' ? 'disabled' : ''}} >{{$program}}</option> --}}
                             @endforeach
                         @endif
                     </select>
@@ -35,7 +36,7 @@
                     <p class="text-sm text-slate-800 dark:text-slate-300">&nbsp;</p>
                     <div class="flex gap-2 w-full">
                         <x-button type="reset" wire:click="resetForm" class="bg-transparent dark:border-slate-100/60 dark:text-slate-100 text-neutral-600 hover:text-neutral-100 border-slate-600 hover:bg-zinc-500 duration-300 hover:-translate-y-0.5 rounded-none whitespace-nowrap py-3.5 flex justify-center focus:outline-none dark:focus:outline-none focus:ring-0 dark:focus:ring-0">Reset</x-button>
-                        <x-button type="button" wire:click="performSearch" class="bg-zinc-500 hover:bg-zinc-600 text-slate-100 hover:text-neutral-300 duration-300 hover:-translate-y-0.5 rounded-none whitespace-nowrap py-3.5 flex justify-center focus:outline-none dark:focus:outline-none focus:ring-0 dark:focus:ring-0">Filters</x-button>
+                        <x-button type="submit" class="bg-zinc-500 hover:bg-zinc-600 text-slate-100 hover:text-neutral-300 duration-300 hover:-translate-y-0.5 rounded-none whitespace-nowrap py-3.5 flex justify-center focus:outline-none dark:focus:outline-none focus:ring-0 dark:focus:ring-0">Filters</x-button>
                         <x-button type="button" class="bg-yellow-500 dark:bg-yellow-600 dark:hover:bg-yellow-500 hover:bg-yellow-400 duration-300 hover:-translate-y-0.5 text-neutral-100 rounded-none whitespace-nowrap py-3.5">Exports</x-button>
                     </div>
                 </div>
@@ -53,7 +54,6 @@
                         <th class="min-w-[150px] px-4 py-3 font-bold text-black dark:text-white">Contact #</th>
                         <th class="min-w-[150px] px-4 py-3 font-bold text-black dark:text-white">Email</th>
                         <th class="min-w-[100px] px-4 py-3 font-bold text-black dark:text-white">Type</th>
-                        <th class="min-w-[150px] px-4 py-3 font-bold text-black dark:text-white">Partner</th>
                         <th class="min-w-[150px] px-4 py-3 font-bold text-black dark:text-white">Programme</th>
                         <th class="min-w-[150px] px-4 py-3 font-bold text-black dark:text-white">Status</th>
                         <th class="px-4 py-3 font-bold text-black dark:text-white">
@@ -90,9 +90,6 @@
                                 </td>
                                 <td class="border-b border-[#eee] px-4 py-2 dark:border-strokedark">
                                     <p class="font-medium text-sm dark:text-neutral-300 text-neutral-700 capitalize">{{ $registrant->event->type }}</p>
-                                </td>
-                                <td class="border-b border-[#eee] px-4 py-2 dark:border-strokedark">
-                                    <p class="font-medium text-sm dark:text-neutral-300 text-neutral-700 capitalize">{{ $registrant->event->partner->name }}</p>
                                 </td>
                                 <td class="border-b border-[#eee] px-4 py-2 dark:border-strokedark">
                                     <p class="font-medium text-sm dark:text-neutral-300 text-neutral-700">

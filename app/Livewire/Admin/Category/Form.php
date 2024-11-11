@@ -7,12 +7,6 @@ use App\Models\Category;
 
 class Form extends Component
 {
-    public $form = [
-        'id' => '',
-        'name' => '',
-        'slug' => '',
-    ];
-
     public $id;
     public $name;
     public $slug;
@@ -24,7 +18,7 @@ class Form extends Component
     public function loadSelectedCategory($value)
     {
         $this->id = $value['id'];
-        $this->name = 'testecds';
+        $this->name = $value['name'];
         $this->slug = $value['slug'];
     }
 
