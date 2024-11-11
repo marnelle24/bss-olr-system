@@ -95,5 +95,5 @@ Route::prefix('admin')->group(function () {
         return view('admin.registrants.index');
         // return abort(404);
     })->name('admin.registrants.list');
-
+    
 });
