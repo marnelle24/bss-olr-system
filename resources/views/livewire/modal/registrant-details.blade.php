@@ -25,20 +25,18 @@
             <div class="flex justify-between items-center p-6 border-b">
                 <div>
                     <p class="text-xs tracking-widest font-thin text-slate-400 uppercase mb-2">Registration Code</p>
-                    <p class="text-center font-thin text-lg dark:text-neutral-100 text-neutral-100 rounded-sm py-1 px-3 drop-shadow shadow bg-meta-3 dark:bg-meta-8 border border-neutral-500">
+                    <p class="text-center font-thin text-lg text-neutral-100 rounded-sm py-1 px-3 drop-shadow shadow bg-meta-8">
                         {{ $registrant?->regCode }}
                     </p>
                 </div>
                 {{-- <h3 class="text-lg font-semibold">View Details</h3> --}}
-                <button wire:click="closeModal" class="text-slate-600 hover:text-slate-800">
+                <button wire:click="closeModal" class="text-slate-500 hover:-translate-y-1 duration-300 drop-shadow text-2xl">
                     &#10005;
                 </button>
             </div>
-            <div class="mt-4 p-6">
+            <div class="p-6">
                 <!-- Modal content dynamically populated -->
-                <p class="text-md tracking-widest font-thin text-slate-600 uppercase mb-2">
-                    Registration Details
-                </p>
+                <p class="text-md tracking-wide font-semibold text-slate-600 uppercase mb-2">Registration Details</p>
                 <table class="table-auto w-full">
                     <tbody>
                         <tr>
@@ -79,7 +77,7 @@
                             <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
                                 Email Address
                             </td>
-                            <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                            <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin">
                                 {{ $registrant?->email }}
                             </td>
                         </tr>
@@ -87,7 +85,7 @@
                             <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
                                 Address
                             </td>
-                            <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                            <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin capitalize">
                                 {{ $registrant?->address }} {{ $registrant?->city }} {{ $registrant?->postalCode }}
                             </td>
                         </tr>
@@ -110,7 +108,87 @@
                     </tbody>
                 </table>
                 <br />
-                @dump(Collect($registrant)->toArray())
+                <p class="text-md tracking-wide font-semibold text-slate-600 uppercase mb-2">Registered to</p>
+                <div class="flex xl:flex-row flex-col gap-2">
+                    <img src="{{$registrant?->event->thumb}}" class="xl:w-48 w-full" />
+                    <div>
+                        <h1 class="text-slate-600 text-lg font-semibold text-wrap xl:w-50 w-full leading-tight">{{$registrant?->event->title}}</h1>
+                        <p class="text-slate-600 text-xs mt-2">
+                            <span class="font-bold mr-1">Date:</span>
+                            {{ \Carbon\Carbon::parse($registrant?->event->startDate)->format('M j') }} - 
+                            {{ \Carbon\Carbon::parse($registrant?->event->endDate)->format('j, Y') }}
+                            
+                        </p>
+                        <p class="text-slate-600 text-xs">
+                            <span class="font-bold mr-1">Time:</span>
+                            {{ $registrant?->event->startTime }} - {{ $registrant?->event->endTime }}
+                        </p>
+                        <p class="text-slate-600 text-xs">
+                            <span class="font-bold mr-1">Venue:</span>
+                            {{ $registrant?->event->venue }}
+                        </p>
+                    </div>
+                </div>
+                {{-- @dump($registrant?->event->getAttributes()) --}}
+                @if ($paymentDetails)
+                    <p class="text-md tracking-wide font-semibold text-slate-600 uppercase mt-6">Payment Details</p>
+                    <table class="table-auto w-full">
+                        <tbody>
+                            <tr>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    Payment Method
+                                </td>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    {{-- @if ($registrant->paymentGateway == 'paynow_online') --}}
+                                    @if ($paymentDetails['payments'][0]['payment_type'] == 'paynow_online')
+                                        <img src="http://127.0.0.1:8000/images/paynow_logo.png" class="w-20" />
+                                    @else
+                                        <div class="flex gap-1">
+                                            <img src="http://127.0.0.1:8000/images/credit-card.png" class="w-6" />
+                                            <span class="font-semibold">Credit Card</span>
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    Payment Date
+                                </td>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    {{ \Carbon\Carbon::parse($paymentDetails['payments'][0]['created_at'])->format('F j, Y') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    Reference Code
+                                </td>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    {{ $paymentDetails['payments'][0]['id'] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    Amount
+                                </td>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    {{ $paymentDetails['payments'][0]['currency'] . ' ' . $paymentDetails['payments'][0]['amount'] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                    Payment Status
+                                </td>
+                                <td class="border border-slate-400 px-4 py-2">
+                                    <span class="{{ $paymentDetails['payments'][0]['status'] == 'succeeded' ? 'bg-green-600' : 'bg-red-600' }} text-slate-200 py-1 px-2 text-xs rounded-full tracking-wide font-thin uppercase">
+                                        {{ $paymentDetails['payments'][0]['status'] == 'succeeded' ? 'Confirmed' : 'Pending' }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {{-- @dump($paymentDetails['payments'][0]) --}}
+                @endif
+                {{-- @dump(Collect($registrant)->toArray()) --}}
             </div>
         </div>
     </div>
