@@ -174,6 +174,16 @@
                                     {{ $paymentDetails['payments'][0]['currency'] . ' ' . $paymentDetails['payments'][0]['amount'] }}
                                 </td>
                             </tr>
+                            @if ($registrant->appliedPromoCode)
+                                <tr>
+                                    <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                        Applied Promo
+                                    </td>
+                                    <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
+                                        <span class="bg-meta-5 text-slate-200 py-1 px-2 text-xs rounded-lg tracking-wide font-thin uppercase">{{ $registrant->appliedPromoCode }}</span> <span class="italic">({{ $registrant->discountValue }})</span> 
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
                                 <td class="border border-slate-400 text-slate-700 dark:text-slate-500 px-4 py-2 text-sm tracking-wide font-thin uppercase">
                                     Payment Status
@@ -186,7 +196,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    {{-- @dump($paymentDetails['payments'][0]) --}}
+                    {{-- @dump($paymentDetails) --}}
                 @endif
                 {{-- @dump(Collect($registrant)->toArray()) --}}
             </div>

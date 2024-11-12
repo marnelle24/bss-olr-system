@@ -29,6 +29,8 @@ return new class extends Migration
             $table->text('extraFields')->nullable();
             $table->string('paymentStatus')->nullable();
             $table->decimal('price', 8, 2)->default(0);
+            $table->string('appliedPromoCode')->nullable();
+            $table->decimal('discountValue', 8, 2)->default(0);
             $table->string('paymentGateway')->nullable(); // paynow|card
             $table->string('paymentReferenceNo')->nullable();
             $table->string('regStatus')->nullable();

@@ -29,6 +29,8 @@ class Registrant extends Model
         'paymentStatus',
         'paymentGateway',
         'price',
+        'appliedPromoCode',
+        'discountValue',
         'paymentReferenceNo',
         'regStatus',
         'emailStatus',

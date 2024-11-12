@@ -71,6 +71,8 @@ class RegForm extends Form
             'paymentStatus'      => 'pending',
             'paymentGateway'     => NULL,
             'price'              => $this->netAmount,
+            'appliedPromoCode'   => $this->appliedPromoCode,
+            'discountValue'      => $this->discountValue,
             'paymentReferenceNo' => NULL,
         ];
 
