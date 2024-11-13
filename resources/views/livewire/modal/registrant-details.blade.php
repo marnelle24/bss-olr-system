@@ -127,6 +127,7 @@
                             <span class="font-bold mr-1">Venue:</span>
                             {{ $registrant?->event->venue }}
                         </p>
+                        <p class="text-white whitespace-nowrap bg-meta-3 p-1.5 drop-shadow-1 mt-2">{{ $registrant?->event->price > 0 ? 'SGD ' . $registrant?->event->price : 'FREE' }}</p>
                     </div>
                 </div>
                 {{-- @dump($registrant?->event->getAttributes()) --}}

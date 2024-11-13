@@ -8,23 +8,37 @@ use Illuminate\Support\Facades\Http;
 class BssImport extends Component
 {
     public $bss_events = [];
+    public $showModal = false;
 
-    public function mount()
+
+    public function openModal()
+    {
+        $this->showModal = true;
+        $this->fetchProgrammes();
+
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
+    }
+
+    public function fetchProgrammes()
     {
         // Fetch the JSON data from the WP API
         $response = Http::get('https://www.biblesociety.sg/wp-json/bss/v1/bss-events');
         
         // Check if the request was successful and store the response data
-        if ($response->successful()) {
+        if ($response->successful()) 
             $this->bss_events = $response->json();
-        } else {
+        else 
             $this->bss_events = [];
-        }
-
     }
+
     public function render()
     {
-        return view('livewire.admin.programme.events.bss-import');
+        return view('livewire.modal.import-programmes');
+        // return view('livewire.admin.programme.events.bss-import');
     }
     
 }

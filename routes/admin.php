@@ -95,5 +95,12 @@ Route::prefix('admin')->group(function () {
         return view('admin.registrants.index');
         // return abort(404);
     })->name('admin.registrants.list');
+
+    # <domain>.com/admin/settings
+    Route::get('/settings', function() {
+        // if(auth()->user()->can('category-read')) 
+        return view('admin.settings');
+        // return abort(404);
+    })->name('admin.settings');
     
 });

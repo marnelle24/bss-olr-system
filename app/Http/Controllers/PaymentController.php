@@ -62,7 +62,7 @@ class PaymentController extends Controller
         $registrant->update([
             'paymentStatus' => 'paid',
             'paymentGateway' => $paymentDetails['payments'][0]['payment_type'],
-            'paymentReferenceNo' => $paymentDetails['id'],
+            'paymentReferenceNo' => $paymentDetails['payments'][0]['id'],
             'regStatus' => 'confirmed'
         ]);
 
