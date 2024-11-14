@@ -56,7 +56,7 @@
                                 </svg>
                             </div>
                             <p class="text-sm text-slate-500 dark:text-slate-300">
-                                {{ $event['email'] }}
+                                {{ $event['contactEmail'] }}
                             </p>
                         </div>
                         <div class="flex items-baseline">
@@ -86,6 +86,8 @@
                 <p class="text-left text-xl text-slate-500/70">No Record found</p>
         @endif
     </div>
-    <br />
+    <div class="mt-4">
+        {{ $bss_events->links('vendor.livewire.custom-pagination') }}
+    </div>
     {{-- @dump($bss_events[12]) --}}
 </div>

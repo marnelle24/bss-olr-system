@@ -31,15 +31,53 @@
             </div>
             <div class="p-6">
                 <div class="bg-zinc-100 border border-zinc-300 py-5 px-2 rounded text-[9px] flex flex-col gap-4">
-                    <p class="text-slate-700 font-mono text-xs">fetching from BSS website...</p>
-                    <p class="text-slate-700 font-mono text-xs">syncing programmes...</p>
-                    <p class="text-slate-700 font-mono text-xs">Store new prgorammes to database...</p>
+                    @if (!$isMigrating && count($synchedRecords) == 0)
+                        <p class="text-slate-700 font-mono text-xs">
+                            Click the button below to start the <br />
+                            migration and syncing the programme <br /> 
+                            records from external source to SOL <br /> 
+                            Event Online Registration.
+                        </p>
+                    @endif
+
+                    @if ($isMigrating)
+                        <p class="text-slate-700 font-mono text-xs">{{$fetchingMsg}}</p>
+                    @else
+                        @if(count($synchedRecords) > 0)
+                            @foreach($synchedRecords as $idx => $sr)
+                                <p 
+                                    x-data="{ show: false }"
+                                    x-init="setTimeout(() => show = true, {{ $idx * 50 }})"
+                                    x-show="show"
+                                    x-transition:enter="transition ease-out duration-500"
+                                    x-transition:enter-start="opacity-0"
+                                    x-transition:enter-end="opacity-100"
+                                    wire:key="{{$idx}}" 
+                                    class="text-slate-700 font-mono text-xs"
+                                >
+                                    {{$sr}}
+                                </p>
+                            @endforeach
+                        @endif
+                        <br />
+                        <p class="text-slate-700 font-mono text-xs">{{ $allSyncDone }}</p>
+                        <br />
+                        @if ($totalDataAdded)
+                            <p class="text-slate-700 font-mono text-xs">{{$totalDataAdded}} total records synced..</p>
+                        @endif
+                    @endif
                 </div>
 
-                @foreach ( $bss_events as $event )
-                   <pre>@dump($event)</pre>
-                @endforeach
+                <button wire:click="startMigration" {{ $isMigrating ? 'disabled' : '' }} class="disabled:bg-meta-4/50 bg-meta-3/80 hover:bg-meta-3 duration-300 hover:-translate-y-0.5 shadow hover:shadow-md text-white text-center text-md font-semibold py-2 px-3 rounded mt-4">Start Migration</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('delayed-assign', () => {
+        setTimeout(() => {
+            @this.call('performMigration');
+        }, 3000);
+    });
+</script>
