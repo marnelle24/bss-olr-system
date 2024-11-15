@@ -96,7 +96,7 @@ Route::prefix('admin')->group(function () {
     # <domain>.com/admin/settings
     Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('admin.settings');
 
-    Route::get('/programmes/events/{programCode}', [App\Http\Controllers\ProgrammeItemController::class, 'index'])->name('admin.event-profile');
+    Route::get('/programmes/events/{programCode}', [App\Http\Controllers\ProgrammeItemController::class, 'show'])->name('admin.event-profile');
 
     
 });

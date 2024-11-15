@@ -9,16 +9,8 @@
         
         <p class="text-xs text-black dark:text-white/70 italic mb-8">Last Updated: {{ \Carbon\Carbon::parse($bss_event['last_update'])->format('F j, Y') }}</p>
         
-        <div class="flex flex-col gap-5 mb-8">
-            <div class="w-full">
-                <p class="text-xl font-bold text-slate-800 dark:text-white capitalize mb-2">
-                    Analytics & Reports
-                </p>
-                <div class="h-[300px] flex justify-center items-center rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                    <p class="text-center opacity-30 text-xl">Graph & Chart of the event performance here</p>
-                </div>
-            </div>
-        </div>
+        @livewire('admin.programme.events.chart-component')
+        
         <p class="text-xl font-bold text-slate-800 dark:text-white capitalize mb-2">
             Event Details
         </p>

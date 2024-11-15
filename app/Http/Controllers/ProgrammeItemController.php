@@ -7,12 +7,9 @@ use Illuminate\Http\Request;
 
 class ProgrammeItemController extends Controller
 {
-    public function index($programCode)
+    public function show($programCode)
     {
-        $bss_event = Program_event::where('programCode', $programCode)->first();
-
-        // dd($bss_event);
-
+        $bss_event = Program_event::where('programCode', $programCode)->firstOrFail();
         return view('admin.programme.events-profile', [
             'bss_event' => $bss_event 
         ]);

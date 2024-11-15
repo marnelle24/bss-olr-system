@@ -28,7 +28,6 @@ class All extends Component
     #[Computed]
     public function registrants()
     {
-
         $registrants = Registrant::latest()
             ->with('event', function($q){
                 $q->select('programCode', 'title', 'type', 'partner_id')
@@ -92,7 +91,7 @@ class All extends Component
                     ->with('partner', function($q) {
                         $q->select('id', 'name');
                     });
-            })->paginate(6);
+            });
         }
         elseif($this->typeQuery === 'book')
         {
@@ -101,7 +100,7 @@ class All extends Component
                     ->with('partner', function($q) {
                         $q->select('id', 'name');
                     });
-            })->paginate(6);
+            });
         }
         else
         {
@@ -110,10 +109,10 @@ class All extends Component
                     ->with('partner', function($q) {
                         $q->select('id', 'name');
                     });
-            })->paginate(6);
+            });
         }
 
-        $this->registrants = $reg;
+        $this->registrants = $reg->paginate(10);
     }
 
 

@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
         @if ($bss_events)
             @foreach ( $bss_events as $event)
-                <a href="{{ route('admin.event-profile', substr($event['programCode'], 0, -1)) }}" class="relative cursor-pointer bg-white dark:bg-slate-700 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-sm shadow hover:-translate-y-0.5 duration-500">
+                <a href="{{ route('admin.event-profile', $event['programCode']) }}" class="relative cursor-pointer bg-white dark:bg-slate-700 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-sm shadow hover:-translate-y-0.5 duration-500">
                     @php
                         $thumbUrl = $event['thumb'];
                         if (!str_starts_with($thumbUrl, 'https://www.biblesociety.sg')) {

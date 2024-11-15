@@ -3,7 +3,8 @@
     @dd($bss_event)
     <div class="flex flex-col xl:flex-row lg:flex-row md:flex-row gap-1 xl:gap-4 lg:gap-4 md:gap-4 items-start lg:items-center">
         <h1 class="text-4xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] font-bold text-slate-800 dark:text-white capitalize mb-2">
-            {{ strip_tags($bss_event['title']) }}
+            {{ strip_tags($bss_event->title) }}
+            
         </h1>
         @if (isset($bss_event['wp_post_id']))
             <p class="shadow text-sm font-weight-lighter uppercase text-green-400 dark:text-green-600 drop-shadow-none dark:bg-green-200 bg-green-700/60 px-2 py-1 rounded-lg border dark:border-green-600 border-green-400">Imported</p>

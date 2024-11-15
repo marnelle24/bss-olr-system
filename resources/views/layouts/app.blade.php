@@ -53,8 +53,6 @@
 
         @stack('modals')
 
-        @livewireScripts
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 Livewire.on('redAlert', event => {
@@ -114,5 +112,8 @@
                 opacity: 0.9;
             }
         </style>
+
+        @livewireScripts
+        @livewireChartsScripts
     </body>
 </html>
