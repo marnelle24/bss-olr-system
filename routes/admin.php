@@ -1,4 +1,5 @@
 <?php 
+
 /**
  *  Admin Routes
  */ 
@@ -65,10 +66,6 @@ Route::prefix('admin')->group(function () {
         return abort(404);
     })->name('admin.programme-item');
 
-    Route::get('/programmes/events/{programCode}', function($programCode) {
-        return view('admin.programme.events-profile', ['programCode' => $programCode ]);
-    })->name('admin.event-profile');
-
     # <domain>.com/admin/users
     Route::get('/users', function() {
         if(auth()->user()->can('user-read')) return view('admin.users.index');
@@ -97,10 +94,9 @@ Route::prefix('admin')->group(function () {
     })->name('admin.registrants.list');
 
     # <domain>.com/admin/settings
-    Route::get('/settings', function() {
-        // if(auth()->user()->can('category-read')) 
-        return view('admin.settings');
-        // return abort(404);
-    })->name('admin.settings');
+    Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('admin.settings');
+
+    Route::get('/programmes/events/{programCode}', [App\Http\Controllers\ProgrammeItemController::class, 'index'])->name('admin.event-profile');
+
     
 });

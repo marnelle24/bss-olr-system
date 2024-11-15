@@ -3,9 +3,10 @@
         <div class="flex gap-4">
             <div class="w-3/4">
                 <div class="rounded-none bg-white shadow-sm">
+                    {{-- @dump($user_id ?? '') --}}
                     <div class="px-7 py-4 border-b border-stroke dark:border-slate-400 bg-white dark:bg-slate-700">
                         <h3 class="font-bold text-lg uppercase text-black dark:text-white">
-                            Create New User
+                            {{ isset($user_id) ? 'Update User' : 'Create New User' }}
                         </h3>
                     </div>
 
@@ -81,18 +82,26 @@
                                 <div class="w-full sm:w-1/2">
                                     <div class="mt-5">
                                         <div class="flex gap-2 items-center">
-                                            <input class="border border-zinc-300 dark:border-zinc-200 bg-white font-medium text-black dark:bg-zinc-50 dark:text-meta-4 focus:ring-0 focus:border-zinc-400"
-                                            type="checkbox" wire:model="form.userform.is_active" {{$form->userform['is_active'] ? 'checked' : ''}} />
-                                            <label class="block text-sm font-medium text-black dark:text-white" for="nname">Activate</label>
+                                            <input 
+                                                id="is_active"
+                                                type="checkbox" 
+                                                class="border border-zinc-300 dark:border-zinc-200 font-medium text-black dark:text-meta-4 focus:ring-0 focus:border-zinc-400"
+                                                wire:model="form.userform.is_active" 
+                                            />
+                                            <label class="block text-sm font-medium text-black dark:text-white" for="is_active">Activate</label>
                                         </div>
                                         @error('form.userform.is_active')
                                             <em class="text-danger text-xs">{{ $message }}</em>
                                         @enderror
     
                                         <div class="flex gap-2 items-center mt-5">
-                                            <input class="border border-zinc-300 dark:border-zinc-200 bg-white font-medium text-black dark:bg-zinc-50 dark:text-meta-4 focus:ring-0 focus:border-zinc-400"
-                                            type="checkbox" wire:model="form.userform.is_admin" {{$form->userform['is_admin'] ? 'checked' : ''}} />
-                                            <label class="block text-sm font-medium text-black dark:text-white" for="nname">Set as User Admin</label>
+                                            <input 
+                                                id="is_admin"
+                                                type="checkbox" 
+                                                class="border border-zinc-300 dark:border-zinc-200 font-medium text-black dark:text-meta-4 focus:ring-0 focus:border-zinc-400"
+                                                wire:model="form.userform.is_admin"
+                                            />
+                                            <label class="block text-sm font-medium text-black dark:text-white" for="is_admin">Set as User Admin</label>
                                         </div>
                                         @error('form.userform.is_admin')
                                             <em class="text-danger text-xs">{{ $message }}</em>

@@ -1,6 +1,6 @@
 <div>
     {{-- <h4 class="text-2xl font-bold text-black dark:text-white mb-8 capitalize">About the Event</h4> --}}
-    {{-- @dump($bss_event) --}}
+    @dd($bss_event)
     <div class="flex flex-col xl:flex-row lg:flex-row md:flex-row gap-1 xl:gap-4 lg:gap-4 md:gap-4 items-start lg:items-center">
         <h1 class="text-4xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] font-bold text-slate-800 dark:text-white capitalize mb-2">
             {{ strip_tags($bss_event['title']) }}
