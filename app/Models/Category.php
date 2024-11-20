@@ -24,4 +24,19 @@ class Category extends Model
             ->saveSlugsTo('slug')
             ->doNotGenerateSlugsOnUpdate();
     }
+
+    /**
+     * Get the events for the category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function events()
+    {
+        return $this->belongsToMany( App\Models\Program_event::class,
+            'category_program_items',
+            'programCode',
+            'category_id',     
+            'programCode' 
+        );
+    }
 }

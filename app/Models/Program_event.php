@@ -78,4 +78,29 @@ class Program_event extends Model
         return $this->belongsTo(Partner::class);
     }
 
+    /**
+     * Get the categories for the event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class,
+            'category_program_items',
+            'programCode',
+            'category_id',
+            'programCode'
+        );
+    }
+
+    /**
+     * Get the registrants for the event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function registrants()
+    {
+        return $this->hasMany(Registrant::class, 'programCode', 'programCode');
+    }
+
 }
