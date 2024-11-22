@@ -123,15 +123,15 @@
                 {{-- @dump($bss_event) --}}
 
                 <div class="gap-2 mt-8 flex-col xl:flex-row lg:flex-row md:flex-row xl:flex lg:flex md:flex hidden">
-                    <a href="{{ route('event-profile.public', substr($bss_event['programCode'], 0, -1)) }}" target="_blank" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-700 duration-300 text-white py-3 px-4 rounded">
+                    <a href="{{ route('event-profile.public', substr($bss_event['programCode'], 0, -1)) }}" target="_blank" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-meta-3 hover:bg-meta-3 dark:hover:bg-meta-3 duration-300 text-white py-3 px-4 rounded">
                         Go to Landing Page
                     </a>
                     <a href="{{ route('admin.event-profile', substr($bss_event['programCode'], 0, -1)) }}" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-indigo-700 hover:bg-indigo-600 dark:hover:bg-indigo-600 duration-300 text-white py-3 px-4 rounded">
                         Check Participants
                     </a>
-                    <a href="{{ route('admin.event-profile', substr($bss_event['programCode'], 0, -1)) }}" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-orange-700 hover:bg-orange-600 dark:hover:bg-orange-600 duration-300 text-white py-3 px-4 rounded">
-                        Promos & Packages
-                    </a>
+                    @livewire('modal.program-item-promocodes', ['programCode' => $bss_event['programCode']])
+
+                    @livewire('modal.program-item-promotions', ['programCode' => $bss_event['programCode']])
                 </div>
 
             </div>
@@ -198,7 +198,10 @@
                     Check Participants
                 </a>
                 <a href="{{ route('admin.event-profile', substr($bss_event['programCode'], 0, -1)) }}" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-orange-700 hover:bg-orange-600 duration-300 text-white py-3 px-4 rounded">
-                    Promos & Packages
+                    Promo Codes
+                </a>
+                <a href="{{ route('admin.event-profile', substr($bss_event['programCode'], 0, -1)) }}" class="shadow hover:-translate-y-0.5 dark:bg-slate-700 bg-orange-700 hover:bg-orange-600 duration-300 text-white py-3 px-4 rounded">
+                    Promotion & Packages
                 </a>
             </div>
         </div>
