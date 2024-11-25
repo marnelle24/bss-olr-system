@@ -43,6 +43,7 @@ return new class extends Migration
             $table->boolean('searchable')->default(true);
             $table->boolean('publishable')->default(true);
             $table->boolean('private_only')->default(false);
+            $table->string('externalUrl')->nullable();
             $table->boolean('soft_delete')->default(false);
             $table->string('status')->nullable(); // draft, publish, for approval
             $table->timestamps();

@@ -188,6 +188,14 @@
                         </svg>
                     </div>
                 </div>
+                @if ($bss_event['externalUrl'])
+                    <p class="font-bold italic text-black dark:text-white text-sm mb-1">External URL:</p>
+                    <div class="bg-white dark:bg-slate-900/60 border border-slate-400 text-black dark:text-white p-4 rounded-lg shadow-sm mb-8">
+                        <p class="text-sm leading-relaxed text-black dark:text-white">
+                            {!! $bss_event['externalUrl'] ? $bss_event['externalUrl'] : 'N/A' !!}
+                    </p>
+                    </div>
+                @endif
             </div>
 
             <div class="gap-2 flex-col xl:hidden lg:hidden md:hidden flex">

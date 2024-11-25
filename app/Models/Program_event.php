@@ -44,6 +44,7 @@ class Program_event extends Model
         'searchable', 
         'publishable', 
         'private_only', 
+        'externalUrl', 
         'soft_delete', 
         'status'
     ];
