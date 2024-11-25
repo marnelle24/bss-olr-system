@@ -98,6 +98,7 @@
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 opacity: 0.9;
+                z-index: 99999;
             }
 
             .greenToaster {
@@ -110,6 +111,7 @@
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 opacity: 0.9;
+                z-index: 99999;
             }
         </style>
 
