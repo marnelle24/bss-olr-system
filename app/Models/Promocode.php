@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Promocode extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'programCode',
+        'promocode',
+        'startDate',
+        'endDate',
+        'price',
+        'maxUses',
+        'usedCount',
+        'isActive',
+        'createdBy'
+    ];
+
+    protected $casts = [
+        'isActive' => 'boolean',
+    ];
 }

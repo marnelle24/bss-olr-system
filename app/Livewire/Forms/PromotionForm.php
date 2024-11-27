@@ -64,7 +64,7 @@ class PromotionForm extends Form
         Promotion::create($data);
     }
 
-    public function update($programCode)
+    public function update($id)
     {
         $validatedData = $this->validate();
 

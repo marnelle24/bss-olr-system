@@ -2,22 +2,13 @@
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
         @if ($bss_events)
             @foreach ( $bss_events as $event)
-                <a href="{{ route('admin.event-profile', $event['programCode']) }}" class="relative cursor-pointer bg-white dark:bg-slate-700 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-sm shadow hover:-translate-y-0.5 duration-500">
-                    @php
-                        $thumbUrl = $event['thumb'];
-                        if (!str_starts_with($thumbUrl, 'https://www.biblesociety.sg')) {
-                            $thumbUrl = 'https://www.biblesociety.sg' . $thumbUrl;
-                        }
-                    @endphp
-                    @if (isset($event['wp_post_id']))
-                        <span class="absolute top-1 right-1 text-[10px] font-weight-lighter uppercase text-green-400 dark:text-green-300 drop-shadow-none dark:bg-green-200/30 bg-green-700/60 px-2 py-1 rounded-sm border dark:border-green-400 border-green-400">Imported</span>
-                    @endif
-                    <img src="{{ $thumbUrl }}" alt="{{ strip_tags($event['title']) }}" class="w-full h-48 object-cover">
+                <a href="{{ route('admin.event-profile', $event->programCode) }}" class="relative cursor-pointer bg-white dark:bg-slate-700 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-sm shadow hover:-translate-y-0.5 duration-500">
+                    <img src="{{ $event->thumb }}" alt="{{ strip_tags($event->title) }}" class="w-full h-56 object-cover">
                     <h1 class="text-lg font-bold text-slate-700 dark:text-white capitalize p-5 drop-shadow">
-                        {{ strip_tags($event['title']) }}
+                        {{ strip_tags($event->title) }}
                     </h1>
                     <p class="text-sm text-slate-500 dark:text-slate-300 capitalize px-5 h-20 overflow-hidden overflow-ellipsis">
-                        {{ Str::limit(strip_tags($event['description']), 100) }}
+                        {{ Str::limit(strip_tags($event->description), 100) }}
                     </p>
 
                     <div class="flex flex-col gap-1 px-5 mt-2 mb-4">
@@ -29,12 +20,12 @@
                             </div>
                             <p class="text-sm text-slate-500 dark:text-slate-300">
                                 @if (empty($event['customDate']))
-                                    {{ \Carbon\Carbon::parse($event['startDate'])->format('j M Y') }} 
-                                    @if($event['startDate'] !== $event['endDate'])
-                                        - {{ \Carbon\Carbon::parse($event['endDate'])->format('j M Y') }}
+                                    {{ \Carbon\Carbon::parse($event->startDate)->format('j M Y') }} 
+                                    @if($event->startDate !== $event->endDate)
+                                        - {{ \Carbon\Carbon::parse($event->endDate)->format('j M Y') }}
                                     @endif
                                 @else
-                                    {{strip_tags($event['customDate'])}}
+                                    {{strip_tags($event->customDate)}}
                                 @endif
                             </p>
                         </div>
@@ -46,7 +37,7 @@
                                 </svg>
                             </div>
                             <p class="text-sm text-slate-500 dark:text-slate-300">
-                                {{ strip_tags($event['venue']) }}
+                                {{ strip_tags($event->venue) }}
                             </p>
                         </div>
                         <div class="flex items-baseline">
@@ -56,7 +47,7 @@
                                 </svg>
                             </div>
                             <p class="text-sm text-slate-500 dark:text-slate-300">
-                                {{ $event['contactEmail'] }}
+                                {{ $event->contactEmail }}
                             </p>
                         </div>
                         <div class="flex items-baseline">
@@ -66,7 +57,7 @@
                                 </svg>
                             </div>
                             <p class="text-sm text-slate-500 dark:text-slate-300">
-                                {{ $event['lastId'] }} / {{ $event['limit'] < 0 ? 'unlimited' : $event['limit'] }}
+                                {{ $event->limit }} / {{ $event->limit < 0 ? 'unlimited' : $event->limit }}
                             </p>
                         </div>
                         <div class="flex items-baseline">
@@ -76,7 +67,7 @@
                                 </svg>
                             </div>
                             <p class="text-sm text-slate-500 dark:text-slate-300 uppercase font-bold">
-                                    {{ ($event['price'] === 0 || empty($event['price'])) ? 'Free' : 'SGD '. number_format($event['price'], 2) }}
+                                    {{ $event->price <= 0 ? 'Free' : 'SGD '. number_format($event->price, 2) }}
                             </p>
                         </div>
                     </div>

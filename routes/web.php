@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProgrammeItemController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,12 +27,7 @@ Route::get('/create-payment-requests', [PaymentController::class, 'createPayment
 Route::get('/success-payment/{programCode}', [PaymentController::class, 'successPayment'])->name('registration.success-payment');
 
 
-Route::get('/event/{programCode}', function ($programCode) {
-    $bss_event = App\Models\Program_event::where('programCode', $programCode)->first();
-    $bss_event['settings'] = json_decode($bss_event['settings'], true);
-    $bss_event['extraFields'] = $bss_event['settings']['extraInfo'];
-        return view('event-single', [ 'bss_event' => $bss_event ]);
-    })->name('event-profile.public');
+Route::get('/event/{programCode}', [ProgrammeItemController::class, 'eventProgramme'])->name('event-profile.public');
 
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

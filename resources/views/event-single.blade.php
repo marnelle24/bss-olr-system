@@ -1,11 +1,15 @@
 <x-guest-layout>
     <div class="lg:mt-5 max-w-6xl mx-auto lg:px-0 px-4 lg:py-10 py-3">
         <div class="rounded-xl flex lg:flex-row flex-col shadow">
-            <img src="{{ $bss_event['thumb'] }}" alt="{{ strip_tags($bss_event['title']) }}" class="lg:rounded-tl-xl rounded-tl-none lg:rounded-bl-xl rounded-bl-none w-full xl:h-[350px] h-[300px] object-cover object-center">
+            <img 
+                src="{{ $event->thumb }}" 
+                alt="{{ strip_tags($event->title) }}" 
+                class="lg:rounded-tl-xl rounded-tl-none lg:rounded-bl-xl rounded-bl-none w-full xl:h-[475px] h-[300px] object-cover object-center"
+            >
             <div class="lg:rounded-tr-xl rounded-tr-none lg:rounded-br-xl rounded-br-none p-4 w-full lg:w-1/2 flex justify-start flex-col gap-2 bg-gradient-to-r from-zinc-100 to-zinc-200">
-                <h1 class="text-4xl font-bold">{{ strip_tags($bss_event['title']) }}</h1>
+                <h1 class="text-4xl font-bold">{{ strip_tags($event['title']) }}</h1>
                 <p class="mt-4 text-sm leading-relaxed text-black ">
-                    {{ Str::words(strip_tags($bss_event['description']), 25, '...') }}
+                    {{ Str::words(strip_tags($event->description), 25, '...') }}
                 </p>
 
                 <div>
@@ -30,7 +34,7 @@
                             hover:shadow-lg 
                             transition-all 
                             duration-300"
-                            >
+                        >
                             Register Now
                         </a>
                     </div>
@@ -43,11 +47,11 @@
         <div class="flex lg:flex-row flex-col lg:gap-0 gap-10 lg:space-x-10 space-x-0 max-w-6xl mx-auto">
             <div class="w-full lg:w-2/3">
                 <div class="text-lg text-gray-500">
-                    {!! $bss_event['description'] !!}
+                    {!! $event['description'] !!}
                 </div>
 
                 @php
-                    $speakers = [3];
+                    $speakers = [3, 4, 5];
                 @endphp
                 <br />
                 <h3 class="text-2xl font-nunito font-extrabold p-4 shadow-md border border-zinc-400/20 bg-zinc-200">
@@ -82,13 +86,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                     </svg>
                     <div>
-                        @if ($bss_event['customDate'])
+                        @if ($event['customDate'])
                             <p class="lg:text-md text-xl leading-relaxed text-black">
-                                {!! $bss_event['customDate'] !!}
+                                {!! $event['customDate'] !!}
                             </p>
                         @else
-                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($bss_event['startDate'] . ' ' . $bss_event['startTime'])->format('F j, Y, g:i A') }}</p>
-                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($bss_event['endDate'] . ' ' . $bss_event['endTime'])->format('F j, Y, g:i A') }}</p>
+                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event['startDate'] . ' ' . $event['startTime'])->format('F j, Y, g:i A') }}</p>
+                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event['endDate'] . ' ' . $event['endTime'])->format('F j, Y, g:i A') }}</p>
                         @endif
                     </div>
                 </div>
@@ -101,7 +105,7 @@
     
                         <div>
                             <p class="lg:text-md text-xl text-black">
-                                {!! $bss_event['venue'] !!}
+                                {!! $event['venue'] !!}
                             </p>
                         </div>
                     </div>
@@ -122,24 +126,24 @@
                         </div>
                     </div>
                     <div>
-                        <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1">Event In-charge</p>
-                        <div class="flex">
-                            <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-5/80 border border-meta-5 rounded-full px-2 py-1">{{ $bss_event['chequeHandler'] }}</p>
-                        </div>
-                    </div>
-                    <div>
                         <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1">For inquiries, contact:</p>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block mr-1 align-text-bottom text-slate-500 dark:text-slate-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                            </svg>
+                            <p class="font-extrabold text-md py-1">{{ $event->contactPerson }}</p>
+                        </div>
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                             </svg>
-                            <p class="font-extrabold font-nunito text-sm py-1">{{ $bss_event['email'] }}</p>
+                            <p class="font-extrabold text-md py-1">{{ $event->contactEmail ? $event->contactEmail : 'registration@biblesociety.sg' }}</p>
                         </div>
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                             </svg>
-                            <p class="font-extrabold font-nunito text-sm py-1">{{ '63-871-234' }}</p>
+                            <p class="font-extrabold text-md py-1">{{ $event->contactNumber ? $event->contactNumber : '63-871-234' }}</p>
                         </div>
                     </div>
                     <div>
@@ -247,8 +251,7 @@
             </p>
             <div class="border border-slate-400/20 bg-white lg:p-12 p-6 rounded-lg shadow-lg">
                 {{-- Registration Form --}}
-                @livewire('guest.registration-form', ['eventDetails' => $bss_event])
-                @dump($bss_event)
+                @livewire('guest.registration-form', ['eventDetails' => $event])
             </div>
         </div>
     </div>

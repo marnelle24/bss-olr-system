@@ -19,4 +19,12 @@ class ProgrammeItemController extends Controller
             'bss_event' => $bss_event 
         ]);
     }
+
+    public function eventProgramme($programCode) 
+    {
+        $event = Program_event::where('programCode', $programCode)->first();
+        $event->settings = json_decode($event->settings, true);
+        
+        return view('event-single', [ 'event' => $event ]);
+    }
 }
