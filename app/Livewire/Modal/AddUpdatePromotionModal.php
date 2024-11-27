@@ -9,6 +9,7 @@ class AddUpdatePromotionModal extends Component
 {
     public PromotionForm $form;
     public $showModal = false;
+    public $buttonLabel = 'Add Promotion';
     public $programCode;
     public $promotion;
 
@@ -21,11 +22,11 @@ class AddUpdatePromotionModal extends Component
         $this->promotion = $promotion;
         $this->openModal();
         $this->form->setPromotion($promotion);
-
     }
 
     public function openModal()
     {
+        $this->form->resetForm();
         $this->showModal = true;
     }
 

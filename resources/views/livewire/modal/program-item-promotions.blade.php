@@ -22,8 +22,8 @@
 
         <!-- Modal content -->
         <div class="bg-white h-screen overflow-y-auto rounded-none shadow-lg z-10">
-            <div class="flex justify-between items-center p-6 border-b">
-                <p class="text-slate-700 mr-10 uppercase text-lg">Manage Promotions</p>
+            <div class="flex justify-between items-center p-6 border-b bg-meta-4/90">
+                <p class="text-slate-100 mr-10 uppercase text-lg">Manage Promotions</p>
                 <button wire:click="closeModal" class="text-slate-500 hover:-translate-y-1 duration-300 drop-shadow text-2xl">
                     &#10005;
                 </button>
@@ -32,7 +32,7 @@
                 <div class="flex justify-between items-center mb-4">
                     <p class="text-lg font-bold text-slate-700">Promotions</p>
                     {{-- Add Promotion Modal --}}
-                    <livewire:modal.add-update-promotion-modal :programCode="$programCode" />
+                    <livewire:modal.add-update-promotion-modal :programCode="$programCode" :buttonLabel="'Add'" />
                 </div>
                 @if(count($promotions) > 0)
                     <table class="min-w-full divide-y divide-gray-200">

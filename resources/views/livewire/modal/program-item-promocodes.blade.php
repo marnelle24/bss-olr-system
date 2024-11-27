@@ -22,8 +22,8 @@
 
         <!-- Modal content -->
         <div class="bg-white h-screen overflow-y-auto rounded-none shadow-lg z-10">
-            <div class="flex justify-between items-center p-6 border-b">
-                <p class="text-slate-700 mr-10 uppercase text-lg">Manage Promo Codes</p>
+            <div class="flex justify-between items-center p-6 border-b bg-meta-4">
+                <p class="text-slate-100 mr-10 uppercase text-lg">Manage Promo Codes</p>
                 <button wire:click="closeModal" class="text-slate-500 hover:-translate-y-1 duration-300 drop-shadow text-2xl">
                     &#10005;
                 </button>

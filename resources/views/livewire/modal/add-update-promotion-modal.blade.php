@@ -1,10 +1,11 @@
 <div>
     <button 
         wire:click="openModal"
-        class="flex gap-1 items-center text-md shadow hover:-translate-y-0.5 bg-meta-3 hover:bg-meta-6 dark:hover:bg-meta-4 duration-300 text-white py-1.5 px-3 rounded-full">
+        class="flex gap-1 items-center justify-center text-md shadow hover:-translate-y-0.5 bg-meta-3 hover:bg-meta-6 dark:hover:bg-meta-4 duration-300 text-white py-1.5 px-3 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 font-extrabold">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>Add
+        </svg>
+        {{ $buttonLabel }}
     </button>
 
     <div 
@@ -24,8 +25,8 @@
 
         <!-- Modal content -->
         <div class="bg-white h-screen overflow-y-auto rounded-none shadow-lg z-10">
-            <div class="flex justify-between items-center p-6 border-b">
-                <p class="text-slate-700 mr-10 uppercase text-lg">
+            <div class="flex justify-between items-center p-6 border-b bg-meta-4">
+                <p class="text-slate-100 mr-10 uppercase text-lg">
                     {{ $promotion ? 'Update Promotion' : 'Add Promotion' }}
                 </p>
                 <button wire:click="closeModal" class="text-slate-500 hover:-translate-y-1 duration-300 drop-shadow text-2xl">
@@ -82,6 +83,9 @@
                                 </label>
                             </div>
                         @endif
+                        <div class="flex items-center gap-2 mt-3">
+                            <p class="text-sm italic text-slate-700">Created By: {{ $promotion ? $promotion['createdBy'] : auth()->user()->firstname .' '. auth()->user()->lastname }}</p>
+                        </div>
                         <div class="flex flex-col mt-4">
                             <button type="submit" class="bg-meta-3/90 hover:bg-meta-3 border border-meta-3 shadow duration-300 hover:-translate-y-0.5 text-white py-2 px-4 text-md rounded-none">
                                 {{ $promotion ? 'Update Promotion' : 'Add Promotion' }}
