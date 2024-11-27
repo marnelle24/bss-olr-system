@@ -5,9 +5,13 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Partner;
 use App\Models\Program;
+use App\Models\Promocode;
+use App\Models\Promotion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Program_event extends Model
 {
@@ -76,7 +80,7 @@ class Program_event extends Model
      */
     public function partner(): BelongsTo
     {
-        return $this->belongsTo(Partner::class);
+        return $this->belongsTo(Partner::class, 'partner_id', 'id');
     }
 
     /**
@@ -84,7 +88,7 @@ class Program_event extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function categories()
+    public function categories() : BelongsToMany
     {
         return $this->belongsToMany(Category::class,
             'category_program_items',
@@ -99,9 +103,29 @@ class Program_event extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function registrants()
+    public function registrants() : HasMany
     {
         return $this->hasMany(Registrant::class, 'programCode', 'programCode');
+    }
+
+    /**
+     * Get the promotions for the event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function promotions() : HasMany
+    {
+        return $this->hasMany(Promotion::class, 'programCode', 'programCode');
+    }
+
+    /**
+     * Get the promocodes for the event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function promocodes() : HasMany
+    {
+        return $this->hasMany(Promocode::class, 'programCode', 'programCode');
     }
 
 }

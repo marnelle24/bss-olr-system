@@ -22,9 +22,19 @@ class ProgrammeItemController extends Controller
 
     public function eventProgramme($programCode) 
     {
-        $event = Program_event::where('programCode', $programCode)->first();
-        $event->settings = json_decode($event->settings, true);
-        
+        $event = Program_event::where('programCode', '=', $programCode)
+            ->with('promotions', function ($query) {
+                    return $query->where('startDate', '<=', now())
+                        ->where('endDate', '>=', now())
+                        ->where('isActive', true)
+                        ->orderBy('arrangement', 'asc');
+                })
+            ->with('categories', function ($query) {
+                return $query->select('name');
+            })
+            ->with('partner')
+            ->first();
+
         return view('event-single', [ 'event' => $event ]);
     }
 }

@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('programCode'); // programCode from the event, courses, etc.
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->date('startDate');
             $table->date('endDate');
             $table->decimal('price', 10, 2)->default(0);
             $table->boolean('isActive')->default(true);
+            $table->integer('arrangement')->default(1);
             $table->string('createdBy')->nullable();
             $table->timestamps();
         });

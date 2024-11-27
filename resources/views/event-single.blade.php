@@ -51,16 +51,16 @@
                 </div>
 
                 @php
-                    $speakers = [3, 4, 5];
+                    $speakers = [3];
                 @endphp
                 <br />
-                <h3 class="text-2xl font-nunito font-extrabold p-4 shadow-md border border-zinc-400/20 bg-zinc-200">
-                    @if(count($speakers) > 1) Keynote Speakers @else Keynote Speaker @endif
+                <h3 class="text-xl font-bold p-3 shadow border border-zinc-200 bg-zinc-100">
+                    @if(count($speakers) > 1) Speakers/Trainers @else Speaker/Trainer @endif
                 </h3>
-                <div class="mt-8 flex flex-wrap gap-6 justify-center xl:mx-0 mx-auto">
+                <div class="mt-8 grid {{ count($speakers) > 1 ? 'xl:grid-cols-2' : 'grid-cols-1' }} gap-6 justify-center xl:mx-0 mx-auto">
                     @foreach ($speakers as $speaker)
-                        <div class="p-4 flex lg:flex-row flex-col lg:justify-start items-center justify-center gap-5">
-                            <img src="https://picsum.photos/id/23{{$speaker}}/300/300" alt="Speaker" class="rounded-full w-48 h-48 lg:w-32 lg:h-32 object-cover">
+                        <div class="p-4 flex w-full lg:flex-row flex-col lg:justify-start xl:items-start items-center justify-center gap-5">
+                            <img src="https://picsum.photos/id/23{{$speaker}}/300/300" alt="Speaker" class="rounded-full w-32 h-32 lg:w-26 lg:h-26 object-cover">
                             <div class="flex flex-col gap-2 lg:items-start text-center lg:text-left">
                                 <h4 class="font-bold text-2xl font-nunito">Sarah Johnson {{$speaker}}</h4>
                                 <p class="font-semibold italic">Family Counselor</p>
@@ -71,14 +71,18 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="mt-8 border-t-2 border-zinc-400/20 pt-8">
-                    <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1 italic">Categories:</p>
-                    <div class="flex gap-1">
-                        <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">Family</p>
-                        <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">Children</p>
-                        <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">Faith</p>
+                @if ($event->categories->count() > 0)
+                    <div class="mt-8 border-t-2 border-zinc-400/20 pt-8">
+                        <p class="font-thin text-sm text-neutral-600 drop-shadow mb-2 italic">Categories:</p>
+                        <div class="flex gap-1">
+                            @foreach ($event->categories as $category)
+                                <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">
+                                    {{ $category->name }}
+                                </p>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
             <div class="w-full flex flex-col gap-6 lg:w-1/3">
                 <div class="flex items-start gap-1 space-x-3">
@@ -86,13 +90,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                     </svg>
                     <div>
-                        @if ($event['customDate'])
+                        @if ($event->customDate)
                             <p class="lg:text-md text-xl leading-relaxed text-black">
-                                {!! $event['customDate'] !!}
+                                {!! $event->customDate !!}
                             </p>
                         @else
-                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event['startDate'] . ' ' . $event['startTime'])->format('F j, Y, g:i A') }}</p>
-                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event['endDate'] . ' ' . $event['endTime'])->format('F j, Y, g:i A') }}</p>
+                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event->startDate . ' ' . $event->startTime)->format('F j, Y, g:i A') }}</p>
+                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event->endDate . ' ' . $event->endTime)->format('F j, Y, g:i A') }}</p>
                         @endif
                     </div>
                 </div>
@@ -105,7 +109,7 @@
     
                         <div>
                             <p class="lg:text-md text-xl text-black">
-                                {!! $event['venue'] !!}
+                                {!! $event->venue !!}
                             </p>
                         </div>
                     </div>
@@ -122,7 +126,9 @@
                     <div>
                         <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1">Organized by:</p>
                         <div class="flex">
-                            <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">D6 Family Foundation</p>
+                            <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">
+                                {{ $event->partner->name }}
+                            </p>
                         </div>
                     </div>
                     <div>
@@ -171,78 +177,32 @@
         </div>
     </div>
     <div class="border-t-2 border-slate-400/20 pt-8 bg-zinc-300/40 pb-20">
-        <div class="max-w-6xl mx-auto lg:px-0 px-4">
-            <h3 class="text-center lg:text-4xl text-3xl text-meta-4/80 font-nunito font-extrabold mt-8 mb-3">Conference Rate Packages</h3>
-            <p class="text-center lg:text-2xl text-xl text-meta-4/80 font-nunito mb-10">
-                Pick the webinar plan that's right for you. 
-                Provide an opportunity for attendees to learn from experts in a convenient and cost-effective way.
-            </p>
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Basic Package -->
-                <div class="bg-white flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
-                    <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4">Individual Package</h3>
-                    <p class="text-meta-4 font-thin mb-4">Perfect for individuals</p>
-                    <p class="text-4xl font-extrabold font-nunito mb-6">SG$99</p>
-                    <ul class="mb-6 flex-grow">
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Conference access
-                        </li>
-                    </ul>
-                    <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300 mt-auto">Select Plan</button>
-                </div>
-
-                <!-- Group Package -->
-                <div class="bg-white flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
-                    <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4">Group Package</h3>
-                    <p class="text-meta-4 font-thin mb-4">Great for small groups</p>
-                    <p class="text-4xl font-extrabold font-nunito mb-6">SG$199</p>
-                    <ul class="mb-6">
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Conference access
-                        </li>
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            4 +1 group registration
-                        </li>
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            20% Discount from Individual Package
-                        </li>
-                    </ul>
-                    <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300 mt-auto">Select Plan</button>
-                </div>
-
-                <!-- Premium Package -->
-                <div class="bg-white flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
-                    <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4">Premium Package</h3>
-                    <p class="text-meta-4 font-thin mb-4">Best for organizations</p>
-                    <p class="text-4xl font-extrabold font-nunito mb-6">SG$299</p>
-                    <ul class="mb-6">
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            VIP conference access
-                        </li>
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Comprehensive materials
-                        </li>
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Exclusive workshops
-                        </li>
-                        <li class="flex items-center mb-2">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            1-on-1 consultation
-                        </li>
-                    </ul>
-                    <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300 mt-auto">Select Plan</button>
+        @if ($event->promotions->count() > 0)
+            <div class="max-w-6xl mx-auto lg:px-0 px-4 pb-16">
+                <h3 class="text-center lg:text-4xl text-3xl text-meta-4/80 font-nunito font-extrabold mt-8 mb-3">Conference Rate Packages</h3>
+                <p class="text-center lg:text-2xl text-xl text-meta-4/80 font-nunito mb-10">
+                    Pick the webinar plan that's right for you. 
+                    Provide an opportunity for attendees to learn from experts in a convenient and cost-effective way.
+                </p>
+            
+                <div class="{{ $event->promotions->count() < 4 ? 'flex' : 'grid lg:grid-cols-4 grid-cols-1' }} gap-8 justify-center items-center">
+                    @foreach ($event->promotions as $promotion)
+                        <div class="bg-white {{ $event->promotions->count() < 4 ? 'w-1/3' : '' }} flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
+                            <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4 leading-tight">{{ $promotion->title }}</h3>
+                            <p class="text-meta-4 font-thin mb-4 capitalize leading-tight">{{ $promotion->description }}</p>
+                            <br />
+                            <br />
+                            <div class="flex flex-col justify-center items-center mt-auto"> 
+                                <p class="text-3xl font-bold font-nunito mb-6">{{ 'SG$'.number_format($promotion->price, 2) }}</p>
+                                <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300">Select Plan</button>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
+        @endif
 
-        <div id="registration-form" class="pt-16 pb-8 max-w-5xl mx-auto lg:px-0 px-4">
+        <div id="registration-form" class="pb-8 max-w-5xl mx-auto lg:px-0 px-4">
             <h3 class="text-center text-4xl text-meta-4/80 font-nunito font-extrabold my-8">Start your registration now!</h3>
             <p class="text-center text-2xl text-meta-4/80 font-nunito my-8">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.

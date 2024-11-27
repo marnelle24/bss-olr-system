@@ -7,7 +7,7 @@ use App\Models\Program_event;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -58,10 +58,10 @@ class Partner extends Model
     /**
      * Get all of the program_events for the Partner
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function events(): HasMany
+    public function events(): BelongsTo
     {
-        return $this->hasMany(Program_event::class);
+        return $this->belongsTo(Program_event::class);
     }
 }
