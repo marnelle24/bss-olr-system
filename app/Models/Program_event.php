@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Partner;
 use App\Models\Program;
+use App\Models\Speaker;
+use App\Models\Trainer;
 use App\Models\Promocode;
 use App\Models\Promotion;
 use Illuminate\Database\Eloquent\Model;
@@ -95,6 +97,36 @@ class Program_event extends Model
             'programCode',
             'category_id',
             'programCode'
+        );
+    }
+
+    /**
+     * Get the speakers for the event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function speakers(): BelongsToMany
+    {
+        return $this->belongsToMany(Speaker::class,
+            'speaker_program_items',
+            'programCode',
+            'speaker_id',
+            'programCode'
+        );
+    }
+    
+    /**
+     * Get the trainers for the event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function trainers(): BelongsToMany
+    {
+        return $this->belongsToMany(Trainer::class,
+            'trainer_program_items',
+            'programCode',
+            'trainer_id',     
+            'programCode' 
         );
     }
 

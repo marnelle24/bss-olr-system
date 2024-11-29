@@ -32,6 +32,8 @@ class ProgrammeItemController extends Controller
             ->with('categories', function ($query) {
                 return $query->select('name');
             })
+            ->with('speakers')
+            ->with('trainers')
             ->with('partner')
             ->first();
 

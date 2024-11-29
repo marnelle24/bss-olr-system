@@ -7,7 +7,7 @@
                 class="lg:rounded-tl-xl rounded-tl-none lg:rounded-bl-xl rounded-bl-none w-full xl:h-[475px] h-[300px] object-cover object-center"
             >
             <div class="lg:rounded-tr-xl rounded-tr-none lg:rounded-br-xl rounded-br-none p-4 w-full lg:w-1/2 flex justify-start flex-col gap-2 bg-gradient-to-r from-zinc-100 to-zinc-200">
-                <h1 class="text-4xl font-bold">{{ strip_tags($event['title']) }}</h1>
+                <h1 class="text-4xl font-bold">{{ strip_tags($event->title) }}</h1>
                 <p class="mt-4 text-sm leading-relaxed text-black ">
                     {{ Str::words(strip_tags($event->description), 25, '...') }}
                 </p>
@@ -47,30 +47,9 @@
         <div class="flex lg:flex-row flex-col lg:gap-0 gap-10 lg:space-x-10 space-x-0 max-w-6xl mx-auto">
             <div class="w-full lg:w-2/3">
                 <div class="text-lg text-gray-500">
-                    {!! $event['description'] !!}
+                    {!! $event->description !!}
                 </div>
 
-                @php
-                    $speakers = [3];
-                @endphp
-                <br />
-                <h3 class="text-xl font-bold p-3 shadow border border-zinc-200 bg-zinc-100">
-                    @if(count($speakers) > 1) Speakers/Trainers @else Speaker/Trainer @endif
-                </h3>
-                <div class="mt-8 grid {{ count($speakers) > 1 ? 'xl:grid-cols-2' : 'grid-cols-1' }} gap-6 justify-center xl:mx-0 mx-auto">
-                    @foreach ($speakers as $speaker)
-                        <div class="p-4 flex w-full lg:flex-row flex-col lg:justify-start xl:items-start items-center justify-center gap-5">
-                            <img src="https://picsum.photos/id/23{{$speaker}}/300/300" alt="Speaker" class="rounded-full w-32 h-32 lg:w-26 lg:h-26 object-cover">
-                            <div class="flex flex-col gap-2 lg:items-start text-center lg:text-left">
-                                <h4 class="font-bold text-2xl font-nunito">Sarah Johnson {{$speaker}}</h4>
-                                <p class="font-semibold italic">Family Counselor</p>
-                                <p class="text-gray-600 text-md">
-                                    Sarah is a renowned family counselor with over 15 years of experience helping families strengthen their bonds and overcome challenges.
-                                </p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
                 @if ($event->categories->count() > 0)
                     <div class="mt-8 border-t-2 border-zinc-400/20 pt-8">
                         <p class="font-thin text-sm text-neutral-600 drop-shadow mb-2 italic">Categories:</p>
@@ -176,6 +155,67 @@
             </div>
         </div>
     </div>
+    @php
+        $speakerTrainer = [];
+        if ($event->speakers->count() > 0) 
+        {
+            foreach ($event->speakers as $speaker) 
+            {
+                $speakerTrainer[] = $speaker;
+                $speaker['type'] = 'speaker';
+            }
+        }
+        if ($event->trainers->count() > 0) 
+        {
+            foreach ($event->trainers as $trainer) 
+            {
+                $speakerTrainer[] = $trainer;
+                $trainer['type'] = 'trainer';
+            }
+        }
+    @endphp
+    @if (count($speakerTrainer) > 0)
+        <div class=" border-slate-400/20 pt-5 bg-zinc-100/50 pb-20">
+            <div class="max-w-6xl mx-auto lg:px-0 px-4 pb-16">
+                <h3 class="text-center lg:text-4xl text-3xl text-meta-4/80 font-nunito font-extrabold mt-8">
+
+                    @if ($event->speakers->count() === 1)
+                        Speaker
+                    @elseif ($event->speakers->count() > 1)
+                        Speakers
+                    @endif
+
+                    @if ($event->speakers->count() > 0)
+                        & 
+                    @endif
+
+                    @if ($event->trainers->count() === 1)
+                        Trainer
+                    @elseif ($event->trainers->count() > 1)
+                        Trainers
+                    @endif
+                </h3>
+                
+                <div class="mt-10 grid {{ count($speakerTrainer) > 1 ? 'xl:grid-cols-2' : 'grid-cols-1' }} gap-6 justify-center xl:mx-0 mx-auto">
+                    @foreach ($speakerTrainer as $speaker)
+                        <div class="p-4 flex w-full lg:flex-row flex-col lg:justify-start xl:items-start items-center justify-center gap-5">
+                            <div class="flex w-1/2 flex-col items-center justify-center gap-3">
+                                <img src="{{$speaker->thumbnail}}" alt="Speaker" class="rounded-full w-32 h-32 lg:w-26 lg:h-26 object-cover">
+                                <p class="text-xs border border-meta-4/10 text-meta-4/80 bg-meta-4/10 rounded-full px-3 py-0.5 font-extrabold capitalize italic">{{ $speaker['type'] }}</p>
+                            </div>
+                            <div class="flex flex-col gap-2 lg:items-start text-center lg:text-left">
+                                <h4 class="font-bold text-2xl font-nunito">{{ $speaker->name }}</h4>
+                                <p class="font-thin italic">{{ $speaker->profession }}</p>
+                                <p class="text-gray-600 text-md">
+                                    {!! $speaker->about !!}
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="border-t-2 border-slate-400/20 pt-8 bg-zinc-300/40 pb-20">
         @if ($event->promotions->count() > 0)
             <div class="max-w-6xl mx-auto lg:px-0 px-4 pb-16">
