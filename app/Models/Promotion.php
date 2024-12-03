@@ -19,6 +19,7 @@ class Promotion extends Model
         'price', 
         'isActive', 
         'arrangement',
+        'counter',
         'createdBy'
     ];
 
@@ -31,7 +32,7 @@ class Promotion extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function programItems(): BelongsTo
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Program_event::class, 'programCode', 'programCode');
     }

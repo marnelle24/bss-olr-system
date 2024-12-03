@@ -4,7 +4,7 @@
             <img 
                 src="{{ $event->thumb }}" 
                 alt="{{ strip_tags($event->title) }}" 
-                class="lg:rounded-tl-xl rounded-tl-none lg:rounded-bl-xl rounded-bl-none w-full xl:h-[475px] h-[300px] object-cover object-center"
+                class="lg:rounded-tl-xl rounded-tl-none lg:rounded-bl-xl rounded-bl-none w-full xl:h-[475px] lg:h-[500px] h-[200px] object-cover object-center"
             >
             <div class="lg:rounded-tr-xl rounded-tr-none lg:rounded-br-xl rounded-br-none p-4 w-full lg:w-1/2 flex justify-start flex-col gap-2 bg-gradient-to-r from-zinc-100 to-zinc-200">
                 <h1 class="text-4xl font-bold">{{ strip_tags($event->title) }}</h1>
@@ -224,19 +224,15 @@
                     Pick the webinar plan that's right for you. 
                     Provide an opportunity for attendees to learn from experts in a convenient and cost-effective way.
                 </p>
-            
-                <div class="{{ $event->promotions->count() < 4 ? 'flex' : 'grid lg:grid-cols-4 grid-cols-1' }} gap-8 justify-center items-center">
-                    @foreach ($event->promotions as $promotion)
-                        <div class="bg-white {{ $event->promotions->count() < 4 ? 'w-1/3' : '' }} flex flex-col p-6 rounded-lg shadow-md border-2 border-slate-400/50 hover:-translate-y-1 duration-300 h-full">
-                            <h3 class="text-2xl text-meta-4 font-bold font-nunito mb-4 leading-tight">{{ $promotion->title }}</h3>
-                            <p class="text-meta-4 font-thin mb-4 capitalize leading-tight">{{ $promotion->description }}</p>
-                            <br />
-                            <br />
-                            <div class="flex flex-col justify-center items-center mt-auto"> 
-                                <p class="text-3xl font-bold font-nunito mb-6">{{ 'SG$'.number_format($promotion->price, 2) }}</p>
-                                <button class="uppercase drop-shadow w-full font-nunito font-bold bg-gradient-to-l from-teal-600 via-teal-500 to-teal-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white py-3 rounded-none hover:bg-meta-3 shadow hover:-translate-y-0.5 duration-300">Select Plan</button>
-                            </div>
-                        </div>
+               
+                <div class="{{ $event->promotions->count() < 4 ? 'flex xl:flex-row flex-col' : 'grid lg:grid-cols-4 grid-cols-1' }} gap-8 justify-center items-center">
+                    @foreach ($event->promotions as $key => $promotion)
+                        @livewire('promotion-card', [
+                            'promotion' => $promotion, 
+                            'totalPromotions' => $event->promotions->count(), 
+                            'label' => 'Register Now',
+                            'programType' => $programType
+                        ], key($key))
                     @endforeach
                 </div>
             </div>
@@ -251,7 +247,7 @@
             </p>
             <div class="border border-slate-400/20 bg-white lg:p-12 p-6 rounded-lg shadow-lg">
                 {{-- Registration Form --}}
-                @livewire('guest.registration-form', ['eventDetails' => $event])
+                {{-- @livewire('guest.registration-form', ['eventDetails' => $event]) --}}
             </div>
         </div>
     </div>
@@ -264,4 +260,7 @@
             </p>
         </div>
     </div>
+
+    @livewire('modal.registration-form')
+
 </x-guest-layout>

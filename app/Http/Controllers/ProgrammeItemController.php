@@ -37,6 +37,9 @@ class ProgrammeItemController extends Controller
             ->with('partner')
             ->first();
 
-        return view('event-single', [ 'event' => $event ]);
+        return view('event-single', [ 
+            'event' => $event, 
+            'programType' => request()->segment(1)
+        ]);
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->default(0);
             $table->boolean('isActive')->default(true);
             $table->integer('arrangement')->default(1);
+            $table->integer('counter')->default(0);
             $table->string('createdBy')->nullable();
             $table->timestamps();
         });
