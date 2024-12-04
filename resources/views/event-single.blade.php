@@ -235,6 +235,7 @@
                         ], key($key))
                     @endforeach
                 </div>
+                @livewire('modal.registration-form-modal')
             </div>
         @endif
 
@@ -260,7 +261,4 @@
             </p>
         </div>
     </div>
-
-    @livewire('modal.registration-form')
-
 </x-guest-layout>

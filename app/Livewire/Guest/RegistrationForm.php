@@ -10,6 +10,7 @@ class RegistrationForm extends Component
 {
     public RegForm $form;
     public $eventDetails; // props
+    public $promotion;    // props
 
     // form settings including the custom settings of each field
     public $formSettings;
@@ -21,23 +22,32 @@ class RegistrationForm extends Component
     public $promoCode = null;
     public $discount = 0;
 
+    public $step = 1;
+    public $totalSteps = 3;
+    
+    // Next Step
+    public function nextStep()
+    {
+        if($this->step < $this->totalSteps)
+            $this->step++;
+    }
+
+    // Previous Step
+    public function prevStep()
+    {
+        if($this->step > 1)
+            $this->step--;
+    }
+
     public function mount()
     {
+
+        $this->requiredFields = $this->getRequiredFields($this->eventDetails['settings']);
+        $this->hiddenFields = $this->getHiddenFields($this->eventDetails['settings']);
+
         $this->form->programmeType = request()->segment(1);
         $this->formSettings = $this->eventDetails['settings'];
-        $this->isInternational = isset($this->formSettings['internationalEvents']) && $this->formSettings['internationalEvents'] ? true : false;
-        $this->requiredFields = [ 
-            'nric',
-            'title',
-            'firstName',
-            'lastName',
-            'email',
-            'contactNumber',
-            'address',
-            'city',
-            'postalCode'
-        ];
-        $this->hiddenFields = [];
+        $this->isInternational = !isset($this->eventDetails['internationalEvents']) ? true : false;
 
         // populate the starter registration fields when there is Auth detected
         // Otherwise, set the default fields to null
@@ -48,6 +58,20 @@ class RegistrationForm extends Component
             $this->form->email = auth()->user()->email;
         }
 
+    }
+
+    // Get the required fields from the event settings
+    private function getRequiredFields($eventSettings)
+    {
+        $setttings = json_decode($eventSettings, true);
+        return isset($setttings['addRequired']) ? $setttings['addRequired'] : [];
+    }
+
+    // Get the hidden fields from the event settings
+    private function getHiddenFields($eventSettings)
+    {
+        $setttings = json_decode($eventSettings, true);
+        return isset($setttings['addHidden']) ? $setttings['addHidden'] : [];
     }
 
 
@@ -149,7 +173,7 @@ class RegistrationForm extends Component
             $output .= '<div class="w-full">';
                 $output .= '<label class="capitalize mb-2.5 block font-medium text-black">Contact Number</label>';
                 $output .= '<div class="flex gap-1">';
-                    $output .= '<select wire:model.blur="form.countryCode" class="w-1/4 rounded-l-none border-r-0 border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none">';
+                    $output .= '<select wire:model.blur="form.countryCode" class="w-1/3 rounded-l-none border-r-0 border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none">';
                         $output .= '<option value="+65" data-flag="🇸🇬" selected>🇸🇬 +65</option>';
                         $output .= '<option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>';
                         $output .= '<option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>';
@@ -158,7 +182,7 @@ class RegistrationForm extends Component
                         $output .= '<option value="+81" data-flag="🇯🇵">🇯🇵 +81</option>';
                     // Add more country codes as needed
                     $output .= '</select>';
-                    $output .= '<input wire:model.blur="form.contactNumber" type="tel" name="contactNumber" placeholder="Contact Number" class="w-3/4 rounded-r-none border-l-0 border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" />';
+                    $output .= '<input wire:model.blur="form.contactNumber" type="tel" name="contactNumber" placeholder="Contact Number" class="w-full rounded-r-none border-l-0 border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" />';
                 $output .= '</div>';
             $output .= '</div>';
         } 
@@ -167,7 +191,7 @@ class RegistrationForm extends Component
             //  Singapore normal contact number input field
             $output .= '<div class="w-full mb-4">';
                 $output .= '<label class="capitalize mb-2.5 block font-medium text-black">Contact Number</label>';
-                $output .= '<input wire:model.blur="form.contactNumber" type="tel" name="contactNumber" placeholder="Contact Number" class="w-full rounded-none border border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" />';
+                $output .= '<input wire:model.blur="form.contactNumber" type="tel" name="contactNumber" placeholder="Contact Number" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" />';
             $output .= '</div>';
         }
 

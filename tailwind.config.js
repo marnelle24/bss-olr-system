@@ -217,7 +217,7 @@ export default {
             content: {
                 'icon-copy': 'url("../images/icon/icon-copy-alt.svg")',
             },
-            transitionProperty: { width: 'width', stroke: 'stroke' },
+            transitionProperty: { width: 'width', stroke: 'stroke', transform: 'transform' },
             borderWidth: {
                 6: '6px',
             },

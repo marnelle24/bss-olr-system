@@ -23,10 +23,9 @@
                     &#10005;
                 </button>
             </div>
-            <div class="p-6 overflow-auto">
-                {{-- <p class="text-md tracking-wide font-semibold text-slate-600 uppercase mb-2">Registration Details</p> --}}
+            <div class="p-8">
                 @if($programItem)
-                    <livewire:guest.registration-form :eventDetails="$programItem" />
+                    <livewire:guest.registration-form :eventDetails="$programItem" :promotion="$getPromotion" key="registration-form-modal{{rand(1, 100)}}" />
                 @endif
             </div>
         </div>

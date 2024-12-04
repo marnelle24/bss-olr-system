@@ -35,11 +35,13 @@ class RegForm extends Form
         $this->requiredFields = $requiredFields;
     }
 
+    // Get the custom fields from the component & passed in the RegForm object for validation values
     public function setCustomFields($customFields)
     {
         $this->customFields = $customFields;
     }
 
+    // Get the hidden fields from the component & passed in the RegForm object for validation values
     public function setHiddenFields($hiddenFields)
     {
         $this->hiddenFields = $hiddenFields;
@@ -87,9 +89,6 @@ class RegForm extends Form
         }
         // handle error registration
         return back()->withErrors(['msg' => 'Registration Failed. Contact Administrator.']);
-
-
-
     }
 
 

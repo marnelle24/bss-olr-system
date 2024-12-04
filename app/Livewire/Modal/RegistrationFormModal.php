@@ -4,9 +4,9 @@ namespace App\Livewire\Modal;
 
 use Livewire\Component;
 
-class RegistrationForm extends Component
+class RegistrationFormModal extends Component
 {
-    public $promotion;
+    public $getPromotion;
     public $programItem = [];
     public $showModal = false;
 
@@ -14,9 +14,9 @@ class RegistrationForm extends Component
 
     public function openModal($promotion, $programType)
     {
-        $this->promotion = $promotion;
+        $this->getPromotion = $promotion;
         $model = 'App\Models\Program_' . $programType;
-        $this->programItem = $model::where('programCode', $this->promotion['programCode'])->first();
+        $this->programItem = $model::where('programCode', $this->getPromotion['programCode'])->first();
         // dump($this->programItem);
 
         $this->showModal = true;
@@ -24,11 +24,12 @@ class RegistrationForm extends Component
 
     public function closeModal()
     {
+        $this->getPromotion = null;
         $this->showModal = false;
     }
 
     public function render()
     {
-        return view('livewire.modal.registration-form');
+        return view('livewire.modal.registration-form-modal');
     }
 }
