@@ -9,7 +9,7 @@
         x-transition:leave="transition ease-in-out duration-300" 
         x-transition:leave-start="opacity-100" 
         x-transition:leave-end="opacity-0" 
-        class="absolute inset-0 z-[99999] flex items-start justify-center"
+        class="fixed inset-0 z-[99999] flex items-start justify-center"
         style="display: none;"
     >
         <!-- Modal background -->
@@ -23,7 +23,7 @@
                     &#10005;
                 </button>
             </div>
-            <div class="p-8">
+            <div class="px-8 pb-8 pt-4 overflow-y-auto max-h-[calc(100vh-10rem)]">
                 @if($programItem)
                     <livewire:guest.registration-form :eventDetails="$programItem" :promotion="$getPromotion" key="registration-form-modal{{rand(1, 100)}}" />
                 @endif

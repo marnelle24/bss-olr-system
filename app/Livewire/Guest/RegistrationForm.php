@@ -17,14 +17,22 @@ class RegistrationForm extends Component
     public $isInternational = false;
     public $requiredFields = [];
     public $hiddenFields = [];
+    public $extraFields = [];
+
     public $extraFieldsValues = [];
 
     public $promoCode = null;
     public $discount = 0;
 
     public $step = 1;
-    public $totalSteps = 3;
+    public $totalSteps = 4;
     
+    // Change Step
+    public function changeStep($step)
+    {
+        $this->step = $step;
+    }
+
     // Next Step
     public function nextStep()
     {
@@ -41,13 +49,13 @@ class RegistrationForm extends Component
 
     public function mount()
     {
-
         $this->requiredFields = $this->getRequiredFields($this->eventDetails['settings']);
         $this->hiddenFields = $this->getHiddenFields($this->eventDetails['settings']);
-
-        $this->form->programmeType = request()->segment(1);
-        $this->formSettings = $this->eventDetails['settings'];
-        $this->isInternational = !isset($this->eventDetails['internationalEvents']) ? true : false;
+        $this->extraFields = $this->getCustomFields($this->eventDetails->extraFields);
+        $this->isInternational = isset($this->eventDetails['settings']['internationalEvent']) && $this->eventDetails['settings']['internationalEvent'] ? true : false;
+        
+        // $this->form->programmeType = request()->segment(1);
+        // $this->formSettings = $this->eventDetails['settings'];
 
         // populate the starter registration fields when there is Auth detected
         // Otherwise, set the default fields to null
@@ -74,29 +82,86 @@ class RegistrationForm extends Component
         return isset($setttings['addHidden']) ? $setttings['addHidden'] : [];
     }
 
+    // Get the custom fields from the event settings
+    private function getCustomFields($extraFields)
+    {
+        // if there are no extra fields, return empty array
+        if(empty($extraFields))
+            return [];
+
+        // decode the extra fields from JSON String to Array
+        $xf = json_decode($extraFields, true);
+
+        // sort the extra fields based on the order
+        usort($xf, function($a, $b) {
+            return $a['order'] <=> $b['order'];
+        });
+
+        return $xf;
+    }
+
 
     public function submit()
     {
-        // Set the required fields in the RegForm object for validation
-        $this->form->setRequiredFields($this->requiredFields);
-        
-        // set the hidden fields based on user define settings
-        $this->form->setHiddenFields($this->hiddenFields);
+        // Add validation rules
+        // $this->validate([
+        //     'form.firstName' => 'required',
+        //     'form.lastName' => 'required',
+        //     'form.email' => 'required|email',
+        //     'form.contactNumber' => 'required',
+        //     // Add other required fields validation
+        // ]);
 
-        // convert the extrafields into JSON String ready to save in DB
-        $this->form->customFieldJsonValues = $this->convertExtraFieldsToJSON($this->extraFieldsValues);
+        try {
+            // Debug the form data
+            logger()->info('Form Submission Data:', [
+                'form_data' => $this->form,
+                'extra_fields' => $this->extraFieldsValues,
+                'promo_code' => $this->promoCode,
+                'discount' => $this->discount,
+                'event_details' => $this->eventDetails
+            ]);
 
-        // get the promo code inpuuted if any
-        $this->form->appliedPromoCode = $this->promoCode;
+            // Set the required fields in the RegForm object for validation
+            // $this->form->setRequiredFields($this->requiredFields);
+            
+            // Set the hidden fields based on user define settings
+            // $this->form->setHiddenFields($this->hiddenFields);
 
-        // get the equivalent amount value of the promo code
-        $this->form->discountValue = $this->discount;
+            // Convert the extrafields into JSON String ready to save in DB
+            // $this->form->customFieldJsonValues = $this->convertExtraFieldsToJSON($this->extraFieldsValues);
 
-        // get the net amount - final amount for checkout
-        $this->form->netAmount = $this->eventDetails['price'] - $this->discount;
+            // Get the promo code inputted if any
+            // $this->form->appliedPromoCode = $this->promoCode;
 
-        // store the registration and data in the DB and procced to payment portal (hitpay)
-        $this->form->store( $this->eventDetails);
+            // Get the equivalent amount value of the promo code
+            // $this->form->discountValue = $this->discount;
+
+            // Get the net amount - final amount for checkout
+            // $this->form->netAmount = $this->eventDetails['price'] - $this->discount;
+
+            // Store the registration and data in the DB and proceed to payment portal (hitpay)
+            $result = $this->form->store($this->eventDetails);
+
+            // Emit an event for successful submission
+            // $this->dispatch('formSubmitted', [
+            //     'message' => 'Registration submitted successfully!'
+            // ]);
+
+            // Redirect to payment or success page
+            // return redirect()->to('/payment/' . $result->id);
+
+        } catch (\Exception $e) {
+            logger()->error('Registration Form Error:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Emit an event for failed submission
+            $this->dispatch('formError', [
+                'message' => 'There was an error submitting your registration. Please try again.'
+            ]);
+        }
     }
 
     public function validatePromoCode()
@@ -121,36 +186,99 @@ class RegistrationForm extends Component
         return json_encode($extraFields);
     }
 
-    //  Apply only when there are extraInfo JSON in the $formSettings - Convert custom input fields to HTML
-    public function inputField($key, $textFieldDetails)
+    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom input fields to HTML
+    public function inputField($inputKey, $textFieldDetails)
     {
-        $fieldName = preg_replace('/[^a-zA-Z0-9]/', '', $textFieldDetails['label']);
         $placeholder = isset($textFieldDetails['placeholder']) && $textFieldDetails['placeholder'] ? $textFieldDetails['placeholder'] : $textFieldDetails['label'];
-        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? '' : '';
-        $type = $textFieldDetails['type'] ?? 'text';
+        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? 'required' : '';
+        $type = $textFieldDetails['type'];
 
         $output = '';
         $output .='<div class="w-full">';
             $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails['label'].'</label>';
-            $output .= '<input type="'.$type.'" wire:model.blur="extraFieldsValues.'.$key.'" placeholder="'.$placeholder.'" class="w-full rounded-none border border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' />';
+            $output .= '<input type="'.$type.'" wire:model.blur="extraFieldsValues.'.$inputKey.'" placeholder="'.$placeholder.'" class="w-full rounded-none border border-dark bg-white p-2focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' />';
         $output .= '</div>';
 
         return $output;
     }
 
-    //  Apply only when there are extraInfo JSON in the $formSettings - Convert custom select fields to HTML
-    public function selectOptionField($key, $textFieldDetails)
+    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom radio fields to HTML
+    public function radioField($inputKey, $textFieldDetails)
     {
-        $fieldName = preg_replace('/[^a-zA-Z0-9]/', '', $textFieldDetails['label']);
-        $placeholder = $textFieldDetails['placeholder'] ?? $textFieldDetails['label'];
-        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? '' : '';
+        $placeholder = isset($textFieldDetails['placeholder']) && $textFieldDetails['placeholder'] ? $textFieldDetails['placeholder'] : $textFieldDetails['label'];
+        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? 'required' : '';
+        $type = $textFieldDetails['type'];
 
         $output = '';
         $output .='<div class="w-full">';
             $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails['label'].'</label>';
-            $output .= '<select wire:model.blur="extraFieldsValues.'.$fieldName.'" class="w-full rounded-none border border-dark bg-white py-4 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' >';
+            foreach($textFieldDetails['options'] as $key => $optionValue)
+            {
+                $output .= '<div class="flex items-center gap-2 mb-1">';
+                    $output .= '<input class="appearance-none focus:outline-none focus:ring-0" type="'.$type.'" wire:model.blur="extraFieldsValues.'.$inputKey.'" value="'.$key.'" '.$required.' />';
+                    $output .= '<label class="capitalize block font-medium text-black">'.$optionValue.'</label>';
+                $output .= '</div>';
+            }
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom checkbox fields to HTML
+    public function checkboxField($inputKey, $textFieldDetails)
+    {
+        $placeholder = isset($textFieldDetails['placeholder']) && $textFieldDetails['placeholder'] ? $textFieldDetails['placeholder'] : $textFieldDetails['label'];
+        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? 'required' : '';
+        $type = $textFieldDetails['type'];
+
+        $idx = 0;
+
+        $output = '';
+        $output .='<div class="w-full">';
+            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails['label'].'</label>';
+            
+            foreach($textFieldDetails['options'] as $key => $optionValue)
+            {
+                $output .= '<div class="flex items-center gap-2 mb-1">';
+                    $output .= '<input class="appearance-none focus:outline-none focus:ring-0" type="'.$type.'" wire:model.blur="extraFieldsValues.'.$inputKey.$idx.'" value="'.$key.'" id="'.$inputKey.'-'.$idx.'" '.$required.' />';
+                    $output .= '<label class="capitalize block font-medium text-black">'.$optionValue.'</label>';
+                $output .= '</div>';
+                $idx++;
+            }
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom textarea fields to HTML
+    public function textareaField($key, $textFieldDetails)
+    {
+        $placeholder = isset($textFieldDetails['placeholder']) && $textFieldDetails['placeholder'] ? $textFieldDetails['placeholder'] : $textFieldDetails['label'];
+        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? 'required' : '';
+        $type = $textFieldDetails['type'];
+
+        $output = '';
+        $output .='<div class="w-full">';
+            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails['label'].'</label>';
+            $output .= '<textarea rows="4" wire:model.blur="extraFieldsValues.'.$key.'" placeholder="'.$placeholder.'" class="w-full rounded-none border border-dark bg-white p-2focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' ></textarea>';
+        $output .= '</div>';
+
+        return $output;
+    }   
+
+    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom select fields to HTML
+    public function selectOptionField($key, $textFieldDetails)
+    {
+        // Create dynamic wire:model binding using the extraFieldsValues array
+        $placeholder = $textFieldDetails['placeholder'] ?? $textFieldDetails['label'];
+        $required = isset($textFieldDetails['required']) && $textFieldDetails['required'] ? 'required' : '';
+
+        $output = '';
+        $output .='<div class="w-full">';
+            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails['label'].'</label>';
+            $output .= '<select wire:model="extraFieldsValues.'.$key.'" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' >';
                 $output .= '<option value="">Select '.$textFieldDetails['label'].'</option>';
-                foreach($textFieldDetails['option'] as $optionKey => $optionValue) 
+                foreach($textFieldDetails['options'] as $optionKey => $optionValue) 
                 {
                     $output .= '<option value="'.$optionKey.'">'.$optionValue.'</option>';
                 }

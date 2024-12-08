@@ -50,7 +50,9 @@ class RegForm extends Form
     public function store( $event_details )
     {
         // Validate the form data
-        $validatedData = $this->validate();
+        // $validatedData = $this->validate();
+        
+        dd($this->all());
         
         // assign user to this registration
         $validatedData['user_id'] = Auth::check() ? auth()->user()->id : NULL;
@@ -91,20 +93,19 @@ class RegForm extends Form
         return back()->withErrors(['msg' => 'Registration Failed. Contact Administrator.']);
     }
 
-
     //  Rules for the form fields
     protected function rules()
     {
         $rules = [
             'nric'          => in_array('nric', $this->hiddenFields) ? '' : (in_array('nric', $this->requiredFields) ? 'required' : ''),
             'title'         => in_array('title', $this->hiddenFields) ? '' : (in_array('title', $this->requiredFields) ? 'required' : ''),
-            'firstName'     => in_array('firstName', $this->hiddenFields) ? '' : (in_array('firstName', $this->requiredFields) ? 'required|min:3|max:255|string' : 'min:3|max:255|string'),
-            'lastName'      => in_array('lastName', $this->hiddenFields) ? '' : (in_array('lastName', $this->requiredFields) ? 'required|min:3|max:255|string' : 'min:3|max:255|string'),
+            'firstName'     => in_array('firstName', $this->hiddenFields) ? '' : (in_array('firstName', $this->requiredFields) ? 'required|min:3|max:255' : 'min:3|max:255|string'),
+            'lastName'      => in_array('lastName', $this->hiddenFields) ? '' : (in_array('lastName', $this->requiredFields) ? 'required|min:3|max:255' : 'min:3|max:255|string'),
             'email'         => in_array('email', $this->hiddenFields) ? '' : (in_array('email', $this->requiredFields) ? 'required|email' : 'email'),
-            'contactNumber' => in_array('contactNumber', $this->hiddenFields) ? '' : (in_array('contactNumber', $this->requiredFields) ? 'required|string' : 'string'),
-            'address'       => in_array('address', $this->hiddenFields) ? '' : (in_array('address', $this->requiredFields) ? 'required|string' : 'string'),
-            'city'          => in_array('city', $this->hiddenFields) ? '' : (in_array('city', $this->requiredFields) ? 'required|string' : 'string'),
-            'postalCode'    => in_array('postalCode', $this->hiddenFields) ? '' : (in_array('postalCode', $this->requiredFields) ? 'required|string' : 'string'),
+            'contactNumber' => in_array('contactNumber', $this->hiddenFields) ? '' : (in_array('contactNumber', $this->requiredFields) ? 'required' : ''),
+            'address'       => in_array('address', $this->hiddenFields) ? '' : (in_array('address', $this->requiredFields) ? 'required' : ''),
+            'city'          => in_array('city', $this->hiddenFields) ? '' : (in_array('city', $this->requiredFields) ? 'required' : ''),
+            'postalCode'    => in_array('postalCode', $this->hiddenFields) ? '' : (in_array('postalCode', $this->requiredFields) ? 'required' : ''),
         ];
 
         if(!empty($this->customFields)) 
@@ -130,23 +131,15 @@ class RegForm extends Form
             'firstName.required' => 'First name is required.',
             'firstName.min'      => 'First name must be at least 3 characters.',
             'firstName.max'      => 'First name must be at most 255 characters.',
-            'firstName.string'   => 'First name must be a string.',
             'lastName.required'  => 'Last name is required.',
             'lastName.min'       => 'Last name must be at least 3 characters.',
             'lastName.max'       => 'Last name must be at most 255 characters.',
-            'lastName.string'    => 'Last name must be a string.',
             'email.required'     => 'Email is required.',
             'email.email'        => 'Email must be a valid email address.',
             'contactNumber.required' => 'Contact number is required.',
-            'contactNumber.string'  => 'Contact number must be a string.',
-            'countryCode.required'  => 'Country code is required.',
-            'countryCode.string'   => 'Country code must be a string.',
             'address.required'     => 'Address is required.',
-            'address.string'      => 'Address must be a string.',
             'city.required'        => 'City is required.',
-            'city.string'         => 'City must be a string.',
-            'postalCode.required'  => 'Postal code is required.',
-            'postalCode.string'   => 'Postal code must be a string.',
+            'postalCode.required'  => 'Postal is required.',
         ];
 
         if(!empty($this->customFields))  

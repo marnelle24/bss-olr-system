@@ -1,14 +1,59 @@
 <div class="flex flex-col">
-    {{-- @dump($eventDetails->getAttributes()) --}}
-    {{-- @dump($requiredFields) --}}
-    {{-- @dump($hiddenFields) --}}
-    {{-- @dump($promotion) --}}
-    <form wire:submit="submit" class="space-y-6">
-        {{-- Step 1: Registration Details --}}
-        <div class="flex flex-col">
-            <div class="relative overflow-hidden">
-                <div class="transition-transform duration-500 ease-in-out" style="transform: translateX(-{{ ($step - 1) * 100 }}%)">
-                    <div class="flex">
+    {{-- Stepper Component --}}
+    <div class="w-full py-10">
+        <div class="flex justify-between xl:px-10 px-0">
+            {{-- Step 1 --}}
+            <div wire:click="changeStep(1)" class="flex flex-col items-center relative">
+                <div class="w-10 h-10 cursor-pointer hover:-translate-y-0.5 duration-300 shadow rounded-full flex items-center justify-center bg-{{ $step >= 1 ? 'teal-600' : 'slate-300' }} text-white font-bold">
+                    1
+                </div>
+                <div class="text-xs font-semibold mt-2 {{ $step >= 1 ? 'text-teal-600' : 'text-slate-500' }}">Registration</div>
+                {{-- Connector Line --}}
+                <div class="absolute w-full h-1 top-5 z-0 -right-[80%]">
+                    <div class="h-full {{ $step > 1 ? 'bg-teal-600' : 'bg-slate-300' }} transition-all duration-500 2xl:w-[350px] xl:w-[220px] w-[65px]"></div>
+                </div>
+            </div>
+
+            {{-- Step 2 --}}
+            <div wire:click="changeStep(2)" class="flex flex-col items-center relative">
+                <div class="w-10 h-10 cursor-pointer hover:-translate-y-0.5 duration-300 shadow rounded-full flex items-center justify-center bg-{{ $step >= 2 ? 'teal-600' : 'slate-300' }} text-white font-bold">
+                    2
+                </div>
+                <div class="text-xs xl:w-full w-3/4 text-center font-semibold mt-2 {{ $step >= 2 ? 'text-teal-600' : 'text-slate-500' }}">Additional Info</div>
+                {{-- Connector Line --}}
+                <div class="absolute w-full h-1 top-5 z-0 -right-[75%]">
+                    <div class="h-full {{ $step > 2 ? 'bg-teal-600' : 'bg-slate-300' }} transition-all duration-500 2xl:w-[350px] xl:w-[190px] w-[65px]"></div>
+                </div>
+            </div>
+
+            {{-- Step 3 --}}
+            <div wire:click="changeStep(3)" class="flex justify-center flex-col items-center relative">
+                <div class="w-10 h-10 cursor-pointer hover:-translate-y-0.5 duration-300 shadow rounded-full flex items-center justify-center bg-{{ $step >= 3 ? 'teal-600' : 'slate-300' }} text-white font-bold">
+                    3
+                </div>
+                <div class="text-xs xl:w-full w-3/4 text-center font-semibold mt-2 {{ $step >= 3 ? 'text-teal-600' : 'text-slate-500' }}">Promo Code</div>
+                {{-- Connector Line --}}
+                <div class="absolute w-full h-1 top-5 z-0 -right-[80%]">
+                    <div class="h-full {{ $step > 3 ? 'bg-teal-600' : 'bg-slate-300' }} transition-all duration-500 2xl:w-[170px] w-[46px]"></div>
+                </div>
+            </div>
+
+            {{-- Step 4 --}}
+            <div wire:click="changeStep(4)" class="flex flex-col items-center">
+                <div class="w-10 h-10 cursor-pointer hover:-translate-y-0.5 duration-300 shadow rounded-full flex items-center justify-center bg-{{ $step >= 4 ? 'teal-600' : 'slate-300' }} text-white font-bold">
+                    4
+                </div>
+                <div class="text-xs font-semibold mt-2 {{ $step >= 4 ? 'text-teal-600' : 'text-slate-500' }}">Review</div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Existing Form Content --}}
+    <form wire:submit.prevent="submit" class="space-y-6">
+        <div class="relative overflow-hidden">
+            <div class="transition-transform duration-500 ease-in-out" style="transform: translateX(-{{ ($step - 1) * 100 }}%)">
+                <div class="flex">
+
                         {{-- Step 1: Registration Details --}}
                         <div class="w-full flex-shrink-0">
                             <div class="mb-2">
@@ -117,180 +162,34 @@
                                     @endif
                                 </div>
                             
-                                {{-- Extra Fields -> If any --}}
-                                @if(!empty($formSettings['extraInfo']))
-                                    <div class="pt-3">
-                                        <p class="font-semibold border-b-2 border-slate-400/20 text-lg mt-4 mb-4">Additional Information</p>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            @foreach($formSettings['extraInfo'] as $key => $field)
-                                                <div>
-                                                    @if($field['type'] === 'text')
-                                                        {!! $this->inputField($key, $field) !!}
-                                                        @error('form.postalCode')
-                                                            <em class="text-danger text-xs">{{ $message }}</em>
-                                                        @enderror
-                                                    @elseif($field['type'] === 'select')
-                                                        {!! $this->selectOptionField($key, $field) !!}
-                                                        @error('form.postalCode')
-                                                            <em class="text-danger text-xs">{{ $message }}</em>
-                                                        @enderror
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
                         </div>
+                        
+                        {{-- Step 2: Additional Information --}}
+                        @if(!empty($extraFields) || count($extraFields) > 0)
+                            <div class="w-full flex-shrink-0">
+                                <livewire:guest.additional-fields-form :extraFields="$extraFields" />
+                            </div>
+                        @endif
 
-                        {{-- Step 2: Payment Details --}}
+                        {{-- Step 3: Promo Code --}}
                         <div class="w-full flex-shrink-0">
-                            <div class="mb-2">
-                                <h1 class="lg:text-left text-center lg:text-2xl text-3xl text-slate-500 font-bold mb-2">
-                                    Promo Code & Checkout Details
-                                </h1>
-                                <p class="text-slate-500 lg:text-left text-center">
-                                    Apply promo code (if applicable) and registration checkout details.
-                                </p>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="flex flex-col gap-2 my-2">
-                                    <p class="text-md text-slate-600 italic">Apply Promo</p>
-                                    <input 
-                                        wire:change="validatePromoCode" 
-                                        wire:model="promoCode" 
-                                        type="text" 
-                                        placeholder="Enter Promo Code" 
-                                        class="placeholder:text-slate-400/80 placeholder:font-semibold uppercase w-full rounded-lg border border-slate-400/60 bg-white p-4 text-xl focus:ring-0" 
-                                    />
-                                </div>
-                                
-                                <div class="flex flex-col gap-2">
-                                    <p class="text-xl text-slate-600 font-bold p-3 bg-slate-200">Checkout & Payment Details</p>
-                                    <div class="flex lg:flex-row flex-col">
-                                        <div class="lg:w-1/3 w-full">
-                                            <img src="{{ $eventDetails->thumb }}" alt="test" class="w-full xl:h-[200px] h-[200px] object-cover object-center" />
-                                            <p class="text-lg py-3">
-                                                {!! $eventDetails->title !!}
-                                            </p>
-                                        </div>
-    
-                                        <div class="lg:w-2/3 w-full">
-                                            <table class="w-full">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="text-xl py-2 lg:px-4 px-0">Total Amount</td>
-                                                        <td class="text-right text-xl lg:px-4 px-0 py-2">{{ 'SG$'.number_format($eventDetails['price'], 2) }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-xl py-2 lg:px-4 px-0">Discount</td>
-                                                        <td class="text-right text-xl lg:px-4 px-0 py-2">
-                                                            {{ 'SG$'.number_format($discount, 2) }}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot class="border-t border-slate-500">
-                                                    <tr>
-                                                        <td class="text-xl lg:px-4 px-0 pb-1 pt-4 font-bold">Net Amount</td>
-                                                        <td class="text-right text-xl lg:px-4 px-0 pb-1 pt-4 font-bold">{{ 'SG$'.number_format( ($eventDetails['price'] - $discount), 2) }}</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <livewire:guest.promo-code-form :programCode="$eventDetails['programCode']" />
                         </div>
 
-                        {{-- Step 3: Review & Submit --}}
+                        {{-- Step 4: Review & Submit --}}
                         <div class="w-full flex-shrink-0">
-                            <div class="mb-4">
-                                <h1 class="lg:text-left text-center lg:text-2xl text-3xl text-slate-500 font-bold mb-2">
-                                    Review Registration & Proceed to Payment
-                                </h1>
-                                <p class="text-slate-500 lg:text-left text-center">Please review and submit your registration details.</p>
-                            </div>
-                            <div class="space-y-6">
-                                <table class="w-full">
-                                    <tr>
-                                        <td class="border border-zinc-400 p-1">Name</td>
-                                        <td class="border border-zinc-400 p-1">{{ $form->firstName }} {{ $form->lastName }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-zinc-400 p-1">Email Address</td>
-                                        <td class="border border-zinc-400 p-1">{{ $form->email }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-zinc-400 p-1">Contact Number</td>
-                                        <td class="border border-zinc-400 p-1">{{ $form->countryCode ? $form->countryCode . '-' : '' }} {{ $form->contactNumber }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-zinc-400 p-1">Address</td>
-                                        <td class="border border-zinc-400 p-1">{{ $form->address ? $form->address : '' }} {{ $form->city ? $form->city : '' }} {{ $form->postalCode ? $form->postalCode : '' }}</td>
-                                    </tr>
-                                    @if (count($this->extraFieldsValues) > 0)
-                                        @foreach ( $this->extraFieldsValues as $field => $value)
-                                            <tr>
-                                                <td class="border border-zinc-400 p-1">{{ $field }}</td>
-                                                <td class="border border-zinc-400 p-1">{{ $value }}</td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </table>
-                                <br />
-                                <div class="mt-4 flex flex-col gap-2">
-                                    <label class="inline-flex items-center">
-                                        <input type="checkbox" name="privacy_policy" class="form-checkbox h-5 w-5 text-slate-600" required />
-                                        <span class="ml-2 text-sm text-gray-700">I accept the <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a></span>
-                                    </label>
-                                    <label class="inline-flex items-start">
-                                        <input type="checkbox" name="privacy_policy" class="form-checkbox h-5 w-5 text-slate-600" required />
-                                        <span class="ml-2 text-sm text-gray-700">
-                                            By providing your contact details, you consent to our collection, use and disclosure of your personal data as described in our privacy policy on our website. We do strive to limit the amount of personal data we collect to that which is sufficient to support the intended purpose of the collection
-                                        </span>
-                                    </label>
-                                </div>
-                                <br />
-                                <br />
-
-                                @if($errors->count() > 0)
-                                    <p class="text-center text-xs italic text-red-600">{{'Oops! something\'s missing. Kindly review the registration form.'}}</p>
-                                @endif
-                                <div class="flex lg:flex-row flex-col gap-4 justify-center px-2">
-                                    {{-- <button type="reset" class="whitespace-nowrap text-center text-zinc-100 drop-shadow bg-gradient-to-l from-zinc-600 via-zinc-500 to-zinc-600 bg-size-200 bg-pos-0 hover:bg-pos-100 border-meta-3 duration-500 shadow-md hover:-translate-y-0.5 hover:bg-slate-600 hover:border-slate-600 hover:text-zinc-200 items-center px-6 py-4 font-semibold text-lg uppercase tracking-widest transition-all">
-                                        Reset
-                                    </button> --}}
-                                    <button 
-                                        wire:loading.attr="disabled" 
-                                        type="submit" 
-                                        class="lg:whitespace-nowrap whitespace-normal text-center text-zinc-100 drop-shadow bg-gradient-to-l from-meta-5 via-meta-3/70 to-meta-3 bg-size-200 bg-pos-0 hover:bg-pos-100 border-meta-3 duration-500 shadow-md hover:-translate-y-0.5 hover:bg-slate-600 hover:border-slate-600 hover:text-zinc-200 items-center px-6 py-4 font-semibold text-lg uppercase tracking-widest transition-all"
-                                    >
-                                        <span wire:loading.remove>Confirm & Proceed to Payment</span>
-                                        <span wire:loading>Processing...</span>
-                                    </button>
-                                </div>
-
-                            </div>
+                            <livewire:guest.review-details-checkout 
+                                :registrationForm="[]" 
+                                :promoCodeForm="[]" 
+                                :additionalFieldsForm="[]" 
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <br />
-
-        <div class="flex justify-between">
-            <button {{ $step === 1 ? 'disabled' : '' }} wire:click="prevStep" type="button" class="disabled:text-slate-400/90 disabled:cursor-not-allowed disabled:-translate-y-0 text-meta-4/70 hover:text-meta-4 duration-500 flex items-center hover:-translate-y-1 drop-shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
-                </svg>
-                Previous
-            </button>
-            <button {{ $step === $totalSteps ? 'disabled' : '' }} wire:click="nextStep" type="button" class="disabled:text-slate-400/90 disabled:cursor-not-allowed disabled:-translate-y-0 hover:text-meta-4 duration-500 flex items-center hover:-translate-y-1 drop-shadow">
-                Next
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                    <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
-                </svg>
-            </button>
-        </div>
     </form>
+    
+    
 </div>

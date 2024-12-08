@@ -10,7 +10,7 @@
         </button>
     </div>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.selectButton').forEach(button => {
                 button.addEventListener('click', function() {
@@ -18,5 +18,5 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 </div>
