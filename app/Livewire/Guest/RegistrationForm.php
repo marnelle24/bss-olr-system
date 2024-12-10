@@ -11,48 +11,31 @@ class RegistrationForm extends Component
     public RegForm $form;
     public $eventDetails; // props
     public $promotion;    // props
+    public $programItem; // props
+
+    // protected $listeners = ['setProgramCode' => 'getProgramCode'];
 
     // form settings including the custom settings of each field
     public $formSettings;
     public $isInternational = false;
     public $requiredFields = [];
     public $hiddenFields = [];
-    public $extraFields = [];
+    // public $extraFields = [];
 
     public $extraFieldsValues = [];
 
     public $promoCode = null;
     public $discount = 0;
 
-    public $step = 1;
-    public $totalSteps = 4;
-    
-    // Change Step
-    public function changeStep($step)
-    {
-        $this->step = $step;
-    }
-
-    // Next Step
-    public function nextStep()
-    {
-        if($this->step < $this->totalSteps)
-            $this->step++;
-    }
-
-    // Previous Step
-    public function prevStep()
-    {
-        if($this->step > 1)
-            $this->step--;
-    }
 
     public function mount()
     {
-        $this->requiredFields = $this->getRequiredFields($this->eventDetails['settings']);
-        $this->hiddenFields = $this->getHiddenFields($this->eventDetails['settings']);
-        $this->extraFields = $this->getCustomFields($this->eventDetails->extraFields);
-        $this->isInternational = isset($this->eventDetails['settings']['internationalEvent']) && $this->eventDetails['settings']['internationalEvent'] ? true : false;
+        $this->eventDetails = json_decode($this->programItem);
+        
+        $this->requiredFields = $this->getRequiredFields($this->eventDetails ? $this->eventDetails->settings : null);
+        $this->hiddenFields = $this->getHiddenFields($this->eventDetails ? $this->eventDetails->settings : null);
+        // $this->extraFields = $this->getCustomFields($this->eventDetails ? $this->eventDetails->extraFields : null);
+        $this->isInternational = $this->eventDetails ? (isset($this->eventDetails->settings['internationalEvent']) && $this->eventDetails->settings['internationalEvent'] ? true : false) : false;
         
         // $this->form->programmeType = request()->segment(1);
         // $this->formSettings = $this->eventDetails['settings'];

@@ -8,9 +8,7 @@
         <p class="text-slate-500 lg:text-left text-center">Please review and submit your registration details.</p>
     </div>
     <div class="space-y-6">
-        @dump($registrationForm)
-        @dump($promoCodeForm)
-        @dump($additionalFieldsForm)
+        @dump($programItem)
         {{-- <table class="w-full">
             <tr>
                 <td class="border border-zinc-400 p-1">Name</td>

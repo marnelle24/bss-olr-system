@@ -8,25 +8,23 @@
         </p>
     </div>
     <div class="space-y-6">
-        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
             @foreach($extraFields as $field)
-                {{-- @dump($field) --}}
-                @switch($field['type'])
+                @switch($field->type)
                     @case('select')
-                        {!! $this->selectOptionField($field['key'], $field) !!}
+                        {!! $this->selectOptionField($field->key, $field) !!}
                     @break
                     @case('radio')
-                        {!! $this->radioField($field['key'], $field) !!}
+                        {!! $this->radioField($field->key, $field) !!}
                     @break
                     @case('checkbox')
-                        {!! $this->checkboxField($field['key'], $field) !!}
+                        {!! $this->checkboxField($field->key, $field) !!}
                     @break
                     @case('textarea')
-                        {!! $this->textareaField($field['key'], $field) !!}
+                        {!! $this->textareaField($field->key, $field) !!}
                         @break
                     @default
-                        {!! $this->inputField($field['key'], $field) !!}
+                        {!! $this->inputField($field->key, $field) !!}
                         @break
                 @endswitch
             @endforeach

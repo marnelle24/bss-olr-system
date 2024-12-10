@@ -6,26 +6,57 @@ use Livewire\Component;
 
 class RegistrationFormModal extends Component
 {
-    public $getPromotion;
     public $programItem = [];
     public $showModal = false;
+    public $step = 1;
+    public $totalSteps = 4;
+    public $loadedComponents = [];
 
-    protected $listeners = ['openRegistrationModal' => 'openModal'];
+    protected $listeners = ['setProgramCode' => 'openModal'];
 
-    public function openModal($promotion, $programType)
+    public function mount()
     {
-        $this->getPromotion = $promotion;
-        $model = 'App\Models\Program_' . $programType;
-        $this->programItem = $model::where('programCode', $this->getPromotion['programCode'])->first();
-        // dump($this->programItem);
+        // Initialize first component
+        $this->loadedComponents[1] = true;
+    }
 
+    public function changeStep($step)
+    {
+        $this->step = $step;
+        // Load component for the selected step if not already loaded
+        $this->loadedComponents[$step] = true;
+    }
+
+    public function nextStep()
+    {
+        if ($this->step < $this->totalSteps) {
+            $this->step++;
+            // Preload next component
+            $this->loadedComponents[$this->step] = true;
+        }
+    }
+
+    public function prevStep()
+    {
+        if ($this->step > 1) {
+            $this->step--;
+        }
+    }
+
+    public function openModal($programCode, $programType)
+    {
+        $model = 'App\Models\Program_' . $programType;
+        $program_item = $model::where('programCode', $programCode)->first();
+        $this->programItem = collect($program_item)->toArray();
         $this->showModal = true;
     }
 
     public function closeModal()
     {
-        $this->getPromotion = null;
         $this->showModal = false;
+        // Reset loaded components when modal is closed
+        $this->loadedComponents = [1 => true];
+        $this->step = 1;
     }
 
     public function render()

@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\URL;
+use App\Livewire\Modal\RegistrationFormModal;
+use App\Livewire\Guest\ReviewDetailsCheckout;
 
 class PromotionCard extends Component
 {
@@ -14,7 +16,8 @@ class PromotionCard extends Component
 
     public function selectedPromotion($promotion)
     {
-        $this->dispatch('openRegistrationModal', $promotion, $this->programType);
+        // $this->dispatch('promotionSelected', $promotion)->to(ReviewDetailsCheckout::class);
+        $this->dispatch('setProgramCode', $promotion['programCode'], $this->programType); // dispatch to RegistrationFormModal
     }
 
     public function render()

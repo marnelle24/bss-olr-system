@@ -6,9 +6,12 @@ use Livewire\Component;
 
 class ReviewDetailsCheckout extends Component
 {
-    public $registrationForm;
-    public $promoCodeForm;
-    public $additionalFieldsForm;
+    public $programItem;
+
+    public function mount($programItem)
+    {
+        $this->programItem = json_decode($programItem);
+    }
 
     public function render()
     {

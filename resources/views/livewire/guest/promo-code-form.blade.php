@@ -8,21 +8,23 @@
         </p>
     </div>
     <div class="space-y-6">
-        <div class="flex flex-col gap-2 my-2">
-            <p class="text-md text-slate-600 italic">Apply Promo</p>
+        <div class="flex xl:flex-row flex-col gap-2 my-2">
             <input 
                 {{-- wire:change="validatePromoCode"  --}}
                 {{-- wire:model="promoCode"  --}}
                 type="text" 
                 placeholder="Enter Promo Code" 
-                class="placeholder:text-slate-400/80 placeholder:font-semibold uppercase w-full rounded-lg border border-slate-400/60 bg-white p-4 text-xl focus:ring-0" 
+                class="placeholder:text-slate-400/80 placeholder:font-semibold uppercase w-full rounded-none border border-slate-400/60 bg-white p-4 text-xl focus:ring-0" 
             />
+            <button class="bg-teal-600 duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-l hover:from-teal-600 hover:via-teal-500 hover:to-teal-600 hover:bg-size-200 hover:bg-pos-100 text-white px-4 py-2 rounded-none text-lg">
+                Apply
+            </button>
         </div>
         
         <div class="flex flex-col gap-2">
             <p class="text-xl text-slate-600 font-bold p-3 bg-slate-200">Checkout & Payment Details</p>
 
-            @dump($programCode)
+            @dump($programItem)
             {{-- <div class="flex lg:flex-row flex-col">
                 <div class="lg:w-1/3 w-full">
                     <img src="{{ $eventDetails->thumb }}" alt="test" class="w-full xl:h-[200px] h-[200px] object-cover object-center" />
