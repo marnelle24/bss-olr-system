@@ -24,7 +24,7 @@
         <div class="flex flex-col gap-2">
             <p class="text-xl text-slate-600 font-bold p-3 bg-slate-200">Checkout & Payment Details</p>
 
-            @dump($programItem)
+            {{-- @dump($programItem) --}}
             {{-- <div class="flex lg:flex-row flex-col">
                 <div class="lg:w-1/3 w-full">
                     <img src="{{ $eventDetails->thumb }}" alt="test" class="w-full xl:h-[200px] h-[200px] object-cover object-center" />

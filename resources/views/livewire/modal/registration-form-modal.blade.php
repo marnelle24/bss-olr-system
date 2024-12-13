@@ -74,6 +74,53 @@
                     </div>
                 </div>
 
+                <div class="space-y-6">
+                    <div class="relative overflow-hidden">
+                        <div class="transition-transform duration-500 ease-in-out" style="transform: translateX(-{{ ($step - 1) * 100 }}%)">
+                            <div class="flex">
+                                {{-- Step 1: Registration --}}
+                                <div class="w-full flex-shrink-0">
+
+                                    <div class="flex lg:flex-row flex-col gap-2 lg:w-1/2 w-full">
+                                        @if(!in_array('nric', $hiddenFields))
+                                            <div class="lg:w-1/2 w-full">
+                                                <label class="mb-2.5 block font-medium text-black">NRIC # </label>
+                                                    <input wire:model.blur="form.nric" type="text" placeholder="Last 4-digit" maxlength="4" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default" />
+                                                    @error('form.nric')
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                            </div>
+                                        @endif
+                                        
+                                        @if(!in_array('title', $hiddenFields))
+                                            <div class="lg:w-1/2 w-full">
+                                                <label class="mb-2.5 block font-medium text-black">Title</label>
+                                                <select wire:model.blur="form.title" id="title" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default">
+                                                    <option value="Mr">Mr</option>
+                                                    <option value="Ms">Ms</option>
+                                                    <option value="Mrs">Mrs</option>
+                                                </select>
+                                                @error('form.title')
+                                                    <em class="text-danger text-xs">{{ $message }}</em>
+                                                @enderror
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="w-full flex-shrink-0">2</div>
+                                <div class="w-full flex-shrink-0">3</div>
+                                <div class="w-full flex-shrink-0">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 {{-- Forms Component --}}
                 <div class="space-y-6">
                     <div class="relative overflow-hidden">
@@ -82,28 +129,40 @@
                                 {{-- Step 1: Registration --}}
                                 <div class="w-full flex-shrink-0">
                                     @if(isset($loadedComponents[1]))
-                                        <livewire:guest.registration-form :programItem="json_encode($programItem)" key="registration-form-modal{{rand(1, 100)}}" />
+                                        <livewire:guest.registration-form 
+                                            :programItem="json_encode($programItem)" 
+                                            key="registration-form-modal{{rand(1, 100)}}" 
+                                        />
                                     @endif
                                 </div>
                                 
                                 {{-- Step 2: Additional Information --}}
                                 <div class="w-full flex-shrink-0">
                                     @if(isset($loadedComponents[2]))
-                                        <livewire:guest.additional-fields-form :programItem="json_encode($programItem)" />
+                                        <livewire:guest.additional-fields-form 
+                                            :programItem="json_encode($programItem)" 
+                                            key="additional-fields-form-modal{{rand(1, 100)}}" 
+                                        />
                                     @endif
                                 </div>
 
                                 {{-- Step 3: Promo Code --}}
                                 <div class="w-full flex-shrink-0">
                                     @if(isset($loadedComponents[3]))
-                                        <livewire:guest.promo-code-form :programItem="json_encode($programItem)" />
+                                        <livewire:guest.promo-code-form 
+                                            :programItem="json_encode($programItem)" 
+                                            key="promo-code-form-modal{{rand(1, 100)}}" 
+                                        />
                                     @endif
                                 </div>
 
                                 {{-- Step 4: Review --}}
                                 <div class="w-full flex-shrink-0">
                                     @if(isset($loadedComponents[4]))
-                                        <livewire:guest.review-details-checkout :programItem="json_encode($programItem)" />
+                                        <livewire:guest.review-details-checkout 
+                                            :programItem="json_encode($programItem)" 
+                                            key="review-details-checkout-modal{{rand(1, 100)}}" 
+                                        />
                                     @endif
                                 </div>
                             </div>
@@ -112,9 +171,16 @@
                 </div>
 
 
-                {{-- @if($programItem)
-                    <livewire:guest.registration-form :eventDetails="$programItem" key="registration-form-modal{{rand(1, 100)}}" />
-                @endif --}}
+
+
+
+
+
+
+
+
+                <br />
+                <p wire:click="closeModal" class="text-teal-700 cursor-pointer hover:text-teal-600 duration-300 hover:-translate-y-0.5">Cancel</p>
             </div>
         </div>
     </div>

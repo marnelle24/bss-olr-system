@@ -1,0 +1,11 @@
+<div>
+    <x-forms.radio-field
+        :inputKey="$inputKey"
+        :label="$label"
+        :type="$type"
+        :options="$options"
+        :required="$required"
+        :value="$value"
+    />
+    @dump($value)
+</div>

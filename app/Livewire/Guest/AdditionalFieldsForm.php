@@ -8,116 +8,62 @@ class AdditionalFieldsForm extends Component
 {
     public $programItem; // props
     public $extraFields;
+    public $extraFieldsValues;
 
     public function mount($programItem) 
     {
-        $this->programItem = json_decode($programItem);
-        $this->extraFields = json_decode($this->programItem->extraFields);
-    }
-
-    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom input fields to HTML
-    public function inputField($inputKey, $textFieldDetails)
-    {
-        $placeholder = isset($textFieldDetails->placeholder) && $textFieldDetails->placeholder ? $textFieldDetails->placeholder : $textFieldDetails->label;
-        $required = isset($textFieldDetails->required) && $textFieldDetails->required ? 'required' : '';
-        $type = $textFieldDetails->type;
-
-        $output = '';
-        $output .='<div class="w-full">';
-            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails->label.'</label>';
-            $output .= '<input type="'.$type.'" wire:model.blur="extraFieldsValues.'.$inputKey.'" placeholder="'.$placeholder.'" class="w-full rounded-none border border-dark bg-white p-2focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' />';
-        $output .= '</div>';
-
-        return $output;
-    }
-
-    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom radio fields to HTML
-    public function radioField($inputKey, $textFieldDetails)
-    {
-        $placeholder = isset($textFieldDetails->placeholder) && $textFieldDetails->placeholder ? $textFieldDetails->placeholder : $textFieldDetails->label;
-        $required = isset($textFieldDetails->required) && $textFieldDetails->required ? 'required' : '';
-        $type = $textFieldDetails->type;
-
-        $output = '';
-        $output .='<div class="w-full">';
-            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails->label.'</label>';
-            foreach($textFieldDetails->options as $key => $optionValue)
-            {
-                $output .= '<div class="flex items-center gap-2 mb-1">';
-                    $output .= '<input class="appearance-none focus:outline-none focus:ring-0" type="'.$type.'" wire:model.blur="extraFieldsValues.'.$inputKey.'" value="'.$key.'" '.$required.' />';
-                    $output .= '<label class="capitalize block font-medium text-black">'.$optionValue.'</label>';
-                $output .= '</div>';
-            }
-        $output .= '</div>';
-
-        return $output;
-    }
-
-    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom checkbox fields to HTML
-    public function checkboxField($inputKey, $textFieldDetails)
-    {
-        $placeholder = isset($textFieldDetails->placeholder) && $textFieldDetails->placeholder ? $textFieldDetails->placeholder : $textFieldDetails->label;
-        $required = isset($textFieldDetails->required) && $textFieldDetails->required ? 'required' : '';
-        $type = $textFieldDetails->type;
-
-        $idx = 0;
-
-        $output = '';
-        $output .='<div class="w-full">';
-            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails->label.'</label>';
+        try {
+            $this->programItem = json_decode($programItem, true); // decode as array
             
-            foreach($textFieldDetails->options as $key => $optionValue)
+            if (json_last_error() !== JSON_ERROR_NONE) 
             {
-                $output .= '<div class="flex items-center gap-2 mb-1">';
-                    $output .= '<input class="appearance-none focus:outline-none focus:ring-0" type="'.$type.'" wire:model.blur="extraFieldsValues.'.$inputKey.$idx.'" value="'.$key.'" id="'.$inputKey.'-'.$idx.'" '.$required.' />';
-                    $output .= '<label class="capitalize block font-medium text-black">'.$optionValue.'</label>';
-                $output .= '</div>';
-                $idx++;
+                throw new \Exception('Invalid JSON data');
             }
-        $output .= '</div>';
 
-        return $output;
-    }
-
-    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom textarea fields to HTML
-    public function textareaField($key, $textFieldDetails)
-    {
-        $placeholder = isset($textFieldDetails->placeholder) && $textFieldDetails->placeholder ? $textFieldDetails->placeholder : $textFieldDetails->label;
-        $required = isset($textFieldDetails->required) && $textFieldDetails->required ? 'required' : '';
-        $type = $textFieldDetails->type;
-
-        $output = '';
-        $output .='<div class="w-full">';
-            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails->label.'</label>';
-            $output .= '<textarea rows="4" wire:model.blur="extraFieldsValues.'.$key.'" placeholder="'.$placeholder.'" class="w-full rounded-none border border-dark bg-white p-2focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' ></textarea>';
-        $output .= '</div>';
-
-        return $output;
-    }   
-
-    //  Apply only when there are extraFields JSON in the $eventDetails - Convert custom select fields to HTML
-    public function selectOptionField($key, $textFieldDetails)
-    {
-        // Create dynamic wire:model binding using the extraFieldsValues array
-        $placeholder = $textFieldDetails->placeholder ?? $textFieldDetails->label;
-        $required = isset($textFieldDetails->required) && $textFieldDetails->required ? 'required' : '';
-
-        $output = '';
-        $output .='<div class="w-full">';
-            $output .= '<label class="capitalize mb-2.5 block font-medium text-black">'.$textFieldDetails->label.'</label>';
-            $output .= '<select wire:model="extraFieldsValues.'.$key.'" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" '.$required.' >';
-                $output .= '<option value="">Select '.$textFieldDetails->label.'</option>';
-                foreach($textFieldDetails->options as $optionKey => $optionValue) 
+            // Initialize extraFields only if it exists
+            if (isset($this->programItem['extraFields'])) 
+            {
+                $this->extraFields = json_decode($this->programItem['extraFields'], true);
+                
+                if (json_last_error() !== JSON_ERROR_NONE) 
                 {
-                    $output .= '<option value="'.$optionKey.'">'.$optionValue.'</option>';
+                    throw new \Exception('Invalid extraFields JSON data');
                 }
-            $output .= '</select>';
-        $output .= '</div>';
+            } else {
+                $this->extraFields = [];
+            }
 
-        return $output;
+            // Initialize extraFieldsValues as empty array
+            $this->extraFieldsValues = [];
+
+        } 
+        catch (\Exception $e) {
+            // Handle the error - maybe log it
+            $this->programItem = [];
+            $this->extraFields = [];
+            $this->extraFieldsValues = [];
+        }
     }
 
-    
+    // public function updatedExtraFieldsValues($value)
+    // {
+    //     dump($value);
+    // }
+
+    // public function checkAdditionalFieldsForm()
+    // {
+    //     dump($this->extraFieldsValues);
+
+    //     $this->dispatch('triggerStepChange', 3);
+    // }
+
+    public function checkAdditionalFieldsForm()
+    {
+        // dump($this->extraFieldsValues);
+
+        $this->dispatch('triggerStepChange', 3);
+    }
+
     public function render()
     {
         return view('livewire.guest.additional-fields-form');

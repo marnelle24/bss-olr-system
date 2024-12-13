@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RegForm extends Form
 {
-    public $programmeType;
     public $nric;
     public $title = 'Mr';
     public $firstName;
@@ -20,12 +19,7 @@ class RegForm extends Form
     public $address;
     public $city;
     public $postalCode;
-    public $appliedPromoCode = null;
-    public $discountValue = 0;
-    public $netAmount = 0;
-    public $customFieldJsonValues;
 
-    public $customFields = [];
     public $requiredFields = [];
     public $hiddenFields = [];
 
@@ -47,20 +41,24 @@ class RegForm extends Form
         $this->hiddenFields = $hiddenFields;
     }
 
+    public function generateRegistrationCode($programCode)
+    {
+        $countRegistration = Registrant::where('programCode', $programCode)->count();
+        return $programCode . '_' . str_pad($countRegistration + 1, 3, '0', STR_PAD_LEFT);
+    }
+
     public function store( $event_details )
     {
         // Validate the form data
-        // $validatedData = $this->validate();
-        
-        dd($this->all());
+        $validatedData = $this->validate();
         
         // assign user to this registration
         $validatedData['user_id'] = Auth::check() ? auth()->user()->id : NULL;
     
-        $reg = [
-            'regCode'            => $event_details['programCode'].$validatedData['nric'], //nric is temp only
-            'programCode'        => $event_details['programCode'],
-            'type'               => $this->programmeType,
+        $registrant = [
+            'regCode'            => $this->generateRegistrationCode($event_details->programCode),
+            'programCode'        => $event_details->programCode,
+            'type'               => $event_details->type,
             'user_id'            => $validatedData['user_id'],
             'nric'               => $validatedData['nric'],
             'title'              => $validatedData['title'],
@@ -71,26 +69,25 @@ class RegForm extends Form
             'postalCode'         => $validatedData['postalCode'],
             'email'              => $validatedData['email'],
             'contactNumber'      => $this->countryCode .' '. $validatedData['contactNumber'],
-            'extraFields'        => $this->customFieldJsonValues,
             'paymentStatus'      => 'pending',
             'paymentGateway'     => NULL,
-            'price'              => $this->netAmount,
-            'appliedPromoCode'   => $this->appliedPromoCode,
-            'discountValue'      => $this->discountValue,
+            'price'              => $event_details->price,
             'paymentReferenceNo' => NULL,
         ];
 
+        dd($registrant, $this->all());
+
         // Store the form data
-        $registrant = Registrant::create($reg);
+        // $register = Registrant::create($registrant);
 
         // After storing registration to the DB, call the Payment Service with HitPay API to process the payment
-        if($registrant)
-        {
-            // go to payment page of hitpay
-            return redirect()->route('registration.create-payment', ['registrant' => $reg]);
-        }
-        // handle error registration
-        return back()->withErrors(['msg' => 'Registration Failed. Contact Administrator.']);
+        // if($register)
+        // {
+        //     // go to payment page of hitpay
+        //     return redirect()->route('registration.create-payment', ['registrant' => $registrant]);
+        // }
+        // // handle error registration
+        // return back()->withErrors(['msg' => 'Registration Failed. Contact Administrator.']);
     }
 
     //  Rules for the form fields
@@ -107,18 +104,6 @@ class RegForm extends Form
             'city'          => in_array('city', $this->hiddenFields) ? '' : (in_array('city', $this->requiredFields) ? 'required' : ''),
             'postalCode'    => in_array('postalCode', $this->hiddenFields) ? '' : (in_array('postalCode', $this->requiredFields) ? 'required' : ''),
         ];
-
-        if(!empty($this->customFields)) 
-        {
-            foreach($this->customFields as $key => $field) 
-            {
-                if(isset($field['required']) && $field['required'] === true) 
-                {
-                    $rules[$key] = 'required';
-                }
-            }
-        }
-
 
         return $rules;
     }
@@ -141,17 +126,6 @@ class RegForm extends Form
             'city.required'        => 'City is required.',
             'postalCode.required'  => 'Postal is required.',
         ];
-
-        if(!empty($this->customFields))  
-        {
-            foreach($this->customFields as $key => $field) 
-            {
-                if(isset($field['required']) && $field['required'] === true)
-                {
-                    $messages[$key . '.required'] = $field['label'] . ' is required.';
-                }
-            }
-        }
 
         return $messages;
     }

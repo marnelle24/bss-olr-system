@@ -1,0 +1,10 @@
+<div>
+    <x-forms.select-field
+        :inputKey="$inputKey"
+        :label="$label"
+        :options="$options"
+        :required="$required"
+        :value="$value"
+    />
+    @dump($value)
+</div>

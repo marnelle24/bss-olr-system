@@ -12,12 +12,23 @@ class RegistrationFormModal extends Component
     public $totalSteps = 4;
     public $loadedComponents = [];
 
-    protected $listeners = ['setProgramCode' => 'openModal'];
+
+    // testing
+    public $hiddenFields = [];
+    public $requiredFields = [];
+
+    protected $listeners = [
+        // 'setProgramCode' => 'openModal',
+        'setProgramCode' => 'getProgramItem',
+        'triggerStepChange' => 'changeStep'
+    ];
 
     public function mount()
     {
         // Initialize first component
         $this->loadedComponents[1] = true;
+        $this->openModal();
+        $this->getProgramItem('EYHY2022', 'event');
     }
 
     public function changeStep($step)
@@ -43,7 +54,12 @@ class RegistrationFormModal extends Component
         }
     }
 
-    public function openModal($programCode, $programType)
+    public function openModal()
+    {
+        $this->showModal = true;
+    }
+
+    public function getProgramItem($programCode, $programType)
     {
         $model = 'App\Models\Program_' . $programType;
         $program_item = $model::where('programCode', $programCode)->first();
