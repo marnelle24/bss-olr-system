@@ -74,113 +74,292 @@
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="relative overflow-hidden">
-                        <div class="transition-transform duration-500 ease-in-out" style="transform: translateX(-{{ ($step - 1) * 100 }}%)">
-                            <div class="flex">
-                                {{-- Step 1: Registration --}}
-                                <div class="w-full flex-shrink-0">
-
-                                    <div class="flex lg:flex-row flex-col gap-2 lg:w-1/2 w-full">
-                                        @if(!in_array('nric', $hiddenFields))
-                                            <div class="lg:w-1/2 w-full">
-                                                <label class="mb-2.5 block font-medium text-black">NRIC # </label>
-                                                    <input wire:model.blur="form.nric" type="text" placeholder="Last 4-digit" maxlength="4" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default" />
+                {{-- Form --}}
+                <form wire:submit="submit" class="space-y-6">
+                    <div class="space-y-6">
+                        <div class="relative overflow-hidden">
+                            <div class="transition-transform duration-500 ease-in-out" style="transform: translateX(-{{ ($step - 1) * 100 }}%)">
+                                <div class="flex">
+                                    {{-- Step 1: Registration --}}
+                                    <div class="w-full flex-shrink-0 px-10">
+                                        <div class="mb-8">
+                                            <h1 class="lg:text-left text-center lg:text-2xl text-3xl text-slate-500 font-bold mb-1">
+                                                Registration Details
+                                            </h1>
+                                            <p class="text-slate-500 lg:text-left text-center">
+                                                Please fill in the following details to complete your registration.
+                                            </p>
+                                        </div>
+                                        <div class="flex lg:flex-row flex-col gap-5 lg:w-1/2 w-full">
+                                            @if(!in_array('nric', $hiddenFields))
+                                                <div class="lg:w-1/2 w-full">
+                                                    <livewire:guest.form.input-field-manager 
+                                                        :label="'NRIC #'" 
+                                                        :name="'form.nric'" 
+                                                        :type="'text'" 
+                                                        :placeholder="'Last 4-digit'" 
+                                                        :maxlength="4" 
+                                                        :required="in_array('nric', $requiredFields)"
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                    />
                                                     @error('form.nric')
                                                         <em class="text-danger text-xs">{{ $message }}</em>
                                                     @enderror
-                                            </div>
-                                        @endif
+                                                </div>
+                                            @endif
+                                            
+                                            @if(!in_array('title', $hiddenFields))
+                                                <div class="lg:w-1/2 w-full">
+                                                    <livewire:guest.form.select-field-manager 
+                                                        :label="'Title'" 
+                                                        :name="'form.title'" 
+                                                        :required="in_array('title', $requiredFields)"
+                                                        :options="[
+                                                            'Mr' => 'Mr',
+                                                            'Ms' => 'Ms',
+                                                            'Mrs' => 'Mrs'
+                                                        ]" 
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                    />
+                                                    @error('form.title')
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="mt-4 flex lg:flex-row flex-col gap-5">
+                                            @if(!in_array('firstName', $hiddenFields))
+                                                <div class="w-full lg:w-1/2">
+                                                    <livewire:guest.form.input-field-manager 
+                                                        :label="'First Name'" 
+                                                        :name="'form.firstName'" 
+                                                        :type="'text'" 
+                                                        :required="in_array('firstName', $requiredFields)"
+                                                        :placeholder="'First Name'" 
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                    />
+                                                    @error('form.firstName')
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                                </div>
+                                            @endif
                                         
-                                        @if(!in_array('title', $hiddenFields))
-                                            <div class="lg:w-1/2 w-full">
-                                                <label class="mb-2.5 block font-medium text-black">Title</label>
-                                                <select wire:model.blur="form.title" id="title" class="w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-default">
-                                                    <option value="Mr">Mr</option>
-                                                    <option value="Ms">Ms</option>
-                                                    <option value="Mrs">Mrs</option>
-                                                </select>
-                                                @error('form.title')
-                                                    <em class="text-danger text-xs">{{ $message }}</em>
-                                                @enderror
-                                            </div>
-                                        @endif
+                                            @if(!in_array('lastName', $hiddenFields))
+                                                <div class="w-full lg:w-1/2">
+                                                    <livewire:guest.form.input-field-manager 
+                                                        :label="'Last Name'" 
+                                                        :name="'form.lastName'" 
+                                                        :type="'text'" 
+                                                        :required="in_array('lastName', $requiredFields)"
+                                                        :placeholder="'Last Name'" 
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                    />
+                                                    @error('form.lastName')
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="mt-4 flex lg:flex-row flex-col gap-5">
+                                            @if(!in_array('email', $hiddenFields))
+                                                <div class="w-full lg:w-1/2">
+                                                    <livewire:guest.form.input-field-manager 
+                                                        :isInternational="$isInternational"
+                                                        :label="'Email Address'" 
+                                                        :name="'form.email'" 
+                                                        :type="'email'" 
+                                                        :placeholder="'Email Address'" 
+                                                        :required="in_array('email', $requiredFields)"
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                    />
+                                                    @error('form.email')
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                                </div>
+                                            @endif
+                                        
+                                            @if(!in_array('contactNumber', $hiddenFields))
+                                                <div class="w-full lg:w-1/2">
+                                                    <livewire:guest.form.contact-number-manager 
+                                                        :isInternational="$isInternational"
+                                                        :label="$contacNumberLabel" 
+                                                        :name="'form.contactNumber'" 
+                                                        :type="'tel'" 
+                                                        :required="in_array('contactNumber', $requiredFields)"
+                                                        :placeholder="'Contact Number'" 
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                    />
+                                                    @error('form.contactNumber')
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="space-y-4">
+                                            @if(!in_array('address', $hiddenFields))
+                                                <p class="font-semibold border-b-2 border-slate-400/20 text-lg mt-2 mb-4">Address</p>
+                                                <div class="flex lg:flex-row flex-col gap-2">
+                                                    <div class="w-full">
+                                                        <livewire:guest.form.input-field-manager 
+                                                            :label="'Bldg. / Block # / Street Name'" 
+                                                            :name="'form.address'" 
+                                                            :type="'text'" 
+                                                            :placeholder="'Bldg # / Block No / Street Name'" 
+                                                            :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                        />
+                                                        @error('form.address')
+                                                            <em class="text-danger text-xs">{{ $message }}</em>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="w-full lg:w-1/3">
+                                                        <livewire:guest.form.input-field-manager 
+                                                            :label="'City'" 
+                                                            :name="'form.city'" 
+                                                            :type="'text'" 
+                                                            :placeholder="'City'" 
+                                                            :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                        />
+                                                        @error('form.city')
+                                                            <em class="text-danger text-xs">{{ $message }}</em>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="w-full lg:w-1/4">
+                                                        <livewire:guest.form.input-field-manager 
+                                                            :label="'Postal Code'" 
+                                                            :name="'form.postalCode'" 
+                                                            :type="'text'" 
+                                                            :placeholder="'Postal'" 
+                                                            :maxlength="6"
+                                                            :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'" 
+                                                        />
+                                                        @error('form.postalCode')
+                                                            <em class="text-danger text-xs">{{ $message }}</em>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+
                                     </div>
-                                </div>
 
-                                <div class="w-full flex-shrink-0">2</div>
-                                <div class="w-full flex-shrink-0">3</div>
-                                <div class="w-full flex-shrink-0">4</div>
+                                    {{-- Step 2: Additional Info --}}
+                                    <div class="w-full flex-shrink-0 px-10">
+                                        <div class="mb-4">
+                                            <h1 class="lg:text-left text-center lg:text-2xl text-3xl text-slate-500 font-bold mb-2">
+                                                Additional Information
+                                            </h1>
+                                            <p class="text-slate-500 lg:text-left text-center">
+                                                Please provide additional information.
+                                            </p>
+                                        </div>
+                                        <div class="space-y-6">
+                                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
+                                                @foreach($extraFields as $field)
+                                                    @switch($field->type)
+                                                        @case('text')
+                                                            <livewire:guest.form.input-field-manager
+                                                                :inputKey="$field->key" 
+                                                                :label="$field->label" 
+                                                                :type="$field->type" 
+                                                                :maxlength="isset($field->maxlength) ? $field->maxlength : null"
+                                                                :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none'"
+                                                                :placeholder="$field->placeholder" 
+                                                                :required="isset($field->required) && $field->required ? $field->required : false"
+                                                            />
+                                                        @break
+                                                        @case('radio')
+                                                            <livewire:guest.form.radio-field-manager
+                                                                :inputKey="$field->key" 
+                                                                :label="$field->label" 
+                                                                :type="$field->type" 
+                                                                :options="$field->options" 
+                                                                :required="isset($field->required) && $field->required ? $field->required : false"
+                                                            />
+                                                        @break
+                                                        @case('checkbox')
+                                                            <livewire:guest.form.checkbox-manager
+                                                                :inputKey="$field->key" 
+                                                                :label="$field->label" 
+                                                                :type="$field->type" 
+                                                                :options="$field->options" 
+                                                                :required="isset($field->required) && $field->required ? $field->required : false"
+                                                            />
+                                                        @break
+                                                        @case('textarea')
+                                                            <livewire:guest.form.text-area-field-manager
+                                                                :inputKey="$field->key" 
+                                                                :label="$field->label" 
+                                                                :placeholder="$field->placeholder" 
+                                                                :required="isset($field->required) && $field->required ? $field->required : false"
+                                                                :rows="isset($field->rows) ? $field->rows : 3"
+                                                            />
+                                                        @break
+                                                        
+                                                        @case('select')
+                                                            <livewire:guest.form.select-field-manager
+                                                                :inputKey="$field->key" 
+                                                                :label="$field->label" 
+                                                                :options="$field->options" 
+                                                                :required="isset($field->required) && $field->required ? $field->required : false"
+                                                            />
+                                                        @break
+                                                    @endswitch
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Step 3: Promo Code --}}
+                                    <div class="w-full flex-shrink-0 px-10">
+                                        <div class="mb-4">
+                                            <h1 class="lg:text-left text-center lg:text-2xl text-3xl text-slate-500 font-bold mb-2">
+                                                Promo and Discount Code
+                                            </h1>
+                                            <p class="text-slate-500 lg:text-left text-center">
+                                                Apply promo code (if applicable) and registration checkout details.
+                                            </p>
+                                        </div>
+                                        <div class="space-y-6">
+                                            <div class="flex xl:flex-row flex-col gap-2 my-2">
+                                                <input 
+                                                    {{-- wire:change="validatePromoCode"  --}}
+                                                    {{-- wire:model="promoCode"  --}}
+                                                    type="text" 
+                                                    placeholder="Enter Promo Code" 
+                                                    class="placeholder:text-slate-400/80 placeholder:font-semibold uppercase w-full rounded-none border border-slate-400/60 bg-white p-4 text-xl focus:ring-0" 
+                                                />
+                                                <button class="bg-teal-600 duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-l hover:from-teal-600 hover:via-teal-500 hover:to-teal-600 hover:bg-size-200 hover:bg-pos-100 text-white px-4 py-2 rounded-none text-lg">
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Step 4: Review --}}
+                                    <div class="w-full flex-shrink-0 px-10">4</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                {{-- Forms Component --}}
-                <div class="space-y-6">
-                    <div class="relative overflow-hidden">
-                        <div class="transition-transform duration-500 ease-in-out" style="transform: translateX(-{{ ($step - 1) * 100 }}%)">
-                            <div class="flex">
-                                {{-- Step 1: Registration --}}
-                                <div class="w-full flex-shrink-0">
-                                    @if(isset($loadedComponents[1]))
-                                        <livewire:guest.registration-form 
-                                            :programItem="json_encode($programItem)" 
-                                            key="registration-form-modal{{rand(1, 100)}}" 
-                                        />
-                                    @endif
-                                </div>
-                                
-                                {{-- Step 2: Additional Information --}}
-                                <div class="w-full flex-shrink-0">
-                                    @if(isset($loadedComponents[2]))
-                                        <livewire:guest.additional-fields-form 
-                                            :programItem="json_encode($programItem)" 
-                                            key="additional-fields-form-modal{{rand(1, 100)}}" 
-                                        />
-                                    @endif
-                                </div>
-
-                                {{-- Step 3: Promo Code --}}
-                                <div class="w-full flex-shrink-0">
-                                    @if(isset($loadedComponents[3]))
-                                        <livewire:guest.promo-code-form 
-                                            :programItem="json_encode($programItem)" 
-                                            key="promo-code-form-modal{{rand(1, 100)}}" 
-                                        />
-                                    @endif
-                                </div>
-
-                                {{-- Step 4: Review --}}
-                                <div class="w-full flex-shrink-0">
-                                    @if(isset($loadedComponents[4]))
-                                        <livewire:guest.review-details-checkout 
-                                            :programItem="json_encode($programItem)" 
-                                            key="review-details-checkout-modal{{rand(1, 100)}}" 
-                                        />
-                                    @endif
-                                </div>
-                            </div>
+                    
+                    <br />
+                    <div class="flex justify-between">
+                        <p wire:click="closeModal" class="text-teal-700 cursor-pointer hover:text-teal-600 duration-300 hover:-translate-y-0.5">Cancel</p>
+                        <div class="flex justify-end">
+                            {{-- <button type="submit" class="bg-teal-600 hover:bg-teal-700 duration-300 hover:-translate-y-0.5 text-white py-2.5 px-3.5 rounded-none flex gap-1 items-center justify-center"> --}}
+                            <button wire:click="changeStep({{ $step + 1 }})" type="button" class="bg-teal-600 hover:bg-teal-700 duration-300 hover:-translate-y-0.5 text-white py-2.5 px-3.5 rounded-none flex gap-1 items-center justify-center">
+                                Next
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
-                </div>
 
-
-
-
-
-
-
-
-
-
-                <br />
-                <p wire:click="closeModal" class="text-teal-700 cursor-pointer hover:text-teal-600 duration-300 hover:-translate-y-0.5">Cancel</p>
+                </form>
             </div>
         </div>
     </div>

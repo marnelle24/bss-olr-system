@@ -68,15 +68,6 @@
                         @enderror
                     </div>
                 @endif
-            
-                @if(!in_array('contactNumber', $hiddenFields))
-                    <div class="w-full lg:w-1/2">
-                        {!! $this->renderContactNumberField() !!}
-                        @error('form.contactNumber')
-                            <em class="text-danger text-xs">{{ $message }}</em>
-                        @enderror
-                    </div>
-                @endif
             </div>
             <div>
                 @if(!in_array('address', $hiddenFields))

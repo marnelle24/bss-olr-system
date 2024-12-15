@@ -152,6 +152,8 @@ class RegistrationForm extends Component
                     $output .= '<input wire:model.blur="form.contactNumber" type="tel" name="contactNumber" placeholder="Contact Number" class="w-full rounded-r-none border-l-0 border-dark bg-white py-2 pl-2 pr-10 focus:border-default focus:ring-0 focus-visible:shadow-none" />';
                 $output .= '</div>';
             $output .= '</div>';
+
+            return $output;
         } 
         else 
         {
@@ -162,7 +164,6 @@ class RegistrationForm extends Component
             $output .= '</div>';
         }
 
-        return $output;
     }
 
     public function render()

@@ -11,6 +11,9 @@ class InputFieldManager extends Component
     public $type;
     public $required;
     public $value;
+    public $placeholder;
+    public $maxlength;
+    public $class;
 
     public function render()
     {

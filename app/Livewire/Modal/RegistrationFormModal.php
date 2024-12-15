@@ -10,12 +10,17 @@ class RegistrationFormModal extends Component
     public $showModal = false;
     public $step = 1;
     public $totalSteps = 4;
-    public $loadedComponents = [];
-
-
-    // testing
+    public $isInternational = false;
+    public $contacNumberLabel;
+    
+    // fields in json
     public $hiddenFields = [];
     public $requiredFields = [];
+    public $extraFields = [];
+
+
+    // to be deleted
+    public $loadedComponents = [];
 
     protected $listeners = [
         // 'setProgramCode' => 'openModal',
@@ -25,10 +30,20 @@ class RegistrationFormModal extends Component
 
     public function mount()
     {
+        $this->getProgramItem('EYHY2022', 'event');
+        if($this->isInternational)
+        {
+            $this->contacNumberLabel = 'International Contact Number';
+        }
+        else
+        {
+            $this->contacNumberLabel = 'Contact Number';
+        }
+
         // Initialize first component
         $this->loadedComponents[1] = true;
         $this->openModal();
-        $this->getProgramItem('EYHY2022', 'event');
+        
     }
 
     public function changeStep($step)
@@ -54,16 +69,48 @@ class RegistrationFormModal extends Component
         }
     }
 
-    public function openModal()
-    {
-        $this->showModal = true;
-    }
-
     public function getProgramItem($programCode, $programType)
     {
         $model = 'App\Models\Program_' . $programType;
         $program_item = $model::where('programCode', $programCode)->first();
         $this->programItem = collect($program_item)->toArray();
+        
+        $settings = json_decode($this->programItem['settings']);
+        $this->hiddenFields = $settings->addHidden;
+        // $this->requiredFields = $settings->addRequired; // FOR LIVE
+        $this->requiredFields = ['nric', 'title', 'firstName', 'lastName', 'email', 'contactNumber']; // FOR TESTING
+
+        // Get the extra fields in the order of the order field
+        $extra_fields = json_decode($this->programItem['extraFields']);
+        $extra_fields = collect($extra_fields)->sortBy('order');
+        $this->extraFields = $extra_fields;
+
+        $this->showModal = true;
+    }
+
+    public function getFormFieldAttributes($settings)
+    {
+        $formSettings = json_decode($settings);
+        return $formSettings;
+        // $this->hiddenFields = $this->programItem['hiddenFields'];
+        // $this->requiredFields = $this->programItem['requiredFields'];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function openModal()
+    {
         $this->showModal = true;
     }
 

@@ -1,11 +1,14 @@
-<div>
-    <x-forms.input-field
-        :inputKey="$inputKey"
-        :label="$label"
-        :type="$type"
-        :required="$required"
-        :value="$value"
+<div class="w-full">
+    <label class="capitalize mb-2.5 block font-medium text-black">
+        {{ $label }} {!! $required ? '<span class="text-danger font-bold text-lg">*</span>' : '' !!}
+    </label>
+    <input 
+        type="{{ $type }}"
+        wire:model.live="value"
+        placeholder="{{ $placeholder }}"
+        maxlength="{{ $maxlength }}"
+        class="{{ $class }}"
+        {{ $required ? 'required' : '' }}
     />
-
-    @dump($value)
+    {{-- @dump($value) --}}
 </div>
