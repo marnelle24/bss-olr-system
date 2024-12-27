@@ -8,9 +8,26 @@ class SelectFieldManager extends Component
 {
     public $inputKey;
     public $label;
+    public $type;
     public $options;
     public $required;
     public $value;
+
+    protected $listeners = ['updateFormValue' => 'updateFormValue'];
+    
+    public function updateFormValue($data)
+    {
+        $this->value = $data['value'];
+    }
+
+    // listen to any changes in the value property
+    public function updatedValue($value)
+    {
+        $this->dispatch('updateFormValue', [
+            'key' => $this->inputKey, 
+            'value' => $value
+        ]);
+    }
 
     public function render()
     {

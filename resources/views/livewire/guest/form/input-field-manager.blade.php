@@ -5,7 +5,7 @@
     <input 
         type="{{ $type }}"
         wire:model.live="value"
-        placeholder="{{ $placeholder }}"
+        placeholder="{{ isset($placeholder) ? $placeholder : $label }}"
         maxlength="{{ $maxlength }}"
         class="{{ $class }}"
         {{ $required ? 'required' : '' }}

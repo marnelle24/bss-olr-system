@@ -23,7 +23,7 @@
             </div>
         </div>
     @else 
-        <div class="w-full">
+         <div class="w-full">
             <label class="capitalize mb-2.5 block font-medium text-black">
                 {{ $label }} {!! $required ? '<span class="text-danger font-bold text-lg">*</span>' : '' !!}
             </label>

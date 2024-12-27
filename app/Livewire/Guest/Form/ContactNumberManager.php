@@ -7,8 +7,9 @@ use Livewire\Component;
 class ContactNumberManager extends Component
 {
     public $isInternational;
-    public $countryCode = null;
+    public $countryCode = '+65';
     public $contactNumber = null;
+    public $inputKey;
     public $label;
     public $type;
     public $placeholder;
@@ -30,20 +31,14 @@ class ContactNumberManager extends Component
 
     public function updatedCountryCode($value)
     {
-        if($this->isInternational) {
-            $this->value = $value . '-' . $this->contactNumber;
-        } else {
-            $this->value = $this->contactNumber;
-        }
+        $this->value = $value . '-' . $this->contactNumber;
+        $this->dispatch('updateFormValue', ['key' => $this->inputKey, 'value' => $this->value]);
     }
 
     public function updatedContactNumber($value)
     {
-        if($this->isInternational) {
-            $this->value = $this->countryCode . '-' . $value;
-        } else {
-            $this->value = $value;
-        }
+        $this->value = $this->countryCode . '-' . $value;
+        $this->dispatch('updateFormValue', ['key' => $this->inputKey, 'value' => $this->value]);
     }
 
     public function render()
