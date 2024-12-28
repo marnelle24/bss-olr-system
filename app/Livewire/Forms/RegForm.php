@@ -53,6 +53,51 @@ class RegForm extends Form
         return $programCode . '_' . str_pad($countRegistration + 1, 3, '0', STR_PAD_LEFT);
     }
 
+    /***
+     * Store the registration data to the database
+     * @param $amountToPay -> it is the net total amount to pay
+     */
+    public function storeRegistrationData( $amountToPay)
+    {
+        $regData = $this->finalRegistrationData['registrationFields'];
+        $programItem = $this->finalRegistrationData['programItem'];
+        $promoData = $this->finalRegistrationData['promoDetails'] ?? null;
+        $extraData = $this->finalRegistrationData['extraFieldValues'] ?? null;
+
+        $registrantData =  [
+            'regCode' => $this->generateRegistrationCode($programItem['programCode']),
+            'programCode' => $programItem['programCode'],
+            'type' => $programItem['type'],
+            'user_id' => auth()->check() ?  auth()->user()->id : null,
+            'nric' => $regData['nric'],
+            'title' => $regData['title'],
+            'firstName' => $regData['firstName'],
+            'lastName' => $regData['lastName'],
+            'email' => $regData['email'],
+            'contactNumber' => $regData['contactNumber'],
+            'address' => $regData['address'],
+            'city' => $regData['city'],
+            'postalCode' => $regData['postalCode'],
+            'extraFields' => $extraData,
+            'price' => $amountToPay,
+            'regStatus' => 'pending',
+            'promotion_id' => 1,
+        ];
+
+        if($promoData)
+        {
+            $registrantData['promocode_id'] = $promoData['id'];
+            $registrantData['appliedPromoCode'] = $promoData['promocode'];
+            $registrantData['discountValue'] = $promoData['price'];
+        }
+
+        dd($registrantData);
+        
+        // $registrant = Registrant::create($registrantData);
+        
+        
+    }
+
     public function updated($propertyName)
     {
         $this->validateOnly('fields.'.$propertyName);
@@ -78,10 +123,6 @@ class RegForm extends Form
         }
     }
 
-    public function confirmAndProceedToPayment()
-    {
-        dd($this->finalRegistrationData);
-    }
 
     public function convertExtraFieldValuesToJson()
     {

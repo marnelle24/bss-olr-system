@@ -227,30 +227,36 @@
                
                 <div class="{{ $event->promotions->count() < 4 ? 'flex xl:flex-row flex-col' : 'grid lg:grid-cols-4 grid-cols-1' }} gap-8 justify-center items-center">
                     @foreach ($event->promotions as $key => $promotion)
-                        @livewire('promotion-card', [
-                            'promotion' => $promotion, 
-                            'totalPromotions' => $event->promotions->count(), 
-                            'label' => 'Register Now',
-                            'programType' => $programType
-                        ], key($key))
+                        <livewire:promotion-card 
+                            :promotion="$promotion" 
+                            :totalPromotions="$event->promotions->count()" 
+                            :label="'Register Now'" 
+                            :programType="$programType"
+                            :key="$key"
+                        />
                     @endforeach
                 </div>
                 @livewire('modal.registration-form-modal')
             </div>
-        @endif
-
-        <div id="registration-form" class="pb-8 max-w-5xl mx-auto lg:px-0 px-4">
-            <h3 class="text-center text-4xl text-meta-4/80 font-nunito font-extrabold my-8">Start your registration now!</h3>
-            <p class="text-center text-2xl text-meta-4/80 font-nunito my-8">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-            </p>
-            <div class="border border-slate-400/20 bg-white lg:p-12 p-6 rounded-lg shadow-lg">
-                {{-- Registration Form --}}
-                {{-- @livewire('guest.registration-form', ['eventDetails' => $event]) --}}
+        @else
+            <div id="registration-form" class="pb-8 max-w-5xl mx-auto lg:px-0 px-4">
+                <h3 class="text-center text-4xl text-meta-4/80 font-nunito font-extrabold my-8">Start your registration now!</h3>
+                <p class="text-center text-2xl text-meta-4/80 font-nunito my-8">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                </p>
+                <br />
+                <div class="flex flex-col justify-center items-center mt-auto"> 
+                    <livewire:promotion-card 
+                        :label="'Register Now'" 
+                        :programType="$programType"
+                        key="nopromotion"
+                    />
+                </div>
+                @livewire('modal.registration-form-modal')
             </div>
-        </div>
+        @endif
     </div>
 
     {{-- footer --}}

@@ -17,7 +17,9 @@ class SelectFieldManager extends Component
     
     public function updateFormValue($data)
     {
-        $this->value = $data['value'];
+        if ($data['key'] === $this->inputKey) {
+            $this->value = $data['value'];
+        }
     }
 
     // listen to any changes in the value property

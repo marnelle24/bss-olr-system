@@ -34,6 +34,8 @@ return new class extends Migration
             $table->string('paymentGateway')->nullable(); // paynow|card
             $table->string('paymentReferenceNo')->nullable();
             $table->string('regStatus')->nullable();
+            $table->unsignedBigInteger('promocode_id')->nullable();
+            $table->unsignedBigInteger('promotion_id')->nullable();
             $table->boolean('emailStatus')->default(0);
             $table->boolean('soft_delete')->default(0);
             $table->timestamps();
