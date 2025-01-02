@@ -1,15 +1,15 @@
-<nav class="z-999 px-4 p-6 w-full bg-white transition-all duration-400 ease-in-out">
-    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+<nav class="z-999 px-4 w-full bg-zinc-50 transition-all duration-400 ease-in-out py-6 shadow {{ Route::is('frontpage') ? 'border-b border-slate-400/30 py-6' : '' }}">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
         <!-- Logo -->
-        <div class="mt-4 first-line:mb-4 md:mb-0">
+        <div class="first-line:mb-4 md:mb-0">
             <a href="/" class="flex items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-6 w-auto">
                 <span class="ml-2 xl:text-3xl text-3xl font-extrabold drop-shadow text-gray-800 font-nunito">Streams of Life</span>
             </a>
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex space-x-4">
+        <div class="hidden md:flex items-center space-x-4">
             @auth()
                 <a href="{{ route('admin.dashboard') }}" class="px-5 py-2 bg-orange-1/80 text-white text-xs drop-shadow-sm rounded-full shadow-md hover:text-neutral-200 hover:bg-orange-1 hover:shadow-lg hover:-translate-y-0.5 transition duration-300 ease-in-out">
                     Dashboard

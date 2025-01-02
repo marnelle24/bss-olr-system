@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FrontpageController;
 use App\Http\Controllers\ProgrammeItemController;
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,7 @@ use App\Http\Controllers\ProgrammeItemController;
 */
 
 // public routes
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [FrontpageController::class, 'index'])->name('home');
 
 // Route to create the Payment Request in HitPay API
 Route::get('/create-payment-requests', [PaymentController::class, 'createPayment'])->name('registration.create-payment');
