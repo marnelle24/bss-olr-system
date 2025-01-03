@@ -17,7 +17,7 @@
             </svg>
         </button>
 
-        <div class="events-scroll flex overflow-x-auto gap-9 py-4 hide-scrollbar snap-x snap-mandatory">
+        <div class="events-scroll flex overflow-x-auto gap-5 py-4 hide-scrollbar snap-x snap-mandatory">
             <!-- Event Cards -->
             @foreach ($events as $event)
                 <x-programme.event-card :event="$event" />
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="w-full flex justify-center items-start mt-8">
-        <a href="/" class="bg-teal-600 text-white px-5 py-3 hover:-translate-y-0.5 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-teal-700 shadow drop-shadow">
+        <a href="{{route('events.public')}}" class="bg-teal-600 text-white px-5 py-3 hover:-translate-y-0.5 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-teal-700 shadow drop-shadow">
             View All Events
         </a>
     </div>

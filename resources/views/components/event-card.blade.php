@@ -1,11 +1,4 @@
-@props(['event'])
-
-<div class="flex-none snap-center group
-    w-[90vw] 
-    sm:w-[60vw] 
-    md:w-[45vw] 
-    lg:w-[30vw] 
-    xl:w-[280px]">
+<div class="flex-none snap-center group w-full">
     <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:-translate-y-1 duration-300">
         <div class="relative">
             <img src="{{ $event->thumb }}" class="w-full object-cover h-48 sm:h-48 md:h-52 lg:h-52" alt="{{ $event->title }}">

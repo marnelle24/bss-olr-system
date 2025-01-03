@@ -1,6 +1,5 @@
 <x-guest-layout>
-    <!-- Main container with gradient background -->
-    <div class="min-h-screen bg-gradient-to-b from-zinc-50 via-25% via-teal-100 to-teal-500">
+    <div class="relative min-h-screen bg-gradient-to-b from-zinc-50 via-25% via-teal-100 to-teal-500">
         <div class="relative w-full xl:h-[650px] h-auto overflow-hidden">
             @php
                 $isCarousel = false;
@@ -125,59 +124,16 @@
         <div class="bg-white/70 backdrop-blur-sm min-h-[350px]">
             <div class="max-w-7xl mx-auto px-4 py-16">
                 <h2 class="text-4xl font-bold text-slate-600 mb-12 text-center font-nunito tracking-wider">Our Partners</h2>
-                <div class="flex flex-wrap justify-center items-center gap-12">
+                <div class="flex flex-wrap justify-center items-center xl:gap-8 gap-4">
                     @foreach([4,5,6,4,9,4,5,6] as $partner)
-                            <img 
-                                src="{{ asset('images/partners/' . $partner . '.png') }}" 
-                                alt="Partner {{ $partner }}"
-                                class="w-40 h-40 object-contain filter brightness-100 prose-invert transition-all duration-300"
-                            >
+                            <img src="{{ asset('images/partners/' . $partner . '.png') }}" alt="Partner {{ $partner }}" class="w-40 h-40 object-contain filter brightness-100 prose-invert transition-all duration-300">
                     @endforeach
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <footer class="bg-teal-900 text-white/80">
-            <div class="max-w-7xl mx-auto px-4 py-12">
-                <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="text-white font-semibold mb-4">About</h3>
-                        <p class="text-sm">Brief description of your organization and its mission.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-semibold mb-4">Quick Links</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#" class="hover:text-white">Home</a></li>
-                            <li><a href="#" class="hover:text-white">Events</a></li>
-                            <li><a href="#" class="hover:text-white">Services</a></li>
-                            <li><a href="#" class="hover:text-white">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-semibold mb-4">Contact</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li>123 Street Name</li>
-                            <li>City, Country</li>
-                            <li>contact@email.com</li>
-                            <li>+1 234 567 890</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-semibold mb-4">Follow Us</h3>
-                        <div class="flex space-x-4">
-                            <!-- Social Media Icons -->
-                            <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm">
-                    <p>&copy; {{ date('Y') }} Your Organization. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <x-footer-public />
     </div>
 
     @push('styles')
