@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm">
-            <p>&copy; {{ date('Y') }} Your Organization. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} Streams Of Life | Event Registration System. All rights reserved.</p>
         </div>
     </div>
 </footer>

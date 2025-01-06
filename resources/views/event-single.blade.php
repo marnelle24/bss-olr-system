@@ -65,7 +65,7 @@
             </div>
             <div class="w-full flex flex-col gap-6 lg:w-1/3">
                 <div class="flex items-start gap-1 space-x-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 stroke-zinc-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-zinc-600">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                     </svg>
                     <div>
@@ -74,23 +74,25 @@
                                 {!! $event->customDate !!}
                             </p>
                         @else
-                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event->startDate . ' ' . $event->startTime)->format('F j, Y, g:i A') }}</p>
-                            <p class="lg:text-md text-xl leading-relaxed text-black">{{ \Carbon\Carbon::parse($event->endDate . ' ' . $event->endTime)->format('F j, Y, g:i A') }}</p>
+                            <p class="lg:text-md text-xl leading-relaxed text-black">
+                                {{ \Carbon\Carbon::parse($event->startDate)->format('M j') . ' - ' . \Carbon\Carbon::parse($event->endDate)->format('j, Y') }}
+                            </p>
+                            <p class="lg:text-md text-xl leading-relaxed text-black">
+                                {{ \Carbon\Carbon::parse($event->startTime)->format('g:i A') . ' - ' . \Carbon\Carbon::parse($event->endTime)->format('g:i A') }}
+                            </p>
                         @endif
                     </div>
                 </div>
                 <div class="flex flex-wrap items-start gap-1">
                     <div class="flex space-x-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="lg:w-14 lg:h-14 w-16 h-16 stroke-zinc-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 stroke-zinc-600">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                         </svg>
     
-                        <div>
-                            <p class="lg:text-md text-xl text-black">
-                                {!! $event->venue !!}
-                            </p>
-                        </div>
+                        <p class="lg:text-md text-xl text-black">
+                            {!! $event->venue !!}
+                        </p>
                     </div>
                     <div class="mt-4 w-full">
                         <div class="opacity-60 w-full h-48 bg-zinc-700 text-white/50 flex flex-col items-center justify-center border border-slate-700">
@@ -103,7 +105,7 @@
                 </div>
                 <div class="flex flex-col gap-6">
                     <div>
-                        <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1">Organized by:</p>
+                        <p class="font-thin text-sm text-neutral-600 drop-shadow mb-1">Organised by:</p>
                         <div class="flex">
                             <p class="font-extrabold shadow-md font-nunito text-sm text-white bg-meta-3/80 border border-meta-3 rounded-full px-2 py-1">
                                 {{ $event->partner->name }}
@@ -116,13 +118,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block mr-1 align-text-bottom text-slate-500 dark:text-slate-300">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                             </svg>
-                            <p class="font-extrabold text-md py-1">{{ $event->contactPerson }}</p>
-                        </div>
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                            </svg>
-                            <p class="font-extrabold text-md py-1">{{ $event->contactEmail ? $event->contactEmail : 'registration@biblesociety.sg' }}</p>
+                            <p class="font-extrabold text-md py-1">{{ $event->contactPerson ? $event->contactPerson : $event->contactEmail }}</p>
                         </div>
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
@@ -130,24 +126,27 @@
                             </svg>
                             <p class="font-extrabold text-md py-1">{{ $event->contactNumber ? $event->contactNumber : '63-871-234' }}</p>
                         </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 stroke-slate-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                            <p class="font-extrabold text-md py-1">{{ $event->contactEmail ? $event->contactEmail : 'registration@biblesociety.sg' }}</p>
+                        </div>
                     </div>
                     <div>
                         <p class="font-thin text-sm text-neutral-700 drop-shadow mb-3">Share Event</p>
                         <div class="flex space-x-5">
-                            <a href="#" class="text-gray-600 hover:text-blue-600 hover:-translate-y-0.5 duration-300" aria-label="Facebook">
-                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
-                                </svg>
+                            <a href="#" class="text-gray-600 hover:text-blue-600 hover:-translate-y-0.5 duration-300">
+                                <i class="fab fa-facebook text-2xl"></i>
                             </a>
-                            <a href="#" class="text-gray-600 hover:text-pink-600 hover:-translate-y-0.5 duration-300" aria-label="Instagram">
-                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
-                                </svg>
+                            <a href="#" class="text-gray-600 hover:text-pink-600 hover:-translate-y-0.5 duration-300">
+                                <i class="fab fa-instagram text-2xl"></i>
                             </a>
-                            <a href="#" class="text-gray-600 hover:text-zinc-700 hover:-translate-y-0.5 duration-300" aria-label="TikTok">
-                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0Z" />
-                                </svg>
+                            <a href="#" class="text-gray-600 hover:text-zinc-700 hover:-translate-y-0.5 duration-300">
+                                <i class="fab fa-tiktok text-2xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-600 hover:text-red-700 hover:-translate-y-0.5 duration-300">
+                                <i class="fab fa-youtube text-2xl"></i>
                             </a>
                         </div>
                     </div>
@@ -260,11 +259,12 @@
     </div>
 
     {{-- footer --}}
-    <div class="bg-slate-800 p-8">
+    {{-- <div class="bg-slate-800 p-8">
         <div class="mt-5 max-w-6xl mx-auto lg:px-0 px-4">
             <p class="text-white font-nunito text-sm text-center">
                 &copy; {{ date('Y') }} Streams Of Life. All rights reserved.
             </p>
         </div>
-    </div>
+    </div> --}}
+    <x-footer-public />
 </x-guest-layout>
