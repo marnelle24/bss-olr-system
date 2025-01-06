@@ -1,17 +1,23 @@
 <footer class="bg-teal-900 text-white/80">
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+    <div class="max-w-7xl mx-auto px-4 pt-12 xl:pb-5 pb-12">
+        <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8 py-5">
             <div>
                 <h3 class="text-white font-semibold mb-4">About</h3>
-                <p class="text-sm">Brief description of your organization and its mission.</p>
+                <p class="text-sm">
+                    We are a community dedicated to spreading love, 
+                    hope, and faith. Our mission is to create meaningful 
+                    connections and foster spiritual growth.
+                </p>
             </div>
             <div>
                 <h3 class="text-white font-semibold mb-4">Quick Links</h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="#" class="hover:text-white">Home</a></li>
                     <li><a href="#" class="hover:text-white">Events</a></li>
-                    <li><a href="#" class="hover:text-white">Services</a></li>
-                    <li><a href="#" class="hover:text-white">Contact</a></li>
+                    <li><a href="#" class="hover:text-white">Courses</a></li>
+                    <li><a href="#" class="hover:text-white">Categories</a></li>
+                    <li><a href="#" class="hover:text-white">Speakers</a></li>
+                    <li><a href="#" class="hover:text-white">Trainers</a></li>
                 </ul>
             </div>
             <div>
@@ -33,8 +39,9 @@
                 </div>
             </div>
         </div>
-        <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm">
-            <p>&copy; {{ date('Y') }} Streams Of Life | Event Registration System. All rights reserved.</p>
+        <div class="flex xl:flex-row flex-col gap-2 justify-center items-center border-t border-white/10 xl:my-4 my-10 pt-8 text-center">
+            <p class="xl:text-md text-sm">&copy; {{ date('Y') }} Streams Of Life | Event Registration System.</p>
+            <p class="xl:text-md text-sm">All rights reserved.</p>
         </div>
     </div>
 </footer>
