@@ -1,6 +1,15 @@
 <div class="flex-none snap-center group w-full">
     <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:-translate-y-1 duration-300">
         <div class="relative">
+            <div class="absolute left-0 bottom-2 px-4">
+                <div class="flex flex-wrap gap-1 justify-center items-center w-full">
+                    @foreach($event->categories as $category)
+                        <p class="text-yellow-900 whitespace-nowrap drop-shadow font-thin text-xs shadow capitalize bg-yellow-300 hover:bg-yellow-500 duration-300 hover:text-white cursor-pointer border border-yellow-700 rounded-full px-2 py-1">
+                            {{ $category->name }}
+                        </p>
+                    @endforeach
+                </div>
+            </div>
             <img src="{{ $event->thumb }}" class="w-full object-cover h-48 sm:h-48 md:h-52 lg:h-52" alt="{{ $event->title }}">
         </div>
         <div class="p-4 sm:p-6 h-[250px] overflow-hidden relative">
@@ -19,7 +28,7 @@
                         </p>
                     </div>
                     <div class="flex flex-col">
-                        <p class="text-white drop-shadow font-thin text-sm">Hosted by:</p>
+                        <p class="text-white drop-shadow font-thin text-sm">Organised by:</p>
                         <p class="text-white drop-shadow font-bold text-base sm:text-lg">
                             {{ $event->partner->name}}
                         </p>
