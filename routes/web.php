@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\FrontpageController;
 use App\Http\Controllers\ProgrammeItemController;
@@ -28,6 +29,9 @@ Route::get('/success-payment/{programCode}', [PaymentController::class, 'success
 Route::get('/event/{programCode}', [ProgrammeItemController::class, 'eventProgramme'])->name('event-profile.public');
 
 Route::get('/events', [ProgrammeItemController::class, 'AllEvents'])->name('events.public');
+
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.public');
+
 // End of Public Routes
 // Authenticated Routes
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
