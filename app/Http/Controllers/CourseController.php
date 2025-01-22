@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Category;
 class CourseController extends Controller
 {
     // public route for frontend
@@ -11,6 +12,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::latest()->paginate(10);
-        return view('courses.index', compact('courses'));
+        $categories = Category::all();
+        return view('courses.index', compact('courses', 'categories'));
     }
 }

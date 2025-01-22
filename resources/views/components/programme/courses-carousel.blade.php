@@ -32,7 +32,7 @@
     @endforeach
 
     <div class="w-full flex justify-center items-start mt-8">
-        <a href="/" class="bg-teal-500 text-white px-5 py-3 border-2 border-teal-500 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-transparent hover:border-2 hover:scale-105 hover:text-teal-300 hover:border-teal-300 shadow drop-shadow">
+        <a href="{{ route('programme.public', ['programmeType' => 'courses']) }}" class="bg-teal-500 text-white px-5 py-3 border-2 border-teal-500 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-transparent hover:border-2 hover:scale-105 hover:text-teal-300 hover:border-teal-300 shadow drop-shadow">
             View All Courses
         </a>
     </div>

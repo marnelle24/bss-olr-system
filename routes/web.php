@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\FrontpageController;
+use App\Http\Controllers\ProgrammeController;
 use App\Http\Controllers\ProgrammeItemController;
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/event/{programCode}', [ProgrammeItemController::class, 'eventProgra
 
 Route::get('/events', [ProgrammeItemController::class, 'AllEvents'])->name('events.public');
 
-Route::get('/courses', [CourseController::class, 'index'])->name('courses.public');
+Route::get('/{programmeType}', [ProgrammeController::class, 'index'])->name('programme.public');
 
 // End of Public Routes
 // Authenticated Routes

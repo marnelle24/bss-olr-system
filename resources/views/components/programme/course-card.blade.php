@@ -44,7 +44,9 @@
                             {{ $course->price > 0 ? 'SG$ '.number_format($course->price, 2) : 'Free' }}
                         </p>
                     </div>
-                    <a href="{{ route('event-profile.public', $course->programCode) }}" 
+                    {{-- <a href="{{ route('event-profile.public', $course->programCode) }}"  --}}
+                    {{-- <a href="{{ route('event-profile.public', $course->programCode) }}"  --}}
+                    <a href="" 
                         class="bg-teal-500 text-white px-5 py-2 hover:-translate-y-0.5 text-md rounded-full duration-300 hover:bg-teal-600 border border-teal-600 shadow drop-shadow">
                         Read More
                     </a>
