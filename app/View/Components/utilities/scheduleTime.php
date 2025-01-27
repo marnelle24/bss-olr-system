@@ -6,14 +6,17 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class CourseCard extends Component
+class scheduleTime extends Component
 {
+    public $startTime;
+    public $endTime;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($startTime, $endTime)
     {
-        //
+        $this->startTime = $startTime;
+        $this->endTime = $endTime;
     }
 
     /**
@@ -21,6 +24,6 @@ class CourseCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.programme.course-card');
+        return view('components.utilities.schedule-time');
     }
 }

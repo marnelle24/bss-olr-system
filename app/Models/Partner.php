@@ -64,4 +64,9 @@ class Partner extends Model
     {
         return $this->belongsTo(Program_event::class);
     }
+
+    public function programmes()
+    {
+        return $this->hasMany(Programme::class);
+    }
 }

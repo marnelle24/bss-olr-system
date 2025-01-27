@@ -7,7 +7,7 @@
     </div>
 
     <div class="flex flex-col">
-        @if ($customDate)
+        @if ($customDate && !empty($customDate))
             <p class="text-md leading-relaxed text-black">
                 {!! $customDate !!}
             </p>
@@ -15,9 +15,11 @@
             <p class="text-lg text-black">
                 {{ \Carbon\Carbon::parse($startDate)->format('M j') . ' - ' . \Carbon\Carbon::parse($endDate)->format('M j, Y') }}
             </p>
-            <p class="text-sm text-black">
-                {{ \Carbon\Carbon::parse($startTime)->format('g:i A') . ' - ' . \Carbon\Carbon::parse($endTime)->format('g:i A') }}
-            </p>
+            @if (($startTime && !empty($startTime)) || ($endTime && !empty($endTime)))
+                <p class="text-sm text-black">
+                    {{ \Carbon\Carbon::parse($startTime)->format('g:i A') . ' - ' . \Carbon\Carbon::parse($endTime)->format('g:i A') }}
+                </p>
+            @endif
         @endif
     </div>
 </div>

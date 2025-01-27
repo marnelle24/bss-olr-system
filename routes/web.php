@@ -32,6 +32,7 @@ Route::get('/event/{programCode}', [ProgrammeItemController::class, 'eventProgra
 Route::get('/events', [ProgrammeItemController::class, 'AllEvents'])->name('events.public');
 
 Route::get('/{programmeType}', [ProgrammeController::class, 'index'])->name('programme.public');
+Route::get('/{programmeType}/{programmeCode}', [ProgrammeController::class, 'show'])->name('programme.public.show');
 
 // End of Public Routes
 // Authenticated Routes

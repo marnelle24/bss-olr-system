@@ -1,57 +1,27 @@
 @props(['course'])
-<div class="flex-none snap-center group
-    w-[90vw] 
-    sm:w-[60vw] 
-    md:w-[45vw] 
-    lg:w-[30vw] 
-    xl:w-[350px]"
->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:-translate-y-1 duration-300">
-        <div class="relative">
-            <img src="{{ $course->thumb }}" 
-                class="w-full object-cover h-48 sm:h-52 md:h-56 lg:h-60" alt="{{ $course->title }}">
+<div class="overflow-hidden relative border-2 border-teal-700/50 bg-gradient-to-r from-white/70 via-white to-white/70 shadow rounded py-8 xl:px-10 px-5 gap-2 hover:from-white hover:to-white hover:via-white/60 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex xl:flex-row flex-col items-start">
+    {{-- @if($course['isPromo']) --}}
+        <div class="flex justify-center items-end drop-shadow absolute -top-3 -right-15 bg-gradient-to-r from-red-500/70 via-red-300/70 to-red-500/70 px-4 py-3 h-20 w-40 transform rotate-45">
+            <p class="text-white text-center text-md font-nunito uppercase font-bold drop-shadow">Promo</p>
         </div>
-        <div class="p-4 sm:p-6 h-[250px] overflow-hidden relative">
-            <div class="absolute bottom-0 left-0 h-[250px] right-0 bg-black bg-opacity-80 transition-all duration-300 transform -translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                <div class="p-4 relative h-[250px] flex flex-col gap-2">
-                    <div class="flex flex-col">
-                        <p class="text-white drop-shadow font-thin text-sm">Date:</p>
-                        <p class="text-white drop-shadow font-bold text-base sm:text-lg">
-                            {{ \Carbon\Carbon::parse($course->startDate)->format('M j') }} - {{ \Carbon\Carbon::parse($course->endDate)->format('M j, Y') }}
-                        </p>
-                    </div>
-                    <div class="flex flex-col">
-                        <p class="text-white drop-shadow font-thin text-sm">Venue:</p>
-                        <p class="text-white drop-shadow font-bold text-base sm:text-lg">
-                            {!! Str::words($course->venue, 5, '...') !!}
-                        </p>
-                    </div>
-                </div>
+    {{-- @endif --}}
+    <img src="{{ $course->thumb }}" alt="{{ $course->title }}" class="bg-teal-500/70 mx-auto rounded-full shadow-md xl:h-32 xl:w-32 h-40 w-40">
+    <div class="h-60 relative pl-4 xl:w-auto w-full">
+        <h3 class="text-slate-500 text-md font-bold">{{ $course->title }}</h3>
+        <p class="text-slate-800 mt-2 text-xs overflow-hidden">{!! Str::words($course->excerpt, 16, '...') !!}</p>
+        <div class="flex flex-col justify-start items-start gap-3 mt-4">
+            <div class="flex xl:items-start items-center gap-1">
+                <img src="{{ asset('images/speaker-trainer/speaker-dummy.png') }}" alt="{{ $course->title }}" class="bg-teal-500/70 rounded-full shadow border border-teal-700/80 h-6 w-6">
+                <p class="text-slate-800 drop-shadow text-sm">{{ 'John Doe III' }}</p>
             </div>
-            <h3 class="text-xl sm:text-2xl font-bold mb-2">
-                {!! Str::words($course->title, 5, '...') !!}
-            </h3>
-            <p class="text-gray-600 mb-4 min-h-[120px] text-sm sm:text-base">
-                {!! $course->excerpt !!}
+        </div>
+        <div class="absolute bottom-0 flex xl:items-start items-center xl:w-auto w-full gap-3">
+            <a href="{{ route('programme.public.show', [$course->programmeType, $course->programmeCode]) }}" class="bg-slate-600 text-white hover:bg-slate-700 px-3 shadow-sm duration-300 py-2 text-sm rounded-full hover:-translate-y-0.5">
+                Read More
+            </a>
+            <p class="text-slate-800 bg-gradient-to-r from-teal-500/70 via-teal-400 to-teal-500/70 px-2.5 font-bold py-1.5 text-sm rounded-full border-2 border-teal-500 shadow-sm drop-shadow">
+                {{ 'SG$'.number_format($course->price, 2) }}
             </p>
-            <div class="absolute inset-x-0 bottom-4">
-                <div class="flex justify-between items-center px-4">
-                    <div class="relative">
-                        @if($course->promotions && $course->promotions->count() > 0)
-                            <p class="text-white drop-shadow font-bold text-md absolute top-[-22px] z-50 uppercase left-0 bg-red-500 px-1" style="transform: rotate(-10deg);">Promo</p>
-                        @endif
-                        <p class="drop-shadow font-bold bg-slate-700 group-hover:bg-slate-100 group-hover:text-slate-700 group-hover:border-slate-700 group-hover:border text-white px-5 py-2 text-md rounded-full duration-300 hover:bg-slate-500 uppercase">
-                            {{ $course->price > 0 ? 'SG$ '.number_format($course->price, 2) : 'Free' }}
-                        </p>
-                    </div>
-                    {{-- <a href="{{ route('event-profile.public', $course->programCode) }}"  --}}
-                    {{-- <a href="{{ route('event-profile.public', $course->programCode) }}"  --}}
-                    <a href="" 
-                        class="bg-teal-500 text-white px-5 py-2 hover:-translate-y-0.5 text-md rounded-full duration-300 hover:bg-teal-600 border border-teal-600 shadow drop-shadow">
-                        Read More
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -42,8 +42,15 @@
                     </div>
                 @endif
             </div>
-            <div class="w-full flex flex-col gap-6 lg:w-1/3">
-                <x-utilities.calendar-schedule-date :startDate="$event->startDate" :endDate="$event->endDate" :startTime="$event->startTime" :endTime="$event->endTime" :customDate="$event->customDate" />
+            <div class="w-full flex flex-col gap-3 lg:w-1/3">
+                <x-utilities.calendar-schedule-date 
+                    :startDate="$event->startDate" 
+                    :endDate="$event->endDate" 
+                    startTime="" 
+                    endTime="" 
+                    :customDate="$event->customDate" 
+                />
+                <x-utilities.schedule-time :startTime="$event->startTime" :endTime="$event->endTime" />
                 <x-utilities.venue-location :venue="$event->venue" />
                 
                 <div class="flex flex-col gap-6">

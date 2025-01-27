@@ -23,7 +23,9 @@ class ProgrammeController extends Controller
         if(!$programType)
             abort(404);
         
-        $programmes = Programme::where('programmeType', $programType->slug)->get();
+        $programmes = Programme::where('programmeType', $programType->slug)
+            ->orderBy('created_at', 'desc')
+            ->paginate(9);
 
         $categories = Category::all();
 
@@ -33,5 +35,23 @@ class ProgrammeController extends Controller
             $view = 'events.index';
         
         return view($view, compact('programmes', 'categories'));
+    }
+
+    public function show($programmeType, $programmeCode)
+    {
+        $programme = Programme::where('programmeCode', $programmeCode)
+            ->where('programmeType', $programmeType)
+            ->with('partner')
+            ->first();
+
+        if(!$programme)
+            abort(404);
+
+        if($programmeType == 'course')
+            $view = 'courses.show';
+        else
+            $view = 'events.show';
+
+        return view($view, compact('programme'));
     }
 }

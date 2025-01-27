@@ -1,7 +1,7 @@
 @props(['venue'])
 <div class="flex flex-col gap-2">
-    <div class="flex space-x-4">
-        <img src="{{ asset('images/location.png') }}" alt="location" class="w-10 h-10">
+    <div class="flex gap-2 space-x-4">
+        <img src="{{ asset('images/location1.png') }}" alt="location" class="w-10 h-10">
         <p class="text-md text-black" style="margin-left: 5px;">
             {!! $venue !!}
         </p>

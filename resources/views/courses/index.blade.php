@@ -1,7 +1,4 @@
 <x-guest-layout>
-    {{-- <div class="bg-gradient-to-br from-slate-600 via-stone-500/70 to-meta-9 p-4 min-h-[40vh] flex justify-center items-center">
-        <h1 class="text-6xl uppercase tracking-wider drop-shadow text-white">Courses</h1>
-    </div> --}}
     <div
         style="
             background-size:top; 
@@ -21,18 +18,17 @@
             <p class="text-white/70 xl:text-2xl text-xl text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
         </div>
     </div>
-    <div class="relative min-h-screen bg-gradient-to-b from-zinc-50 via-25% via-teal-100 to-teal-500">   
-        
-        <div id="categoryList" class="w-full flex overflow-x-scroll xl:justify-center justify-start items-center gap-10 pt-10 pb-5 xl:px-0 px-5">
+    <div class="relative min-h-screen bg-gradient-to-b from-zinc-50 via-25% via-teal-100/60 to-teal-500/60">    
+        <div id="categoryList" class="w-full flex overflow-x-auto xl:justify-center justify-start items-center xl:gap-10 gap-3 pt-10 pb-5 xl:px-0 px-5">
             @foreach ($categories as $category)
                 <div class="group">
-                    <a href="/" class="whitespace-nowrap text-md text-slate-600 drop-shadow hover:text-slate-500 duration-300 group-hover:text-teal-700 tracking-wide">{{ $category->name }}</a>
+                    <a href="/" class="whitespace-nowrap xl:text-md text-sm text-slate-600 drop-shadow hover:text-slate-500 duration-300 group-hover:text-teal-700 tracking-wide">{{ $category->name }}</a>
                     <hr class="border-2 border-teal-700 group-hover:w-full duration-300 opacity-0 group-hover:opacity-100" />
                 </div>
             @endforeach
         </div>
         
-        <div id="searchForm" class="max-w-6xl mx-auto">
+        <div id="searchForm" class="max-w-6xl mx-auto xl:px-0 px-5">
             <div class="relative w-full">
                 <span class="absolute inset-y-0 left-0 pl-8 flex items-center text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="stroke-slate-500 w-6 h-6">
@@ -49,13 +45,17 @@
         </div>
         
         
-        <div class="mt-8 max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="relative py-8 max-w-6xl mx-auto min-h-screen xl:px-0 px-5">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 @foreach ($programmes as $programme)
                     <x-programme.course-card :course='$programme' />
                 @endforeach
             </div>
+            <div class="mt-4 xl:absolute bottom-12 left-0 w-full">
+                {{ $programmes->links() }}
+            </div>
         </div>
+
     </div>
     <x-footer-public />
 </x-guest-layout>
