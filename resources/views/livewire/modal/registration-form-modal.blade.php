@@ -231,82 +231,83 @@
                         </div>
 
                         {{-- Step 2: Additional Info --}}
-                        <div id="additional-info-form" class="w-full">
-                            <div class="mb-4 py-4 bg-slate-100/70 p-4">
-                                <h1 class="lg:text-left text-center lg:text-xl text-2xl text-slate-500 font-bold">
-                                    Additional Information
-                                </h1>
-                                <p class="text-slate-500 lg:text-left text-center">
-                                    Please provide additional information.
-                                </p>
+                        @if(!$extraFields)
+                            <div id="additional-info-form" class="w-full">
+                                <div class="mb-4 py-4 bg-slate-100/70 p-4">
+                                    <h1 class="lg:text-left text-center lg:text-xl text-2xl text-slate-500 font-bold">
+                                        Additional Information
+                                    </h1>
+                                    <p class="text-slate-500 lg:text-left text-center">
+                                        Please provide additional information.
+                                    </p>
+                                </div>
+                                <div class="space-y-6">
+                                    @foreach($extraFields as $field)
+                                        <div class="pt-2">
+                                            @switch($field->type)
+                                                @case(in_array($field->type, ['text', 'date', 'number']))
+                                                    <livewire:guest.form.input-field-manager
+                                                        :key="$field->key"
+                                                        :inputKey="$field->key" 
+                                                        :label="$field->label" 
+                                                        :type="$field->type" 
+                                                        :maxlength="isset($field->maxlength) ? $field->maxlength : null"
+                                                        :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 focus:border-default focus:ring-0 focus-visible:shadow-none'"
+                                                        :placeholder="isset($field->placeholder) ? $field->placeholder : null" 
+                                                        :required="isset($field->required) && $field->required ? $field->required : false"
+                                                    />
+                                                    @error('form.fields.'.$field->key)
+                                                        <em class="text-danger text-xs">{{ $message }}</em>
+                                                    @enderror
+                                                @break
+                                                @case('radio')
+                                                    <livewire:guest.form.radio-field-manager
+                                                        :key="$field->key"
+                                                        :inputKey="$field->key" 
+                                                        :label="$field->label" 
+                                                        :type="$field->type" 
+                                                        :options="$field->options" 
+                                                        :required="isset($field->required) && $field->required ? $field->required : false"
+                                                    />
+                                                @break
+                                                @case('checkbox')
+                                                    <livewire:guest.form.checkbox-manager
+                                                        :key="$field->key"
+                                                        :inputKey="$field->key" 
+                                                        :label="$field->label" 
+                                                        :type="$field->type" 
+                                                        :options="$field->options" 
+                                                        :required="isset($field->required) && $field->required ? $field->required : false"
+                                                    />
+                                                @break
+                                                @case('textarea')
+                                                    <livewire:guest.form.text-area-field-manager
+                                                        :key="$field->key"
+                                                        :inputKey="$field->key" 
+                                                        :label="$field->label" 
+                                                        :placeholder="$field->placeholder" 
+                                                        :required="isset($field->required) && $field->required ? $field->required : false"
+                                                        :rows="isset($field->rows) ? $field->rows : 3"
+                                                    />
+                                                @break
+                                                @case('select')
+                                                    <livewire:guest.form.select-field-manager
+                                                        :key="$field->key"
+                                                        :inputKey="$field->key" 
+                                                        :label="$field->label" 
+                                                        :options="$field->options" 
+                                                        :required="isset($field->required) && $field->required ? $field->required : false"
+                                                    />
+                                                @break
+                                            @endswitch
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            <div class="space-y-6">
-                                @foreach($extraFields as $field)
-                                    <div class="pt-2">
-                                        @switch($field->type)
-                                            @case(in_array($field->type, ['text', 'date', 'number']))
-                                                <livewire:guest.form.input-field-manager
-                                                    :key="$field->key"
-                                                    :inputKey="$field->key" 
-                                                    :label="$field->label" 
-                                                    :type="$field->type" 
-                                                    :maxlength="isset($field->maxlength) ? $field->maxlength : null"
-                                                    :class="'w-full rounded-none border border-dark bg-white py-2 pl-2 focus:border-default focus:ring-0 focus-visible:shadow-none'"
-                                                    :placeholder="isset($field->placeholder) ? $field->placeholder : null" 
-                                                    :required="isset($field->required) && $field->required ? $field->required : false"
-                                                />
-                                                @error('form.fields.'.$field->key)
-                                                    <em class="text-danger text-xs">{{ $message }}</em>
-                                                @enderror
-                                            @break
-                                            @case('radio')
-                                                <livewire:guest.form.radio-field-manager
-                                                    :key="$field->key"
-                                                    :inputKey="$field->key" 
-                                                    :label="$field->label" 
-                                                    :type="$field->type" 
-                                                    :options="$field->options" 
-                                                    :required="isset($field->required) && $field->required ? $field->required : false"
-                                                />
-                                            @break
-                                            @case('checkbox')
-                                                <livewire:guest.form.checkbox-manager
-                                                    :key="$field->key"
-                                                    :inputKey="$field->key" 
-                                                    :label="$field->label" 
-                                                    :type="$field->type" 
-                                                    :options="$field->options" 
-                                                    :required="isset($field->required) && $field->required ? $field->required : false"
-                                                />
-                                            @break
-                                            @case('textarea')
-                                                <livewire:guest.form.text-area-field-manager
-                                                    :key="$field->key"
-                                                    :inputKey="$field->key" 
-                                                    :label="$field->label" 
-                                                    :placeholder="$field->placeholder" 
-                                                    :required="isset($field->required) && $field->required ? $field->required : false"
-                                                    :rows="isset($field->rows) ? $field->rows : 3"
-                                                />
-                                            @break
-                                            @case('select')
-                                                <livewire:guest.form.select-field-manager
-                                                    :key="$field->key"
-                                                    :inputKey="$field->key" 
-                                                    :label="$field->label" 
-                                                    :options="$field->options" 
-                                                    :required="isset($field->required) && $field->required ? $field->required : false"
-                                                />
-                                            @break
-                                        @endswitch
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
+                        @endif
                         {{-- Step 3: Promo Code --}}
                         <div id="promo-code-form" class="w-full">
-                            <div class="mb-8 bg-slate-100/70 p-4">
+                            <div class="mb-1 bg-slate-100/70 p-4">
                                 <h1 class="lg:text-left text-center lg:text-xl text-2xl text-slate-500 font-bold">
                                     Promo and Discount Code
                                 </h1>
@@ -318,7 +319,6 @@
                                 <div class="flex flex-col gap-2 my-2">
                                     <div class="flex w-full">
                                         <input 
-                                            {{-- wire:change="validatePromoCode"  --}}
                                             {{ $form->promoCodeDetails ? 'disabled' : '' }}
                                             wire:model="form.promoCode" 
                                             type="text" 
@@ -326,10 +326,10 @@
                                             class="disabled:bg-slate-100 disabled:cursor-not-allowed disabled:border-slate-400 disabled:text-slate-500 placeholder:text-slate-400/80 uppercase w-full rounded-none border border-slate-400/60 bg-white p-4 text-xl focus:ring-0" 
                                         />
                                         <button 
-                                            {{ $form->promoCodeDetails ? 'disabled' : '' }}
+                                            :disabled="{{ $form->promoCode ? 'disabled' : '' }}"
                                             wire:click="validatePromoCode" 
                                             type="button" 
-                                            class="disabled:bg-zinc-300/60 disabled:hover:bg-gradient-none disabled:hover:from-zinc-300 disabled:hover:via-zinc-300 disabled:hover:to-zinc-300 disabled:text-zinc-500 disabled:border-slate-400 whitespace-nowrap disabled:cursor-not-allowed bg-teal-600 duration-300 border ring-0 outline-none border-slate-400/60 hover:bg-gradient-to-l hover:from-teal-600 hover:via-teal-500 hover:to-teal-600 hover:bg-size-200 hover:bg-pos-100 text-white px-4 py-2 rounded-none text-lg">
+                                            class="disabled:bg-zinc-300/60 disabled:hover:bg-gradient-none disabled:hover:from-zinc-200 disabled:hover:via-zinc-300 disabled:hover:to-zinc-300 disabled:text-zinc-400 disabled:border-slate-400 whitespace-nowrap disabled:cursor-not-allowed bg-teal-600 duration-300 border ring-0 outline-none border-slate-400/60 hover:bg-gradient-to-l hover:from-teal-600 hover:via-teal-500 hover:to-teal-600 hover:bg-size-200 hover:bg-pos-100 text-white px-4 py-2 rounded-none text-lg">
                                             {{ $form->promoCodeDetails ? 'Promo Code Applied' : 'Apply' }}
                                         </button>
                                     </div>

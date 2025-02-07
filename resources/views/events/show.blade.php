@@ -9,7 +9,7 @@
                 <div class="mt-8 flex flex-col xl:flex-row xl:space-x-8 gap-4">
                     <div class="flex flex-col w-full xl:w-2/3 xl:px-0 px-4">
                         <div class="mt-6 flex flex-col gap-2">
-                            <p class="text-slate-800 leading-normal text-lg font-bold">About the course:</p>
+                            <p class="text-slate-800 leading-normal text-lg font-bold">Description:</p>
                             <p class="text-slate-800 leading-normal text-md">
                                 {!! $programme->description !!}
                             </p>
@@ -145,7 +145,7 @@
             <br />
             <div class="pb-8 max-w-5xl mx-auto lg:px-0 px-4 flex justify-center items-center"> 
                 <livewire:promotion-card 
-                    :label="'Enroll Now'" 
+                    :label="$programme->programmeType === 'event' ? 'Register Now' : 'Enroll Now'" 
                     :programType="$programme->programmeType"
                     key="nopromotion"
                 />

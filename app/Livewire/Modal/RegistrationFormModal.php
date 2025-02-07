@@ -3,6 +3,7 @@
 namespace App\Livewire\Modal;
 
 use Livewire\Component;
+use App\Models\Programme;
 use App\Models\Promocode;
 use App\Livewire\Forms\RegForm;
 
@@ -57,11 +58,15 @@ class RegistrationFormModal extends Component
         $programType = $data['programType'];
         $this->promotion = $data['promotion'];
 
-        $model = 'App\Models\Program_' . $programType;
-        $program_item = $model::where('programCode', $programCode)->first();
-        $this->programItem = collect($program_item)->toArray();
-        
-        $settings = json_decode($this->programItem['settings']);
+        // $model = 'App\Models\Program_' . $programType;
+        // $program_item = $model::where('programCode', $programCode)->first();
+        // $this->programItem = collect($program_item)->toArray();
+
+        $programme = Programme::where('programmeCode', $programCode)->first();
+        $this->programItem = $programme;
+
+        $settings = json_decode($this->programItem->settings);
+
         // $this->hiddenFields = $settings->addHidden; // FOR LIVE
         // $this->requiredFields = $settings->addRequired; // FOR LIVE
         // $this->requiredFields = ['nric', 'title', 'firstName', 'lastName', 'email', 'contactNumber']; // FOR TESTING
@@ -70,9 +75,9 @@ class RegistrationFormModal extends Component
         $this->requiredFields = []; // FOR TESTING
 
         // Get the extra fields in the order of the order field
-        $extra_fields = json_decode($this->programItem['extraFields']);
-        $extra_fields = collect($extra_fields)->sortBy('order');
-        $this->extraFields = $extra_fields;
+        $xFields = $this->programItem->extraFields ? json_decode($this->programItem->extraFields) : null;
+        $xFields = collect($xFields)->sortBy('order');
+        $this->extraFields = $xFields;
 
         $this->showModal = true;
     }
@@ -80,33 +85,21 @@ class RegistrationFormModal extends Component
     public function validatePromoCode()
     {
         $this->validate(
-            [
-                'form.promoCode' => 'required'
-            ],
-            [
-                'form.promoCode.required' => 'Promo code is required'
-            ]
+            ['form.promoCode' => 'required'],
+            ['form.promoCode.required' => 'Promo code is required']
         );
 
         $promo = Promocode::where('promocode', $this->form->promoCode)->first();
 
         if(!$promo)
-        {
             return $this->addError('form.promoCode', 'Promo code is not valid');
-        }
 
         if($promo->isActive != 'active')
-        {
             $this->addError('form.promoCode', 'Promo code is not active');
-        }
         elseif($promo->usedCount >= $promo->maxUses)
-        {
             $this->addError('form.promoCode', 'Promo code is used up');
-        }
         elseif($promo->startDate > now() || $promo->endDate < now())
-        {
             $this->addError('form.promoCode', 'Promo code is expired');
-        }
         else
         {
             session()->flash('form.promoCode', 'Promo code applied.');

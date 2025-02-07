@@ -39,4 +39,9 @@ class Category extends Model
             'programCode' 
         );
     }
+
+    public function programmes()
+    {
+        return $this->belongsToMany(Programme::class, 'programme_category', 'category_id', 'programme_id');
+    }
 }

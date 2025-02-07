@@ -3,7 +3,7 @@
 <div class="max-w-6xl mx-auto px-4 py-16">
     <h2 class="xl:text-4xl text-3xl tracking-wider uppercase font-extrabold mb-12 text-center font-nunito drop-shadow text-white">Courses</h2>
     @foreach($courses as $course)
-        <div class="overflow-hidden relative border-2 border-teal-700/50 bg-gradient-to-r from-white/70 via-white to-white/70 shadow rounded py-8 xl:px-10 px-5 gap-2 mb-5 hover:from-white hover:to-white hover:via-white/60 hover:shadow-lg xl:hover:scale-105 hover:scale-100 hover:-translate-y-0.5 transition-all duration-300 flex xl:flex-row flex-col items-center">
+        <div class="overflow-hidden relative border-2 border-teal-700/50 bg-gradient-to-r from-white/70 via-white to-white/70 shadow rounded py-8 xl:px-10 px-5 gap-2 mb-5 hover:from-white hover:to-white hover:via-white/60 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex xl:flex-row flex-col items-center">
             @if($course['isPromo'])
                 <div class="flex justify-center text-center text-md font-nunito uppercase font-bold items-end drop-shadow absolute -top-3 -right-15 bg-gradient-to-r from-red-500 via-red-300 to-red-500 text-white px-4 py-3 h-20 w-40 transform rotate-45">
                     Promo

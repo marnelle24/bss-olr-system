@@ -36,4 +36,9 @@ class Promotion extends Model
     {
         return $this->belongsTo(Program_event::class, 'programCode', 'programCode');
     }
+
+    public function programme(): BelongsTo
+    {
+        return $this->belongsTo(Programme::class);
+    }
 }

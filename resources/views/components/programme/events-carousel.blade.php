@@ -25,8 +25,11 @@
         </div>
     </div>
     <div class="w-full flex justify-center items-start mt-8">
-        <a href="{{route('events.public')}}" class="bg-teal-600 text-white px-5 py-3 hover:-translate-y-0.5 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-teal-700 shadow drop-shadow">
+        <a href="{{route('programme.public', ['event'])}}" class="bg-teal-600 text-white px-5 py-3 hover:-translate-y-0.5 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-teal-700 shadow drop-shadow">
             View All Events
         </a>
+        {{-- <a href="{{route('events.public')}}" class="bg-teal-600 text-white px-5 py-3 hover:-translate-y-0.5 uppercase font-bold tracking-wider rounded-full duration-300 hover:bg-teal-700 shadow drop-shadow">
+            View All Events
+        </a> --}}
     </div>
 </div>

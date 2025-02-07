@@ -42,6 +42,10 @@ class ProgrammeController extends Controller
         $programme = Programme::where('programmeCode', $programmeCode)
             ->where('programmeType', $programmeType)
             ->with('partner')
+            ->with($programmeType == 'course' ? 'trainers' : 'speakers')
+            ->with('categories')
+            ->with('promotions')
+            ->with('promocodes')
             ->first();
 
         if(!$programme)

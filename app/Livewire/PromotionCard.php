@@ -27,12 +27,11 @@ class PromotionCard extends Component
 
     public function selectedPromotion($data)
     {
-        // $this->dispatch('promotionSelected', $promotion)->to(ReviewDetailsCheckout::class);
         $this->dispatch('openRegistrationFormModal', [
             'promotion' => $data,
             'programCode' => $data ? $data['programCode'] : $this->programCode,
             'programType' => $this->programType
-        ]); // dispatch to RegistrationFormModal
+        ]); 
     }
 
     public function render()

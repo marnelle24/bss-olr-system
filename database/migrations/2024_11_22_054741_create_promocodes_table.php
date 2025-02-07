@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('promocodes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('programme_id')->constrained()->cascadeOnDelete();
             $table->string('programCode'); // programCode from the event, courses, etc.
             $table->string('promocode');
             $table->date('startDate');

@@ -49,7 +49,11 @@
                             {{ $event->price > 0 ? 'SG$ '.number_format($event->price, 2) : 'Free' }}
                         </p>
                     </div>
-                    <a href="{{ route('event-profile.public', $event->programCode) }}" 
+                    {{-- <a href="{{ route('event-profile.public', $event->programCode) }}" 
+                        class="bg-teal-500 text-white px-3 py-1.5 hover:-translate-y-0.5 text-sm rounded-full duration-300 hover:bg-teal-600 shadow drop-shadow">
+                        Read More
+                    </a> --}}
+                    <a href="{{ route('programme.public.show', [$event->programmeType, $event->programmeCode]) }}" 
                         class="bg-teal-500 text-white px-3 py-1.5 hover:-translate-y-0.5 text-sm rounded-full duration-300 hover:bg-teal-600 shadow drop-shadow">
                         Read More
                     </a>

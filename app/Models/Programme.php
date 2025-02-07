@@ -21,10 +21,34 @@ class Programme extends Model
         });
     }
 
-
     public function partner()
     {
         return $this->belongsTo(Partner::class);
+    }
+
+    public function trainers()
+    {
+        return $this->belongsToMany(Trainer::class, 'programme_trainer', 'programme_id', 'trainer_id');
+    }
+
+    public function speakers()
+    {
+        return $this->belongsToMany(Speaker::class, 'programme_speaker', 'programme_id', 'speaker_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'programme_category', 'programme_id', 'category_id');
+    }
+
+    public function promotions()
+    {
+        return $this->hasMany(Promotion::class);
+    }
+
+    public function promocodes()
+    {
+        return $this->hasMany(Promocode::class);
     }
 }
 

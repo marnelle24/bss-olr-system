@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Program_event;
+use App\Models\Programme;
 use Illuminate\Http\Request;
+use App\Models\Program_event;
 
 class FrontpageController extends Controller
 {
@@ -11,25 +12,26 @@ class FrontpageController extends Controller
     public function index()
     {
         // get the latest 5 active events
-        $programEvents = Program_event::where('status', 'active')
+        $programEvents = Programme::where('status', 'active')
             ->where('activeUntil', '>=', date('Y-m-d'))
             ->where('searchable', 1)
             ->where('publishable', 1)
-            ->with('promotions')
+            ->where('programmeType', 'event')
             ->orderBy('startDate', 'desc')
+            ->with('promotions')
             ->limit(5)
             ->get();
-
 
         // get the latest 5 active courses
-        $programCourses = Program_event::where('status', 'active')
+        $programCourses = Programme::where('status', 'active')
             ->where('activeUntil', '>=', date('Y-m-d'))
             ->where('searchable', 1)
             ->where('publishable', 1)
+            ->where('programmeType', 'course')
             ->with('promotions')
             ->orderBy('startDate', 'desc')
             ->limit(5)
-            ->get();
+            ->get();        
 
         return view('frontpage', [
             'events' => $programEvents,

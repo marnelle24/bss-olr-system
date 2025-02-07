@@ -34,4 +34,9 @@ class Trainer extends Model
     protected $casts = [
         'socials' => 'array'
     ];
+
+    public function programmes()
+    {
+        return $this->belongsToMany(Programme::class);
+    }
 }

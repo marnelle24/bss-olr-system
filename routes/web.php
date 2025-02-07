@@ -27,11 +27,15 @@ Route::get('/create-payment-requests', [PaymentController::class, 'createPayment
 // Route to callback to handle the after full payment transaction process.
 Route::get('/success-payment/{programCode}', [PaymentController::class, 'successPayment'])->name('registration.success-payment');
 
-Route::get('/event/{programCode}', [ProgrammeItemController::class, 'eventProgramme'])->name('event-profile.public');
+// Route::get('/event/{programCode}', [ProgrammeItemController::class, 'eventProgramme'])->name('event-profile.public');
 
-Route::get('/events', [ProgrammeItemController::class, 'AllEvents'])->name('events.public');
+// Route::get('/events', [ProgrammeItemController::class, 'AllEvents'])->name('events.public');
 
+// Route to show the programme list
+// Ex: http://<domain>/{course, event}/
 Route::get('/{programmeType}', [ProgrammeController::class, 'index'])->name('programme.public');
+
+// Ex: http://<domain>/{course, event}/DGF20234
 Route::get('/{programmeType}/{programmeCode}', [ProgrammeController::class, 'show'])->name('programme.public.show');
 
 // End of Public Routes
